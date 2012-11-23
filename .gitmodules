@@ -1,0 +1,3 @@
+[submodule "FTLibrary2"]
+	path = FTLibrary2
+	url = git@github.com:FuerteInternational/FTLibrary2.git

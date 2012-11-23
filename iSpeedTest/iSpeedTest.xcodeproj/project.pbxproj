@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3DC2B55B165FB644000BED73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B55A165FB644000BED73 /* UIKit.framework */; };
+		3DC2B55D165FB644000BED73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B55C165FB644000BED73 /* Foundation.framework */; };
+		3DC2B55F165FB644000BED73 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B55E165FB644000BED73 /* CoreGraphics.framework */; };
+		3DC2B565165FB644000BED73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B563165FB644000BED73 /* InfoPlist.strings */; };
+		3DC2B567165FB644000BED73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B566165FB644000BED73 /* main.m */; };
+		3DC2B56B165FB644000BED73 /* STAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B56A165FB644000BED73 /* STAppDelegate.m */; };
+		3DC2B56D165FB644000BED73 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B56C165FB644000BED73 /* Default.png */; };
+		3DC2B56F165FB644000BED73 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B56E165FB644000BED73 /* Default@2x.png */; };
+		3DC2B571165FB644000BED73 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B570165FB644000BED73 /* Default-568h@2x.png */; };
+		3DC2B574165FB644000BED73 /* STViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B573165FB644000BED73 /* STViewController.m */; };
+		3DC2B57F165FB645000BED73 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B57E165FB645000BED73 /* SenTestingKit.framework */; };
+		3DC2B580165FB645000BED73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B55A165FB644000BED73 /* UIKit.framework */; };
+		3DC2B581165FB645000BED73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B55C165FB644000BED73 /* Foundation.framework */; };
+		3DC2B589165FB645000BED73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B587165FB645000BED73 /* InfoPlist.strings */; };
+		3DC2B58C165FB645000BED73 /* iSpeedTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B58B165FB645000BED73 /* iSpeedTestTests.m */; };
+		3DC2B59D165FB81D000BED73 /* STHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B59C165FB81D000BED73 /* STHomeViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3DC2B582165FB645000BED73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3DC2B54D165FB644000BED73 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DC2B555165FB644000BED73;
+			remoteInfo = iSpeedTest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3DC2B556165FB644000BED73 /* iSpeedTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSpeedTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DC2B55A165FB644000BED73 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3DC2B55C165FB644000BED73 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3DC2B55E165FB644000BED73 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3DC2B562165FB644000BED73 /* iSpeedTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iSpeedTest-Info.plist"; sourceTree = "<group>"; };
+		3DC2B564165FB644000BED73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3DC2B566165FB644000BED73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3DC2B568165FB644000BED73 /* iSpeedTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iSpeedTest-Prefix.pch"; sourceTree = "<group>"; };
+		3DC2B569165FB644000BED73 /* STAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STAppDelegate.h; sourceTree = "<group>"; };
+		3DC2B56A165FB644000BED73 /* STAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STAppDelegate.m; sourceTree = "<group>"; };
+		3DC2B56C165FB644000BED73 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		3DC2B56E165FB644000BED73 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		3DC2B570165FB644000BED73 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3DC2B572165FB644000BED73 /* STViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STViewController.h; sourceTree = "<group>"; };
+		3DC2B573165FB644000BED73 /* STViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STViewController.m; sourceTree = "<group>"; };
+		3DC2B57D165FB645000BED73 /* iSpeedTestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iSpeedTestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DC2B57E165FB645000BED73 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		3DC2B586165FB645000BED73 /* iSpeedTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iSpeedTestTests-Info.plist"; sourceTree = "<group>"; };
+		3DC2B588165FB645000BED73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3DC2B58A165FB645000BED73 /* iSpeedTestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iSpeedTestTests.h; sourceTree = "<group>"; };
+		3DC2B58B165FB645000BED73 /* iSpeedTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iSpeedTestTests.m; sourceTree = "<group>"; };
+		3DC2B59B165FB81D000BED73 /* STHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHomeViewController.h; sourceTree = "<group>"; };
+		3DC2B59C165FB81D000BED73 /* STHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHomeViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3DC2B553165FB644000BED73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B55B165FB644000BED73 /* UIKit.framework in Frameworks */,
+				3DC2B55D165FB644000BED73 /* Foundation.framework in Frameworks */,
+				3DC2B55F165FB644000BED73 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DC2B579165FB645000BED73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B57F165FB645000BED73 /* SenTestingKit.framework in Frameworks */,
+				3DC2B580165FB645000BED73 /* UIKit.framework in Frameworks */,
+				3DC2B581165FB645000BED73 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DC2B54B165FB644000BED73 = {
+			isa = PBXGroup;
+			children = (
+				3DC2B560165FB644000BED73 /* iSpeedTest */,
+				3DC2B584165FB645000BED73 /* iSpeedTestTests */,
+				3DC2B559165FB644000BED73 /* Frameworks */,
+				3DC2B557165FB644000BED73 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3DC2B557165FB644000BED73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B556165FB644000BED73 /* iSpeedTest.app */,
+				3DC2B57D165FB645000BED73 /* iSpeedTestTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3DC2B559165FB644000BED73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B55A165FB644000BED73 /* UIKit.framework */,
+				3DC2B55C165FB644000BED73 /* Foundation.framework */,
+				3DC2B55E165FB644000BED73 /* CoreGraphics.framework */,
+				3DC2B57E165FB645000BED73 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3DC2B560165FB644000BED73 /* iSpeedTest */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B595165FB672000BED73 /* Controllers */,
+				3DC2B569165FB644000BED73 /* STAppDelegate.h */,
+				3DC2B56A165FB644000BED73 /* STAppDelegate.m */,
+				3DC2B561165FB644000BED73 /* Supporting Files */,
+			);
+			path = iSpeedTest;
+			sourceTree = "<group>";
+		};
+		3DC2B561165FB644000BED73 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B562165FB644000BED73 /* iSpeedTest-Info.plist */,
+				3DC2B563165FB644000BED73 /* InfoPlist.strings */,
+				3DC2B566165FB644000BED73 /* main.m */,
+				3DC2B568165FB644000BED73 /* iSpeedTest-Prefix.pch */,
+				3DC2B56C165FB644000BED73 /* Default.png */,
+				3DC2B56E165FB644000BED73 /* Default@2x.png */,
+				3DC2B570165FB644000BED73 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3DC2B584165FB645000BED73 /* iSpeedTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B58A165FB645000BED73 /* iSpeedTestTests.h */,
+				3DC2B58B165FB645000BED73 /* iSpeedTestTests.m */,
+				3DC2B585165FB645000BED73 /* Supporting Files */,
+			);
+			path = iSpeedTestTests;
+			sourceTree = "<group>";
+		};
+		3DC2B585165FB645000BED73 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B586165FB645000BED73 /* iSpeedTestTests-Info.plist */,
+				3DC2B587165FB645000BED73 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3DC2B595165FB672000BED73 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B59A165FB7F8000BED73 /* Home */,
+				3DC2B572165FB644000BED73 /* STViewController.h */,
+				3DC2B573165FB644000BED73 /* STViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3DC2B59A165FB7F8000BED73 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B59B165FB81D000BED73 /* STHomeViewController.h */,
+				3DC2B59C165FB81D000BED73 /* STHomeViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3DC2B555165FB644000BED73 /* iSpeedTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DC2B58F165FB645000BED73 /* Build configuration list for PBXNativeTarget "iSpeedTest" */;
+			buildPhases = (
+				3DC2B552165FB644000BED73 /* Sources */,
+				3DC2B553165FB644000BED73 /* Frameworks */,
+				3DC2B554165FB644000BED73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iSpeedTest;
+			productName = iSpeedTest;
+			productReference = 3DC2B556165FB644000BED73 /* iSpeedTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3DC2B57C165FB645000BED73 /* iSpeedTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DC2B592165FB645000BED73 /* Build configuration list for PBXNativeTarget "iSpeedTestTests" */;
+			buildPhases = (
+				3DC2B578165FB645000BED73 /* Sources */,
+				3DC2B579165FB645000BED73 /* Frameworks */,
+				3DC2B57A165FB645000BED73 /* Resources */,
+				3DC2B57B165FB645000BED73 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3DC2B583165FB645000BED73 /* PBXTargetDependency */,
+			);
+			name = iSpeedTestTests;
+			productName = iSpeedTestTests;
+			productReference = 3DC2B57D165FB645000BED73 /* iSpeedTestTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3DC2B54D165FB644000BED73 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ST;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Fuerte Innovations";
+			};
+			buildConfigurationList = 3DC2B550165FB644000BED73 /* Build configuration list for PBXProject "iSpeedTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3DC2B54B165FB644000BED73;
+			productRefGroup = 3DC2B557165FB644000BED73 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3DC2B555165FB644000BED73 /* iSpeedTest */,
+				3DC2B57C165FB645000BED73 /* iSpeedTestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3DC2B554165FB644000BED73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B565165FB644000BED73 /* InfoPlist.strings in Resources */,
+				3DC2B56D165FB644000BED73 /* Default.png in Resources */,
+				3DC2B56F165FB644000BED73 /* Default@2x.png in Resources */,
+				3DC2B571165FB644000BED73 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DC2B57A165FB645000BED73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B589165FB645000BED73 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3DC2B57B165FB645000BED73 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3DC2B552165FB644000BED73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B567165FB644000BED73 /* main.m in Sources */,
+				3DC2B56B165FB644000BED73 /* STAppDelegate.m in Sources */,
+				3DC2B574165FB644000BED73 /* STViewController.m in Sources */,
+				3DC2B59D165FB81D000BED73 /* STHomeViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DC2B578165FB645000BED73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC2B58C165FB645000BED73 /* iSpeedTestTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3DC2B583165FB645000BED73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DC2B555165FB644000BED73 /* iSpeedTest */;
+			targetProxy = 3DC2B582165FB645000BED73 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3DC2B563165FB644000BED73 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3DC2B564165FB644000BED73 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3DC2B587165FB645000BED73 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3DC2B588165FB645000BED73 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3DC2B58D165FB645000BED73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		3DC2B58E165FB645000BED73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3DC2B590165FB645000BED73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
+				INFOPLIST_FILE = "iSpeedTest/iSpeedTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3DC2B591165FB645000BED73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
+				INFOPLIST_FILE = "iSpeedTest/iSpeedTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		3DC2B593165FB645000BED73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iSpeedTest.app/iSpeedTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
+				INFOPLIST_FILE = "iSpeedTestTests/iSpeedTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		3DC2B594165FB645000BED73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iSpeedTest.app/iSpeedTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
+				INFOPLIST_FILE = "iSpeedTestTests/iSpeedTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3DC2B550165FB644000BED73 /* Build configuration list for PBXProject "iSpeedTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DC2B58D165FB645000BED73 /* Debug */,
+				3DC2B58E165FB645000BED73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3DC2B58F165FB645000BED73 /* Build configuration list for PBXNativeTarget "iSpeedTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DC2B590165FB645000BED73 /* Debug */,
+				3DC2B591165FB645000BED73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3DC2B592165FB645000BED73 /* Build configuration list for PBXNativeTarget "iSpeedTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DC2B593165FB645000BED73 /* Debug */,
+				3DC2B594165FB645000BED73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3DC2B54D165FB644000BED73 /* Project object */;
+}
