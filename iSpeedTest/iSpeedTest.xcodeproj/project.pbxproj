@@ -23,6 +23,10 @@
 		3DC2B589165FB645000BED73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B587165FB645000BED73 /* InfoPlist.strings */; };
 		3DC2B58C165FB645000BED73 /* iSpeedTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B58B165FB645000BED73 /* iSpeedTestTests.m */; };
 		3DC2B59D165FB81D000BED73 /* STHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B59C165FB81D000BED73 /* STHomeViewController.m */; };
+		3DC2B5A3165FC232000BED73 /* STView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B5A2165FC232000BED73 /* STView.m */; };
+		3DC2B5A7165FC27D000BED73 /* STSpeedtestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B5A6165FC27D000BED73 /* STSpeedtestView.m */; };
+		3DC2B5AB165FC29D000BED73 /* STSpeedtest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B5AA165FC29D000BED73 /* STSpeedtest.m */; };
+		3DC2B5E1165FEDB1000BED73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +63,15 @@
 		3DC2B58B165FB645000BED73 /* iSpeedTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iSpeedTestTests.m; sourceTree = "<group>"; };
 		3DC2B59B165FB81D000BED73 /* STHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHomeViewController.h; sourceTree = "<group>"; };
 		3DC2B59C165FB81D000BED73 /* STHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHomeViewController.m; sourceTree = "<group>"; };
+		3DC2B5A1165FC232000BED73 /* STView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STView.h; sourceTree = "<group>"; };
+		3DC2B5A2165FC232000BED73 /* STView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STView.m; sourceTree = "<group>"; };
+		3DC2B5A5165FC27D000BED73 /* STSpeedtestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSpeedtestView.h; sourceTree = "<group>"; };
+		3DC2B5A6165FC27D000BED73 /* STSpeedtestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSpeedtestView.m; sourceTree = "<group>"; };
+		3DC2B5A9165FC29D000BED73 /* STSpeedtest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSpeedtest.h; sourceTree = "<group>"; };
+		3DC2B5AA165FC29D000BED73 /* STSpeedtest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSpeedtest.m; sourceTree = "<group>"; };
+		3DC2B5DC165FED54000BED73 /* MeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeterView.h; path = Classes/MeterView.h; sourceTree = "<group>"; };
+		3DC2B5DD165FED54000BED73 /* MeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeterView.m; path = Classes/MeterView.m; sourceTree = "<group>"; };
+		3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DC2B5E1165FEDB1000BED73 /* QuartzCore.framework in Frameworks */,
 				3DC2B55B165FB644000BED73 /* UIKit.framework in Frameworks */,
 				3DC2B55D165FB644000BED73 /* Foundation.framework in Frameworks */,
 				3DC2B55F165FB644000BED73 /* CoreGraphics.framework in Frameworks */,
@@ -107,6 +121,7 @@
 		3DC2B559165FB644000BED73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */,
 				3DC2B55A165FB644000BED73 /* UIKit.framework */,
 				3DC2B55C165FB644000BED73 /* Foundation.framework */,
 				3DC2B55E165FB644000BED73 /* CoreGraphics.framework */,
@@ -118,6 +133,10 @@
 		3DC2B560165FB644000BED73 /* iSpeedTest */ = {
 			isa = PBXGroup;
 			children = (
+				3DC2B5AC165FED27000BED73 /* New Group */,
+				3DC2B5A0165FC20B000BED73 /* Data */,
+				3DC2B59F165FC1FF000BED73 /* Libs */,
+				3DC2B59E165FC1F9000BED73 /* Views */,
 				3DC2B595165FB672000BED73 /* Controllers */,
 				3DC2B569165FB644000BED73 /* STAppDelegate.h */,
 				3DC2B56A165FB644000BED73 /* STAppDelegate.m */,
@@ -176,6 +195,75 @@
 				3DC2B59C165FB81D000BED73 /* STHomeViewController.m */,
 			);
 			name = Home;
+			sourceTree = "<group>";
+		};
+		3DC2B59E165FC1F9000BED73 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5A4165FC260000BED73 /* Speedtest */,
+				3DC2B5A1165FC232000BED73 /* STView.h */,
+				3DC2B5A2165FC232000BED73 /* STView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3DC2B59F165FC1FF000BED73 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5A8165FC280000BED73 /* Speedtest */,
+			);
+			name = Libs;
+			sourceTree = "<group>";
+		};
+		3DC2B5A0165FC20B000BED73 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		3DC2B5A4165FC260000BED73 /* Speedtest */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5A5165FC27D000BED73 /* STSpeedtestView.h */,
+				3DC2B5A6165FC27D000BED73 /* STSpeedtestView.m */,
+			);
+			name = Speedtest;
+			sourceTree = "<group>";
+		};
+		3DC2B5A8165FC280000BED73 /* Speedtest */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5A9165FC29D000BED73 /* STSpeedtest.h */,
+				3DC2B5AA165FC29D000BED73 /* STSpeedtest.m */,
+			);
+			name = Speedtest;
+			sourceTree = "<group>";
+		};
+		3DC2B5AC165FED27000BED73 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5AD165FED3B000BED73 /* Thirdparty */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		3DC2B5AD165FED3B000BED73 /* Thirdparty */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5AE165FED3B000BED73 /* MeterView */,
+			);
+			name = Thirdparty;
+			path = ../../Thirdparty;
+			sourceTree = "<group>";
+		};
+		3DC2B5AE165FED3B000BED73 /* MeterView */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2B5DC165FED54000BED73 /* MeterView.h */,
+				3DC2B5DD165FED54000BED73 /* MeterView.m */,
+			);
+			path = MeterView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,6 +380,9 @@
 				3DC2B56B165FB644000BED73 /* STAppDelegate.m in Sources */,
 				3DC2B574165FB644000BED73 /* STViewController.m in Sources */,
 				3DC2B59D165FB81D000BED73 /* STHomeViewController.m in Sources */,
+				3DC2B5A3165FC232000BED73 /* STView.m in Sources */,
+				3DC2B5A7165FC27D000BED73 /* STSpeedtestView.m in Sources */,
+				3DC2B5AB165FC29D000BED73 /* STSpeedtest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

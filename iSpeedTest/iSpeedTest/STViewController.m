@@ -23,7 +23,7 @@
 
 #pragma mark Positioning
 
-- (CGRect)getFullscreenFrame {
+- (CGRect)fullscreenFrame {
     CGRect r = CGRectZero;
     STDeviceType d = [self deviceType];
     if (d != STDeviceTypeiPad) {
@@ -47,7 +47,7 @@
 
 - (void)repositionElements {
     if (_backgroundView) {
-        [_backgroundView setFrame:[self getFullscreenFrame]];
+        [_backgroundView setFrame:[self fullscreenFrame]];
         [self.view sendSubviewToBack:_backgroundView];
     }
 }
@@ -60,7 +60,7 @@
 
 - (void)createBackgroundView {
     if (!_backgroundView) {
-        _backgroundView = [[UIImageView alloc] initWithFrame:[self getFullscreenFrame]];
+        _backgroundView = [[UIImageView alloc] initWithFrame:[self fullscreenFrame]];
         [self.view addSubview:_backgroundView];
     }
 }

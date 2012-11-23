@@ -24,7 +24,7 @@ STDeviceType;
 @property (nonatomic, readonly) BOOL isLandscape;
 
 
-- (CGRect)getFullscreenFrame;
+- (CGRect)fullscreenFrame;
 
 - (void)setBackgroundImage:(NSString *)imageName;
 
