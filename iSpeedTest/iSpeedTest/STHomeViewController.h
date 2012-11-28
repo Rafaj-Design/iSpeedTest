@@ -11,4 +11,7 @@
 
 @interface STHomeViewController : STViewController
 
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+
 @end

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
+#define kSTManagedObject                                [(STAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext]
+#define kSTManagedObjectSave                            [(STAppDelegate *)[[UIApplication sharedApplication] delegate] saveContext]
+
+
 @class STHomeViewController;
 
 
@@ -16,6 +20,13 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) STHomeViewController *viewController;
+
+@property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+
+- (void)saveContext;
 
 
 @end

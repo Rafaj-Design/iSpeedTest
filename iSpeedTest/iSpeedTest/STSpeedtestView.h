@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Fuerte Innovations. All rights reserved.
 //
 
-#import "STView.h"
+#import "STSubsectionView.h"
 #import "STSpeedtest.h"
 
 
@@ -22,6 +22,6 @@
 @end
 
 
-@interface STSpeedtestView : STView <STSpeedtestDelegate>
+@interface STSpeedtestView : STSubsectionView <STSpeedtestDelegate>
 
 @end
