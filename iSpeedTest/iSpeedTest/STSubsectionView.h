@@ -8,6 +8,10 @@
 
 #import "STView.h"
 
+
 @interface STSubsectionView : STView
+
+- (void)updateData;
+
 
 @end

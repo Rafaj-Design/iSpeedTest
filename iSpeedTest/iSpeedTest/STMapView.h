@@ -7,9 +7,10 @@
 //
 
 #import "STSubsectionView.h"
+#import <MapKit/MapKit.h>
 
 
-@interface STMapView : STSubsectionView
+@interface STMapView : STSubsectionView <MKMapViewDelegate>
 
 
 @end

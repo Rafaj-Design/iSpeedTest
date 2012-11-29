@@ -10,6 +10,14 @@
 #import "STSpeedtest.h"
 
 
+typedef enum {
+    STSpeedtestViewDataFormatKBit,
+    STSpeedtestViewDataFormatMBit,
+    STSpeedtestViewDataFormatKByte,
+    STSpeedtestViewDataFormatMByte
+} STSpeedtestViewDataFormat;
+
+
 @class STSpeedtestView;
 
 @protocol STSpeedtestViewDelegate <NSObject>

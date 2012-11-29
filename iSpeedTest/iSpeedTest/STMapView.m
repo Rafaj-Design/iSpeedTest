@@ -9,7 +9,50 @@
 #import "STMapView.h"
 
 
+@interface STMapView ()
+
+@property (nonatomic, strong) MKMapView *mapView;
+
+@property (nonatomic, strong) UIImageView *overlayView;
+
+@property (nonatomic, strong) UIView *filterView;
+@property (nonatomic, strong) UIButton *myResultsButton;
+@property (nonatomic, strong) UIButton *allResultsButton;
+
+@end
+
+
 @implementation STMapView
+
+
+#pragma mark Creating elements
+
+- (void)createOverlays {
+    _overlayView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_bg_map_overlay"]];
+    [_overlayView setUserInteractionEnabled:NO];
+    [self addSubview:_overlayView];
+}
+
+- (void)createFilterButtons {
+    _filterView = [[UIView alloc] initWithFrame:CGRectMake(50, (self.height - 78), 210, 38)];
+    [_filterView.layer setCornerRadius:5];
+    [_filterView setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.8]];
+    [self addSubview:_filterView];
+}
+
+- (void)createMapView {
+    _mapView = [[MKMapView alloc] initWithFrame:self.bounds];
+    [self addSubview:_mapView];
+}
+
+#pragma mark Initialization
+
+- (void)setupView {
+    [super setupView];
+    [self createMapView];
+    [self createOverlays];
+    [self createFilterButtons];
+}
 
 
 @end

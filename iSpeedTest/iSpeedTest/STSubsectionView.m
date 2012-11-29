@@ -8,7 +8,12 @@
 
 #import "STSubsectionView.h"
 
+
 @implementation STSubsectionView
+
+- (void)updateData {
+    
+}
 
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "STSpeedtestView.h"
-//#import "MeterView.h"
 
 
 @interface STSpeedtestView ()
@@ -16,12 +15,17 @@
 @property (nonatomic, strong) STSpeedtest *uploadSpeedtest;
 
 @property (nonatomic, strong) UIButton *startButton;
-//@property (nonatomic, strong) MeterView *gauge;
 
-@property (nonatomic, strong) UILabel *kilobitLabel;
-@property (nonatomic, strong) UILabel *megabitLabel;
-@property (nonatomic, strong) UILabel *megabyteLabel;
-@property (nonatomic, strong) UILabel *percentLabel;
+@property (nonatomic, strong) UILabel *networkLabel;
+@property (nonatomic, strong) UILabel *connectionLabel;
+@property (nonatomic, strong) UILabel *currentSpeedLabel;
+@property (nonatomic, strong) UILabel *currentSpeedUnitLabel;
+@property (nonatomic, strong) UILabel *percentageLabel;
+@property (nonatomic, strong) UILabel *dataProgressLabel;
+@property (nonatomic, strong) UILabel *downloadMByteLabel;
+@property (nonatomic, strong) UILabel *downloadMBitLabel;
+@property (nonatomic, strong) UILabel *uploadMByteLabel;
+@property (nonatomic, strong) UILabel *uploadMBitLabel;
 
 @end
 
@@ -50,41 +54,19 @@
 }
 
 - (void)createGauge {
-//    _gauge = [[MeterView alloc] initWithFrame:CGRectMake(50, 150, 200, 200)];
-//    [_gauge setBackgroundColor:[UIColor clearColor]];
-//    _gauge.startAngle = -3.0 * M_PI / 4.0;
-//	_gauge.arcLength = M_PI / 0.6;
-//	_gauge.value = 0.0;
-//	_gauge.textLabel.text = @"Bit/s";
-//	_gauge.minNumber = 0.0;
-//	_gauge.maxNumber = 900000;
-//	_gauge.textLabel.font = [UIFont systemFontOfSize:14];
-//	_gauge.textLabel.textColor = [UIColor clearColor];
-//	_gauge.needle.tintColor = [UIColor brownColor];
-//	_gauge.needle.width = 1.0;
-//	_gauge.value = 0;
-//    [self addSubview:_gauge];
+    
 }
 
-- (UILabel *)createLabelAtY:(CGFloat)y {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, y, 280, 30)];
-    [label setTextColor:[UIColor grayColor]];
-    [label setFont:[UIFont systemFontOfSize:15]];
+- (UILabel *)labelVithFontSize:(CGFloat)size andFrame:(CGRect)frame {
+    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+    [label setBackgroundColor:[UIColor redColor]];
+    [label setTextColor:[UIColor colorWithHexString:@"3a3c3c"]];
+    [label setFont:[STConfig fontWithSize:size]];
     return label;
 }
 
 - (void)createLabels {
-    _percentLabel = [self createLabelAtY:300];
-    [self addSubview:_percentLabel];
-
-    _kilobitLabel = [self createLabelAtY:400];
-    [self addSubview:_kilobitLabel];
-
-    _megabitLabel = [self createLabelAtY:430];
-    [self addSubview:_megabitLabel];
-
-    _megabyteLabel = [self createLabelAtY:460];
-    [self addSubview:_megabyteLabel];
+    
 }
 
 #pragma mark Initializations
@@ -104,15 +86,14 @@
 
 - (void)speedtest:(STSpeedtest *)test didReceiveUpdate:(struct STSpeedtestUpdate)update {
     if (test == _downloadSpeedtest) {
-        //NSLog(@"Percent downloaded: %.02f", update.percentDone);
-        //NSLog(@"Download time: %f)", update.elapsedTime);
-        //NSLog(@"Percent done: %f", update.percentDone);
-        NSLog(@"Connection speed: %.2f (%.2f)", update.speed, update.averageSpeed);
-        //[_gauge setValue:update.averageSpeed];
-        [_kilobitLabel setText:[NSString stringWithFormat:@"%.3f KBit/s", [STSpeedtest getKilobites:update.averageSpeed]]];
-        [_megabitLabel setText:[NSString stringWithFormat:@"%.3f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
-        [_megabyteLabel setText:[NSString stringWithFormat:@"%.3f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
-        [_percentLabel setText:[NSString stringWithFormat:@"%.3f %%", update.percentDone]];
+//        //NSLog(@"Percent downloaded: %.02f", update.percentDone);
+//        //NSLog(@"Download time: %f)", update.elapsedTime);
+//        //NSLog(@"Percent done: %f", update.percentDone);
+//        NSLog(@"Connection speed: %.2f (%.2f)", update.speed, update.averageSpeed);
+//        [_kilobitLabel setText:[NSString stringWithFormat:@"%.3f KBit/s", [STSpeedtest getKilobites:update.averageSpeed]]];
+//        [_megabitLabel setText:[NSString stringWithFormat:@"%.3f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
+//        [_megabyteLabel setText:[NSString stringWithFormat:@"%.3f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
+//        [_percentLabel setText:[NSString stringWithFormat:@"%.3f %%", update.percentDone]];
     }
     else {
         NSLog(@"Percent uploaded: %.02f", update.percentDone);

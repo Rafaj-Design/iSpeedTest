@@ -8,7 +8,24 @@
 
 #import "STHistoryView.h"
 
+
+@interface STHistoryView ()
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@end
+
+
 @implementation STHistoryView
+
+
+#pragma mark Creating elements
+
+#pragma mark Initialization
+
+- (void)setupView {
+    [super setupView];
+}
 
 
 @end
