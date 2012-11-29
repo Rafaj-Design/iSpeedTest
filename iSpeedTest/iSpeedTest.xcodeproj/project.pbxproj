@@ -27,6 +27,8 @@
 		3DC2B5A7165FC27D000BED73 /* STSpeedtestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B5A6165FC27D000BED73 /* STSpeedtestView.m */; };
 		3DC2B5AB165FC29D000BED73 /* STSpeedtest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC2B5AA165FC29D000BED73 /* STSpeedtest.m */; };
 		3DC2B5E1165FEDB1000BED73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */; };
+		3DC2B62C1667B7E3000BED73 /* SP_bg_go.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */; };
+		3DC2B62D1667B7E3000BED73 /* SP_bg_go@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */; };
 		5485B8A41666B45700B627B1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5485B8A31666B45700B627B1 /* CoreData.framework */; };
 		5485B8B81666B4BE00B627B1 /* UIView+Effects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */; };
 		5485B8B91666B4BE00B627B1 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B8AD1666B4BE00B627B1 /* UIImage+Alpha.m */; };
@@ -122,6 +124,8 @@
 		3DC2B5A9165FC29D000BED73 /* STSpeedtest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSpeedtest.h; sourceTree = "<group>"; };
 		3DC2B5AA165FC29D000BED73 /* STSpeedtest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSpeedtest.m; sourceTree = "<group>"; };
 		3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_bg_go.png; sourceTree = "<group>"; };
+		3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_bg_go@2x.png"; sourceTree = "<group>"; };
 		5485B8A31666B45700B627B1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5485B8AA1666B4BE00B627B1 /* UIView+Effects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Effects.h"; sourceTree = "<group>"; };
 		5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Effects.m"; sourceTree = "<group>"; };
@@ -476,6 +480,8 @@
 		5485B8DE1666C22500B627B1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */,
+				3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */,
 				5485B9251666F25800B627B1 /* SP_amazons3_logo.png */,
 				5485B9261666F25B00B627B1 /* SP_amazons3_logo@2x.png */,
 				5485B91D1666DA9200B627B1 /* SP_bg_map_overlay.png */,
@@ -655,6 +661,8 @@
 				5485B9241666DA9C00B627B1 /* SP_ico_pin@2x.png in Resources */,
 				5485B9271666F25D00B627B1 /* SP_amazons3_logo.png in Resources */,
 				5485B9281666F25D00B627B1 /* SP_amazons3_logo@2x.png in Resources */,
+				3DC2B62C1667B7E3000BED73 /* SP_bg_go.png in Resources */,
+				3DC2B62D1667B7E3000BED73 /* SP_bg_go@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

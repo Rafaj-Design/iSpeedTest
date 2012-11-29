@@ -170,6 +170,18 @@
     [bcg setYOrigin:44];
     [_tabBarView addSubview:bcg];
     
+    img = [UIImage imageNamed:@"SP_menu_divider"];
+    r = _tabBarView.bounds;
+    r.size.height = img.size.height;
+    r.origin.y = 17;
+    STAutoLineView *dividers = [[STAutoLineView alloc] initWithFrame:r];
+    for (int i = 0; i < 2; i++) {
+        UIImageView *iv = [[UIImageView alloc] initWithImage:img];
+        [dividers addSubview:iv];
+    }
+    [_tabBarView addSubview:dividers];
+    [dividers layoutElements];
+    
     // Creating moving thingy
     _tabBarIndicatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_menu_chosen"]];
     [_tabBarIndicatorView setYOrigin:44];

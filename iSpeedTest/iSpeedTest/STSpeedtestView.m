@@ -50,6 +50,14 @@
 
 #pragma mark Creating elements
 
+- (UILabel *)labelWithFontSize:(CGFloat)size andFrame:(CGRect)frame {
+    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setTextColor:[UIColor colorWithHexString:@"3a3c3c"]];
+    [label setFont:[STConfig fontWithSize:size]];
+    return label;
+}
+
 - (void)createDownoadMeter {
     _downloadSpeedtest = [[STSpeedtest alloc] init];
     [_downloadSpeedtest setDelegate:self];
@@ -61,11 +69,19 @@
 }
 
 - (void)createButtons {
-    _startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_startButton addTarget:_downloadSpeedtest action:@selector(startDownload) forControlEvents:UIControlEventTouchUpInside];
-    [_startButton setFrame:CGRectMake(10, 20, 50, 22)];
-    [_startButton setTitle:@"Start" forState:UIControlStateNormal];
+    UIImage *img = [UIImage imageNamed:@"SP_bg_go"];
+    CGRect r = CGRectZero;
+    r.origin.y = 71;
+    r.size = img.size;
+    _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_startButton setBackgroundImage:img forState:UIControlStateNormal];
+    [_startButton addTarget:self action:@selector(startMeasurement:) forControlEvents:UIControlEventTouchUpInside];
+    [_startButton setFrame:r];
+    [_startButton setTitle:@"GO" forState:UIControlStateNormal];
+    [_startButton.titleLabel setTextColor:[UIColor colorWithHexString:@"3a3c3c"]];
+    [_startButton.titleLabel setFont:[STConfig fontWithSize:55]];
     [self addSubview:_startButton];
+    [_startButton centerHorizontally];
 }
 
 - (void)createGauge {
@@ -73,14 +89,6 @@
     [_measurementChartView setYOrigin:50];
     [self addSubview:_measurementChartView];
     [_measurementChartView centerHorizontally];
-}
-
-- (UILabel *)labelWithFontSize:(CGFloat)size andFrame:(CGRect)frame {
-    UILabel *label = [[UILabel alloc] initWithFrame:frame];
-    [label setBackgroundColor:[UIColor clearColor]];
-    [label setTextColor:[UIColor colorWithHexString:@"3a3c3c"]];
-    [label setFont:[STConfig fontWithSize:size]];
-    return label;
 }
 
 - (void)createLabels {
@@ -155,6 +163,27 @@
     [self addSubview:logo];
 }
 
+#pragma mark Animations
+
+- (void)toggleStartButton {
+    CGFloat alpha = (_startButton.alpha > 0) ? 0 : 1;
+    if (alpha == 1) {
+        [_startButton setHidden:NO];
+        [_startButton setAlpha:0];
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        [_startButton setAlpha:alpha];
+    } completion:^(BOOL finished) {
+        if (_startButton.alpha == 0) {
+            [_startButton setHidden:YES];
+            if (_startButton.yOrigin > 40) {
+                [_startButton positionAtX:20 andY:20];
+                [_startButton setTransform:CGAffineTransformMakeScale(0.3, 0.3)];
+            }
+        }
+    }];
+}
+
 #pragma mark Network info initialization
 
 - (void)checkForNetworkInfo {
@@ -198,14 +227,11 @@
     
     [self createDownoadMeter];
     [self createUploadMeter];
-    [self createButtons];
     
     [self createGauge];
     [self createLabels];
     [self createAmazonLogo];
-    
-    [self checkForNetworkInfo];
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
+    [self createButtons];
 }
 
 #pragma mark Actions
@@ -217,6 +243,13 @@
 - (void)resetValues {
     _downloadSpeed = 0;
     _uploadSpeed = 0;
+}
+
+- (void)startMeasurement:(UIButton *)sender {
+    [self checkForNetworkInfo];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
+    [self toggleStartButton];
+    [_downloadSpeedtest startDownload];
 }
 
 #pragma mark Speedtest delegate methods
@@ -237,6 +270,7 @@
         }
     }
     else if (update.status == STSpeedtestStatusFinished) {
+        [self toggleStartButton];
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
         // Move this to download!!!!
         _downloadSpeed = update.averageSpeed;

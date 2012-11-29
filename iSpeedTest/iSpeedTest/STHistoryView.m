@@ -45,10 +45,8 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:[NSEntityDescription entityForName:@"STHistory" inManagedObjectContext:kSTManagedObject]];
     
-    /*
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"views" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
     [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    //*/
     
     //NSString *complexPredicateFormat = [NSString stringWithFormat:@"length < 90"];
     //NSPredicate *complexPredicate = [NSPredicate predicateWithFormat:complexPredicateFormat argumentArray:nil];
