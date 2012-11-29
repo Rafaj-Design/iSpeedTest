@@ -1,6 +1,0 @@
-[submodule "FTLibrary2"]
-	path = FTLibrary2
-	url = git@github.com:FuerteInternational/FTLibrary2.git
-[submodule "Thirdparty/MeterView"]
-	path = Thirdparty/MeterView
-	url = git://github.com/frankus/MeterView.git
