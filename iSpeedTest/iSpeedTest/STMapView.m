@@ -42,6 +42,7 @@
 
 - (void)createMapView {
     _mapView = [[MKMapView alloc] initWithFrame:self.bounds];
+    [_mapView setShowsUserLocation:YES];
     [self addSubview:_mapView];
 }
 

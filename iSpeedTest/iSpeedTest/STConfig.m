@@ -31,7 +31,7 @@
 }
 
 + (UIFont *)fontWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"Familiar Pro-Bold" size:size];
+    return [UIFont fontWithName:@"FamiliarPro-Bold" size:size];
 }
 
 

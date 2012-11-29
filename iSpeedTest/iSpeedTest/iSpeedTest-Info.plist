@@ -24,7 +24,7 @@
 	<string>1.0</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Familiar Pro-Bold.otf</string>
+		<string>FamiliarPro-Bold.otf</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

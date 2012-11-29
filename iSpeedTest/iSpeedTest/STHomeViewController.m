@@ -164,7 +164,6 @@
 
 - (void)createScrollView {
     _scrollView = [[UIScrollView alloc] initWithFrame:[self scrollviewRect]];
-    [_scrollView setBackgroundColor:[UIColor redColor]];
     [_scrollView setContentSize:CGSizeMake((3 * 310), _scrollView.size.height)];
     [_scrollView setPagingEnabled:YES];
     [_scrollView setContentOffset:CGPointMake(310, 0)];

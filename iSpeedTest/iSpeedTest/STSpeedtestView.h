@@ -8,6 +8,7 @@
 
 #import "STSubsectionView.h"
 #import "STSpeedtest.h"
+#import "STHistory.h"
 
 
 typedef enum {
@@ -25,11 +26,14 @@ typedef enum {
 @optional
 
 - (void)speedtestViewDidStartMeasurment:(STSpeedtestView *)view;
-- (void)speedtestViewDidStopMeasurment:(STSpeedtestView *)view;
+- (void)speedtestViewDidStopMeasurment:(STSpeedtestView *)view withResults:(STHistory *)history;
 
 @end
 
 
 @interface STSpeedtestView : STSubsectionView <STSpeedtestDelegate>
+
+@property (nonatomic, weak) id<STSpeedtestViewDelegate> delegate;
+
 
 @end
