@@ -61,26 +61,6 @@
     return CGRectMake((index * 310), 0, 310, _scrollView.height);
 }
 
-#pragma mark Data
-
-- (void)loadData {
-    /*_currentIndex = [FCConfig getLastUsedIndex];
-    NSError *error;
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:kCDMessageTableName inManagedObjectContext:_managedObjectContext]];
-    
-    / *
-     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"views" ascending:YES];
-     [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-     // * /
-    
-    NSString *complexPredicateFormat = [NSString stringWithFormat:@"length < 90"];
-    NSPredicate *complexPredicate = [NSPredicate predicateWithFormat:complexPredicateFormat argumentArray:nil];
-    [request setPredicate:complexPredicate];
-    
-    _data = [_managedObjectContext executeFetchRequest:request error:&error];*/
-}
-
 #pragma mark Animations
 
 - (void)animateIndicatorForTabButton:(UIButton *)button {
@@ -138,18 +118,19 @@
 - (void)createSpeedtestView {
     if (!_speedtestView) {
         _speedtestView = [[STSpeedtestView alloc] initWithFrame:[self insideRectAtIndex:1]];
+        [_speedtestView setDelegate:self];
     }
     [_scrollView addSubview:_speedtestView];
 }
 
 - (void)createMapView {
     _mapView = [[STMapView alloc] initWithFrame:[self insideRectAtIndex:0]];
-    [_mapView setBackgroundColor:[UIColor blueColor]];
     [_scrollView addSubview:_mapView];
 }
 
 - (void)createHistoryView {
-    
+    _historyView = [[STHistoryView alloc] initWithFrame:[self insideRectAtIndex:2]];
+    [_scrollView addSubview:_historyView];
 }
 
 - (void)createMainView {
@@ -256,6 +237,15 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [_historyView updateData];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark Actions
 
 - (void)resetTabBarButtons {
@@ -271,6 +261,12 @@
         [self animateIndicatorForTabButton:sender];
         [_scrollView setContentOffset:CGPointMake(([[sender.superview subviews] indexOfObject:sender] * 310), 0) animated:YES];
     }
+}
+
+#pragma mark Speed test view delegate methods
+
+- (void)speedtestViewDidStopMeasurment:(STSpeedtestView *)view withResults:(STHistory *)history {
+    [_historyView updateData];
 }
 
 

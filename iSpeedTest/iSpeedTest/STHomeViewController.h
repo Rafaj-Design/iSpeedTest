@@ -7,9 +7,10 @@
 //
 
 #import "STViewController.h"
+#import "STSpeedtestView.h"
 
 
-@interface STHomeViewController : STViewController
+@interface STHomeViewController : STViewController <STSpeedtestViewDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

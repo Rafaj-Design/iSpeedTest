@@ -76,6 +76,9 @@
 		5485B9311666F82800B627B1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B9301666F82800B627B1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5485B9321666F82800B627B1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B9301666F82800B627B1 /* Reachability.m */; };
 		5485B9411666FD7500B627B1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5485B9401666FD7300B627B1 /* SystemConfiguration.framework */; };
+		5485B9541667082600B627B1 /* STHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B9531667082600B627B1 /* STHistoryCell.m */; };
+		5485B9581667088700B627B1 /* STHistoryEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B9571667088600B627B1 /* STHistoryEmptyCell.m */; };
+		5485B95C16670A6F00B627B1 /* STHistoryHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B95B16670A6F00B627B1 /* STHistoryHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +184,12 @@
 		5485B92F1666F82800B627B1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		5485B9301666F82800B627B1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5485B9401666FD7300B627B1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		5485B9521667082600B627B1 /* STHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHistoryCell.h; sourceTree = "<group>"; };
+		5485B9531667082600B627B1 /* STHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHistoryCell.m; sourceTree = "<group>"; };
+		5485B9561667088600B627B1 /* STHistoryEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHistoryEmptyCell.h; sourceTree = "<group>"; };
+		5485B9571667088600B627B1 /* STHistoryEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHistoryEmptyCell.m; sourceTree = "<group>"; };
+		5485B95A16670A6F00B627B1 /* STHistoryHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHistoryHeaderView.h; sourceTree = "<group>"; };
+		5485B95B16670A6F00B627B1 /* STHistoryHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHistoryHeaderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +455,8 @@
 		5485B8D21666BAC300B627B1 /* History */ = {
 			isa = PBXGroup;
 			children = (
+				5485B95916670A4D00B627B1 /* Header */,
+				5485B9511667080300B627B1 /* Cells */,
 				5485B8D71666BB2F00B627B1 /* STHistoryView.h */,
 				5485B8D81666BB2F00B627B1 /* STHistoryView.m */,
 			);
@@ -519,6 +530,26 @@
 				5485B9301666F82800B627B1 /* Reachability.m */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		5485B9511667080300B627B1 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5485B9521667082600B627B1 /* STHistoryCell.h */,
+				5485B9531667082600B627B1 /* STHistoryCell.m */,
+				5485B9561667088600B627B1 /* STHistoryEmptyCell.h */,
+				5485B9571667088600B627B1 /* STHistoryEmptyCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		5485B95916670A4D00B627B1 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				5485B95A16670A6F00B627B1 /* STHistoryHeaderView.h */,
+				5485B95B16670A6F00B627B1 /* STHistoryHeaderView.m */,
+			);
+			name = Header;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -681,6 +712,9 @@
 				5485B8DC1666BBCA00B627B1 /* STSubsectionView.m in Sources */,
 				5485B9161666CBC800B627B1 /* STAutoLineView.m in Sources */,
 				5485B9311666F82800B627B1 /* Reachability.m in Sources */,
+				5485B9541667082600B627B1 /* STHistoryCell.m in Sources */,
+				5485B9581667088700B627B1 /* STHistoryEmptyCell.m in Sources */,
+				5485B95C16670A6F00B627B1 /* STHistoryHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

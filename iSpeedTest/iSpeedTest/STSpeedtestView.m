@@ -231,33 +231,37 @@
             [_downloadMBitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
             [_downloadMByteLabel setText:[NSString stringWithFormat:@"%.1f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
         }
-        else if (update.type == STSpeedtestTypeDownloading) {
+        else if (update.type == STSpeedtestTypeUploading) {
             [_uploadMBitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
             [_uploadMByteLabel setText:[NSString stringWithFormat:@"%.1f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
         }
-        else if (update.status == STSpeedtestStatusFinished) {
-            [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
-            if (YES) {
-                [self startUpload];
-            }
+    }
+    else if (update.status == STSpeedtestStatusFinished) {
+        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
+        // Move this to download!!!!
+        _downloadSpeed = update.averageSpeed;
+        if (NO) {
+            [self startUpload];
+        }
+        else {
+            _uploadSpeed = update.averageSpeed;
+            
+            NSError *error;
+            STHistory *history = [NSEntityDescription insertNewObjectForEntityForName:@"STHistory" inManagedObjectContext:kSTManagedObject];
+            [history setDate:[NSDate date]];
+            [history setDownload:[NSNumber numberWithFloat:_downloadSpeed]];
+            [history setUpload:[NSNumber numberWithFloat:_uploadSpeed]];
+            [history setLat:nil];
+            [history setLon:nil];
+            [history setNetwork:_networkLabel.text];
+            [history setConnection:_connectionLabel.text];
+            [history setPing:nil];
+            [history setName:@""];
+            [kSTManagedObject save:&error];
+            if (error) NSLog(@"Error saving: %@", [error localizedDescription]);
             else {
-                NSError *error;
-                STHistory *history = [NSEntityDescription insertNewObjectForEntityForName:@"STHistory" inManagedObjectContext:kSTManagedObject];
-                [history setDate:[NSDate date]];
-                [history setDownload:[NSNumber numberWithFloat:_downloadSpeed]];
-                [history setUpload:[NSNumber numberWithFloat:_uploadSpeed]];
-                [history setLat:nil];
-                [history setLon:nil];
-                [history setNetwork:_networkLabel.text];
-                [history setConnection:_connectionLabel.text];
-                [history setPing:nil];
-                [history setName:@""];
-                [kSTManagedObject save:&error];
-                if (error) NSLog(@"Error saving: %@", [error localizedDescription]);
-                else {
-                    if ([_delegate respondsToSelector:@selector(speedtestViewDidStopMeasurment:withResults:)]) {
-                        [_delegate speedtestViewDidStopMeasurment:self withResults:history];
-                    }
+                if ([_delegate respondsToSelector:@selector(speedtestViewDidStopMeasurment:withResults:)]) {
+                    [_delegate speedtestViewDidStopMeasurment:self withResults:history];
                 }
             }
         }

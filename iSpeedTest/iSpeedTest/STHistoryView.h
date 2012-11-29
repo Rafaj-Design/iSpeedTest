@@ -9,7 +9,7 @@
 #import "STSubsectionView.h"
 
 
-@interface STHistoryView : STSubsectionView
+@interface STHistoryView : STSubsectionView <UITableViewDataSource, UITableViewDelegate>
 
 
 @end
