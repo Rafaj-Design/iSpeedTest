@@ -64,7 +64,7 @@
 #pragma mark Animations
 
 - (void)animateIndicatorForTabButton:(UIButton *)button {
-	BOOL bounce = YES;
+	BOOL bounce = NO;
     button.selected = YES;
     CGRect newFrame = button.frame;
     newFrame.origin.x -= 10;
