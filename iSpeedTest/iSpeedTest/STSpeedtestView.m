@@ -35,6 +35,10 @@
 @property (nonatomic, strong) UILabel *downloadMBitLabel;
 @property (nonatomic, strong) UILabel *uploadMByteLabel;
 @property (nonatomic, strong) UILabel *uploadMBitLabel;
+@property (nonatomic, strong) UILabel *downloadMByteDescriptionLabel;
+@property (nonatomic, strong) UILabel *downloadMBitDescriptionLabel;
+@property (nonatomic, strong) UILabel *uploadMByteDescriptionLabel;
+@property (nonatomic, strong) UILabel *uploadMBitDescriptionLabel;
 
 @end
 
@@ -137,10 +141,20 @@
     _downloadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(30, (download.bottom + 5), 130, 25)];
     [_downloadMByteLabel setText:@"-"];
     [self addSubview:_downloadMByteLabel];
+    [_downloadMByteLabel sizeToFit];
     
+    _downloadMByteDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMByteLabel.right + 6), (_downloadMByteLabel.bottom - 15), 130, 10)];
+    [_downloadMByteDescriptionLabel setText:@"MB/s"];
+    [self addSubview:_downloadMByteDescriptionLabel];
+
     _downloadMBitLabel = [self labelWithFontSize:25 andFrame:CGRectMake(30, (_downloadMByteLabel.bottom + 0), 130, 25)];
     [_downloadMBitLabel setText:@"-"];
     [self addSubview:_downloadMBitLabel];
+    [_downloadMBitLabel sizeToFit];
+    
+    _downloadMBitDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMBitLabel.right + 6), (_downloadMBitLabel.bottom - 15), 130, 10)];
+    [_downloadMBitDescriptionLabel setText:@"MBit/s"];
+    [self addSubview:_downloadMBitDescriptionLabel];
     
     // Upload section
     UILabel *upload = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
@@ -151,10 +165,20 @@
     _uploadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(198, (download.bottom + 5), 130, 25)];
     [_uploadMByteLabel setText:@"-"];
     [self addSubview:_uploadMByteLabel];
+    [_uploadMByteLabel sizeToFit];
+    
+    _uploadMByteDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_uploadMByteLabel.right + 6), (_uploadMByteLabel.bottom - 15), 130, 10)];
+    [_uploadMByteDescriptionLabel setText:@"MB/s"];
+    [self addSubview:_uploadMByteDescriptionLabel];
     
     _uploadMBitLabel = [self labelWithFontSize:25 andFrame:CGRectMake(198, (_uploadMByteLabel.bottom + 0), 130, 25)];
     [_uploadMBitLabel setText:@"-"];
     [self addSubview:_uploadMBitLabel];
+    [_uploadMBitLabel sizeToFit];
+    
+    _uploadMBitDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_uploadMBitLabel.right + 6), (_uploadMBitLabel.bottom - 15), 130, 10)];
+    [_uploadMBitDescriptionLabel setText:@"MBit/s"];
+    [self addSubview:_uploadMBitDescriptionLabel];
 }
 
 - (void)createAmazonLogo {
@@ -177,8 +201,11 @@
         if (_startButton.alpha == 0) {
             [_startButton setHidden:YES];
             if (_startButton.yOrigin > 40) {
-                [_startButton positionAtX:20 andY:20];
-                [_startButton setTransform:CGAffineTransformMakeScale(0.3, 0.3)];
+                [_startButton positionAtX:10 andY:20];
+                UIImage *img = [UIImage imageNamed:@"SP_bg_go_small"];
+                [_startButton setBackgroundImage:img forState:UIControlStateNormal];
+                [_startButton setSize:img.size];
+                [_startButton.titleLabel setFont:[STConfig fontWithSize:16]];
             }
         }
     }];
@@ -261,12 +288,16 @@
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
         if (update.type == STSpeedtestTypeDownloading) {
-            [_downloadMBitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
-            [_downloadMByteLabel setText:[NSString stringWithFormat:@"%.1f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
+            [_downloadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
+            [_downloadMBitLabel sizeToFit];
+            [_downloadMBitDescriptionLabel setXOrigin:(_downloadMBitLabel.right + 6)];
+            [_downloadMByteLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabytes:update.averageSpeed]]];
+            [_downloadMByteLabel sizeToFit];
+            [_downloadMByteDescriptionLabel setXOrigin:(_downloadMByteLabel.right + 6)];
         }
         else if (update.type == STSpeedtestTypeUploading) {
-            [_uploadMBitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:update.averageSpeed]]];
-            [_uploadMByteLabel setText:[NSString stringWithFormat:@"%.1f Mb/s", [STSpeedtest getMegabytes:update.averageSpeed]]];
+            [_uploadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
+            [_uploadMByteLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabytes:update.averageSpeed]]];
         }
     }
     else if (update.status == STSpeedtestStatusFinished) {
