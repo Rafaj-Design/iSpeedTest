@@ -271,11 +271,19 @@
         [self resetTabBarButtons];
         [sender setSelected:YES];
         [self animateIndicatorForTabButton:sender];
-        [_scrollView setContentOffset:CGPointMake(([[sender.superview subviews] indexOfObject:sender] * 310), 0) animated:YES];
+        NSInteger index = [[sender.superview subviews] indexOfObject:sender];
+        [_scrollView setContentOffset:CGPointMake((index * 310), 0) animated:YES];
+        if (index == 0) [Flurry logEvent:@"Screen: Map"];
+        else if (index == 1) [Flurry logEvent:@"Screen: Speed"];
+        else if (index == 2) [Flurry logEvent:@"Screen: History"];
     }
 }
 
 #pragma mark Speed test view delegate methods
+
+- (void)speedtestViewDidStartMeasurment:(STSpeedtestView *)view {
+    [Flurry logEvent:@"Action: Start measuring"];
+}
 
 - (void)speedtestViewDidStopMeasurment:(STSpeedtestView *)view withResults:(STHistory *)history {
     [_historyView updateData];

@@ -26,6 +26,7 @@
 		3DC2B5E1165FEDB1000BED73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */; };
 		3DC2B62C1667B7E3000BED73 /* SP_bg_go.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */; };
 		3DC2B62D1667B7E3000BED73 /* SP_bg_go@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */; };
+		545D7EAF1668426700F36A54 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 545D7EAE1668426700F36A54 /* libFlurry.a */; };
 		5485B8A41666B45700B627B1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5485B8A31666B45700B627B1 /* CoreData.framework */; };
 		5485B8B81666B4BE00B627B1 /* UIView+Effects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */; };
 		5485B8B91666B4BE00B627B1 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B8AD1666B4BE00B627B1 /* UIImage+Alpha.m */; };
@@ -127,6 +128,8 @@
 		3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_bg_go.png; sourceTree = "<group>"; };
 		3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_bg_go@2x.png"; sourceTree = "<group>"; };
+		545D7EAD1668426700F36A54 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		545D7EAE1668426700F36A54 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		5485B8A31666B45700B627B1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5485B8AA1666B4BE00B627B1 /* UIView+Effects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Effects.h"; sourceTree = "<group>"; };
 		5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Effects.m"; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 				3DC2B55B165FB644000BED73 /* UIKit.framework in Frameworks */,
 				3DC2B55D165FB644000BED73 /* Foundation.framework in Frameworks */,
 				3DC2B55F165FB644000BED73 /* CoreGraphics.framework in Frameworks */,
+				545D7EAF1668426700F36A54 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,10 +415,20 @@
 		3DC2B5AD165FED3B000BED73 /* Thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				545D7EAC1668426700F36A54 /* Flurry */,
 				5485B92E1666F82800B627B1 /* Reachability */,
 			);
 			name = Thirdparty;
 			path = ../../Thirdparty;
+			sourceTree = "<group>";
+		};
+		545D7EAC1668426700F36A54 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				545D7EAD1668426700F36A54 /* Flurry.h */,
+				545D7EAE1668426700F36A54 /* libFlurry.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 		5485B8BF1666B56E00B627B1 /* Config */ = {
@@ -850,6 +864,10 @@
 				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
 				INFOPLIST_FILE = "iSpeedTest/iSpeedTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Thirdparty/Flurry\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -865,6 +883,10 @@
 				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
 				INFOPLIST_FILE = "iSpeedTest/iSpeedTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Thirdparty/Flurry\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5A0497AF-3B84-4329-9607-2D655004A4E3";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -936,6 +958,10 @@
 				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
 				INFOPLIST_FILE = "iSpeedTest/iSpeedTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Thirdparty/Flurry\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

@@ -273,6 +273,9 @@
 }
 
 - (void)startMeasurement:(UIButton *)sender {
+    if ([_delegate respondsToSelector:@selector(speedtestViewDidStartMeasurment:)]) {
+        [_delegate speedtestViewDidStartMeasurment:self];
+    }
     [self checkForNetworkInfo];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self toggleStartButton];

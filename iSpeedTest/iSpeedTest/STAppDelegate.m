@@ -61,6 +61,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Flurry startSession:@"Z7ZV3XTC8Z766896RPG2"];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.viewController = [[STHomeViewController alloc] init];
     self.window.rootViewController = self.viewController;
