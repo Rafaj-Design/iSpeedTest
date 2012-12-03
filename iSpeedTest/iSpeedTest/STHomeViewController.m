@@ -287,6 +287,7 @@
 
 - (void)speedtestViewDidStopMeasurment:(STSpeedtestView *)view withResults:(STHistory *)history {
     [_historyView updateData];
+    [_mapView updateData];
 }
 
 

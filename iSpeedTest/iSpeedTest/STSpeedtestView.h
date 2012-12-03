@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Fuerte Innovations. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "STSubsectionView.h"
 #import "STSpeedtest.h"
 #import "STHistory.h"
@@ -31,7 +32,7 @@ typedef enum {
 @end
 
 
-@interface STSpeedtestView : STSubsectionView <STSpeedtestDelegate>
+@interface STSpeedtestView : STSubsectionView <STSpeedtestDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, weak) id<STSpeedtestViewDelegate> delegate;
 

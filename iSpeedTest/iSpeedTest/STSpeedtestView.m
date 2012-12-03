@@ -9,6 +9,7 @@
 #import "STSpeedtestView.h"
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
+#import <CFNetwork/CFNetwork.h>
 #import "Reachability.h"
 #import "STAppDelegate.h"
 
@@ -39,6 +40,11 @@
 @property (nonatomic, strong) UILabel *downloadMBitDescriptionLabel;
 @property (nonatomic, strong) UILabel *uploadMByteDescriptionLabel;
 @property (nonatomic, strong) UILabel *uploadMBitDescriptionLabel;
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic) CLLocation *currentLocation;
+
+@property (nonatomic, strong) NSTimer *isWorkingTimer;
 
 @end
 
@@ -232,7 +238,7 @@
         [_connectionLabel setText:@"No connection"];
     }
     else if (status == ReachableViaWWAN) {
-        [_connectionLabel setText:@"Mobile connection"];
+        [_connectionLabel setText:@"WWAN"];
     }
     else if (status == ReachableViaWiFi) {
         [_connectionLabel setText:@"WiFi"];
@@ -263,6 +269,20 @@
 
 #pragma mark Actions
 
+- (void)updateVerificationTimer:(NSInteger)seconds {
+    if (_isWorkingTimer) {
+        [_isWorkingTimer invalidate];
+    }
+    _isWorkingTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(measurementFailed) userInfo:nil repeats:NO];
+}
+
+- (void)measurementFailed {
+    [self resetValues];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection error" message:@"Plase try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
+    [self toggleStartButton];
+}
+
 - (void)startUpload {
     
 }
@@ -270,22 +290,71 @@
 - (void)resetValues {
     _downloadSpeed = 0;
     _uploadSpeed = 0;
+    
+    [_networkLabel setText:@"-"];
+    [_connectionLabel setText:@"-"];
+    [_currentSpeedLabel setText:@"-.-"];
+    [_percentageLabel setText:@"-"];
+    [_dataProgressLabel setText:@"- / -"];
+    [_downloadMByteLabel setText:@"-"];
+    [_downloadMBitLabel setText:@"-"];
+    [_uploadMByteLabel setText:@"-"];
+    [_uploadMBitLabel setText:@"-"];
+}
+
+- (void)doPing {
+    bool success = false;
+    const char *host_name = [@"s3-eu-west-1.amazonaws.com" cStringUsingEncoding:NSASCIIStringEncoding];
+    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, host_name);
+    SCNetworkReachabilityFlags flags;
+    success = SCNetworkReachabilityGetFlags(reachability, &flags);
+    bool isAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
+    if (isAvailable) {
+        NSLog(@"Host is reachable: %d", flags);
+        [_downloadSpeedtest startDownload];
+        [self updateVerificationTimer:8];
+    }
+    else{
+        [self measurementFailed];
+    }
 }
 
 - (void)startMeasurement:(UIButton *)sender {
     if ([_delegate respondsToSelector:@selector(speedtestViewDidStartMeasurment:)]) {
         [_delegate speedtestViewDidStartMeasurment:self];
     }
+    
+    _locationManager = [[CLLocationManager alloc] init];
+    [_locationManager setDesiredAccuracy:250];
+    [_locationManager setDelegate:self];
+    [_locationManager startUpdatingLocation];
+    
     [self checkForNetworkInfo];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self toggleStartButton];
-    [_downloadSpeedtest startDownload];
+    
+    [self doPing];
+}
+
+#pragma mark Location manager delegate methods
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *l = (CLLocation *)[locations lastObject];
+    if (_currentLocation != l) {
+        _currentLocation = l;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 #pragma mark Speedtest delegate methods
 
 - (void)speedtest:(STSpeedtest *)test didReceiveUpdate:(struct STSpeedtestUpdate)update {
     if (update.status == STSpeedtestStatusWorking) {
+        [self updateVerificationTimer:8];
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.speed]]];
         
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
@@ -304,6 +373,8 @@
         }
     }
     else if (update.status == STSpeedtestStatusFinished) {
+        [_isWorkingTimer invalidate];
+        
         [self toggleStartButton];
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
         // Move this to download!!!!
@@ -319,8 +390,10 @@
             [history setDate:[NSDate date]];
             [history setDownload:[NSNumber numberWithFloat:_downloadSpeed]];
             [history setUpload:[NSNumber numberWithFloat:_uploadSpeed]];
-            [history setLat:nil];
-            [history setLon:nil];
+            if (_currentLocation) {
+                [history setLat:[NSNumber numberWithDouble:_currentLocation.coordinate.latitude]];
+                [history setLon:[NSNumber numberWithDouble:_currentLocation.coordinate.longitude]];
+            }
             [history setNetwork:_networkLabel.text];
             [history setConnection:_connectionLabel.text];
             [history setPing:nil];
@@ -332,6 +405,8 @@
                     [_delegate speedtestViewDidStopMeasurment:self withResults:history];
                 }
             }
+            [_locationManager setDelegate:nil];
+            _locationManager = nil;
         }
     }
 }

@@ -86,6 +86,10 @@
 		5485B96E16683F8600B627B1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96B16683F8600B627B1 /* Default-568h@2x.png */; };
 		5485B96F16683F8600B627B1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96C16683F8600B627B1 /* Default.png */; };
 		5485B97016683F8600B627B1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96D16683F8600B627B1 /* Default@2x.png */; };
+		54D847DA166D369000E8E1F0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D847D9166D369000E8E1F0 /* CoreLocation.framework */; };
+		54D847DE166D420500E8E1F0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D847DD166D420500E8E1F0 /* CFNetwork.framework */; };
+		54D847EA166D474C00E8E1F0 /* STAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D847E9166D474C00E8E1F0 /* STAnnotationView.m */; };
+		54D847EE166D515B00E8E1F0 /* STAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D847ED166D515B00E8E1F0 /* STAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,6 +209,12 @@
 		5485B96B16683F8600B627B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5485B96C16683F8600B627B1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		5485B96D16683F8600B627B1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		54D847D9166D369000E8E1F0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		54D847DD166D420500E8E1F0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		54D847E8166D474C00E8E1F0 /* STAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAnnotationView.h; sourceTree = "<group>"; };
+		54D847E9166D474C00E8E1F0 /* STAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAnnotationView.m; sourceTree = "<group>"; };
+		54D847EC166D515B00E8E1F0 /* STAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAnnotation.h; sourceTree = "<group>"; };
+		54D847ED166D515B00E8E1F0 /* STAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +222,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54D847DE166D420500E8E1F0 /* CFNetwork.framework in Frameworks */,
+				54D847DA166D369000E8E1F0 /* CoreLocation.framework in Frameworks */,
 				5485B9411666FD7500B627B1 /* SystemConfiguration.framework in Frameworks */,
 				5485B92A1666F48C00B627B1 /* CoreTelephony.framework in Frameworks */,
 				5485B91C1666D94A00B627B1 /* MapKit.framework in Frameworks */,
@@ -260,6 +272,8 @@
 		3DC2B559165FB644000BED73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54D847DD166D420500E8E1F0 /* CFNetwork.framework */,
+				54D847D9166D369000E8E1F0 /* CoreLocation.framework */,
 				5485B9401666FD7300B627B1 /* SystemConfiguration.framework */,
 				5485B9291666F48B00B627B1 /* CoreTelephony.framework */,
 				5485B91B1666D94900B627B1 /* MapKit.framework */,
@@ -469,6 +483,7 @@
 		5485B8D11666BAAE00B627B1 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				54D847E7166D472F00E8E1F0 /* Annotation view */,
 				5485B8D31666BB1800B627B1 /* STMapView.h */,
 				5485B8D41666BB1800B627B1 /* STMapView.m */,
 			);
@@ -590,6 +605,25 @@
 				5485B96816683EA600B627B1 /* Icon@2x.png */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		54D847E7166D472F00E8E1F0 /* Annotation view */ = {
+			isa = PBXGroup;
+			children = (
+				54D847EB166D513900E8E1F0 /* Annotation */,
+				54D847E8166D474C00E8E1F0 /* STAnnotationView.h */,
+				54D847E9166D474C00E8E1F0 /* STAnnotationView.m */,
+			);
+			name = "Annotation view";
+			sourceTree = "<group>";
+		};
+		54D847EB166D513900E8E1F0 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				54D847EC166D515B00E8E1F0 /* STAnnotation.h */,
+				54D847ED166D515B00E8E1F0 /* STAnnotation.m */,
+			);
+			name = Annotation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -761,6 +795,8 @@
 				5485B9541667082600B627B1 /* STHistoryCell.m in Sources */,
 				5485B9581667088700B627B1 /* STHistoryEmptyCell.m in Sources */,
 				5485B95C16670A6F00B627B1 /* STHistoryHeaderView.m in Sources */,
+				54D847EA166D474C00E8E1F0 /* STAnnotationView.m in Sources */,
+				54D847EE166D515B00E8E1F0 /* STAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

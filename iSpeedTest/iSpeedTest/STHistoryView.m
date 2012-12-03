@@ -93,6 +93,7 @@
         STHistoryCell *cell = (STHistoryCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell) {
             cell = [[STHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         STHistory *h = [_data objectAtIndex:indexPath.row];
         [cell setHistory:h];
@@ -103,9 +104,14 @@
         STHistoryEmptyCell *cell = (STHistoryEmptyCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell) {
             cell = [[STHistoryEmptyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         return cell;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 
