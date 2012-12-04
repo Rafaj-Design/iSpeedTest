@@ -234,14 +234,28 @@
 
 - (void)updateInterfaceWithReachability:(Reachability *)reachability {
     NetworkStatus status = [reachability currentReachabilityStatus];
-    if (status == NotReachable) {
-        [_connectionLabel setText:@"No connection"];
-    }
-    else if (status == ReachableViaWWAN) {
-        [_connectionLabel setText:@"WWAN"];
-    }
-    else if (status == ReachableViaWiFi) {
+//    if (status == NotReachable) {
+//        [_connectionLabel setText:@"No connection"];
+//    }
+//    else if (status == ReachableViaWWAN) {
+//        [_connectionLabel setText:@"WWAN"];
+//    }
+    if (status == ReachableViaWiFi) {
         [_connectionLabel setText:@"WiFi"];
+    }
+    else {
+        bool success = false;
+        const char *host_name = [@"s3-eu-west-1.amazonaws.com" cStringUsingEncoding:NSASCIIStringEncoding];
+        SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, host_name);
+        SCNetworkReachabilityFlags flags;
+        success = SCNetworkReachabilityGetFlags(reachability, &flags);
+        bool isAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
+        if (isAvailable) {
+            [_connectionLabel setText:@"Mobile"];
+        }
+        else {
+            [_connectionLabel setText:@"No connection"];
+        }
     }
 }
 

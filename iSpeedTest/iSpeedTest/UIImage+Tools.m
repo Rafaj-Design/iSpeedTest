@@ -331,8 +331,8 @@ static inline CGFloat toRadians (CGFloat degrees) { return degrees * M_PI/180.0f
     // we're done with image now too
     CGImageRelease(image);
 	
-	int bitsPerPixel = CGImageGetBitsPerPixel(resultUIImage.CGImage);
-	NSAssert(bitsPerPixel == 8, @"Converted image doesn't have 8 bits per pixel size!");
+//	int bitsPerPixel = CGImageGetBitsPerPixel(resultUIImage.CGImage);
+//	NSAssert(bitsPerPixel == 8, @"Converted image doesn't have 8 bits per pixel size!");
     return resultUIImage;
 }
 /*

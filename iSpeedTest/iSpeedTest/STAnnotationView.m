@@ -47,8 +47,7 @@
 
 - (void)setHistoryItem:(STHistory *)item {
     _historyItem = item;
-    NSString *s = ([[_historyItem.connection lowercaseString] isEqualToString:@"wifi"] ? _historyItem.connection : _historyItem.network);
-    [_connectionLabel setText:[s substringToIndex:1]];
+    [_connectionLabel setText:[_historyItem.connection substringToIndex:1]];
 }
 
 @end
