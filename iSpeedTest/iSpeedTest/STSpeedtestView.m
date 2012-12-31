@@ -12,6 +12,7 @@
 #import <CFNetwork/CFNetwork.h>
 #import "Reachability.h"
 #import "STAppDelegate.h"
+#import "STAPISendReportConnection.h"
 
 
 @interface STSpeedtestView ()
@@ -32,8 +33,10 @@
 @property (nonatomic, strong) UILabel *currentSpeedUnitLabel;
 @property (nonatomic, strong) UILabel *percentageLabel;
 @property (nonatomic, strong) UILabel *dataProgressLabel;
+@property (nonatomic, strong) UILabel *downloadLabel;
 @property (nonatomic, strong) UILabel *downloadMByteLabel;
 @property (nonatomic, strong) UILabel *downloadMBitLabel;
+@property (nonatomic, strong) UILabel *uploadLabel;
 @property (nonatomic, strong) UILabel *uploadMByteLabel;
 @property (nonatomic, strong) UILabel *uploadMBitLabel;
 @property (nonatomic, strong) UILabel *downloadMByteDescriptionLabel;
@@ -139,12 +142,12 @@
     [_dataProgressLabel centerHorizontally];
     
     // Download section
-    UILabel *download = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
-    [download setTextColor:[UIColor colorWithHexString:@"F59C73"]];
-    [download setText:@"DOWNLOAD"];
-    [self addSubview:download];
+    _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
+    [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
+    [_downloadLabel setText:@"DOWNLOAD"];
+    [self addSubview:_downloadLabel];
     
-    _downloadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(30, (download.bottom + 5), 130, 25)];
+    _downloadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(30, (_downloadLabel.bottom + 5), 130, 25)];
     [_downloadMByteLabel setText:@"-"];
     [self addSubview:_downloadMByteLabel];
     [_downloadMByteLabel sizeToFit];
@@ -163,12 +166,12 @@
     [self addSubview:_downloadMBitDescriptionLabel];
     
     // Upload section
-    UILabel *upload = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
-    [upload setTextColor:[UIColor colorWithHexString:@"59B9C7"]];
-    [upload setText:@"UPLOAD"];
-    [self addSubview:upload];
+    _uploadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
+    [_uploadLabel setTextColor:[UIColor colorWithHexString:@"59B9C7"]];
+    [_uploadLabel setText:@"UPLOAD"];
+    [self addSubview:_uploadLabel];
     
-    _uploadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(198, (download.bottom + 5), 130, 25)];
+    _uploadMByteLabel = [self labelWithFontSize:25 andFrame:CGRectMake(198, (_downloadLabel.bottom + 5), 130, 25)];
     [_uploadMByteLabel setText:@"-"];
     [self addSubview:_uploadMByteLabel];
     [_uploadMByteLabel sizeToFit];
@@ -214,6 +217,35 @@
                 [_startButton.titleLabel setFont:[STConfig fontWithSize:16]];
             }
         }
+    }];
+}
+
+- (void)animateAction:(UILabel *)actionLabel {
+    __block CGFloat animationTime = 0.2;
+    [UIView animateWithDuration:animationTime animations:^{
+        [actionLabel setAlpha:0.4];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:animationTime animations:^{
+            [actionLabel setAlpha:1];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:animationTime animations:^{
+                [actionLabel setAlpha:0.4];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:animationTime animations:^{
+                    [actionLabel setAlpha:1];
+                } completion:^(BOOL finished) {
+                    [UIView animateWithDuration:animationTime animations:^{
+                        [actionLabel setAlpha:0.4];
+                    } completion:^(BOOL finished) {
+                        [UIView animateWithDuration:animationTime animations:^{
+                            [actionLabel setAlpha:1];
+                        } completion:^(BOOL finished) {
+                            
+                        }];
+                    }];
+                }];
+            }];
+        }];
     }];
 }
 
@@ -298,7 +330,14 @@
 }
 
 - (void)startUpload {
+    [_currentSpeedLabel setText:@"-.-"];
+    [_percentageLabel setText:@"-"];
+    [_dataProgressLabel setText:@"- / -"];
+    [_uploadMByteLabel setText:@"-"];
+    [_uploadMBitLabel setText:@"-"];
     
+    NSString *fileName = @"upload.file";
+    [_uploadSpeedtest startUploadWithBundleFileName:fileName];
 }
 
 - (void)resetValues {
@@ -334,6 +373,10 @@
 }
 
 - (void)startMeasurement:(UIButton *)sender {
+    [self resetValues];
+    
+    [self animateAction:_downloadLabel];
+    
     if ([_delegate respondsToSelector:@selector(speedtestViewDidStartMeasurment:)]) {
         [_delegate speedtestViewDidStartMeasurment:self];
     }
@@ -383,20 +426,27 @@
         }
         else if (update.type == STSpeedtestTypeUploading) {
             [_uploadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
+            [_uploadMBitLabel sizeToFit];
+            [_uploadMBitDescriptionLabel setXOrigin:(_downloadMBitLabel.right + 6)];
             [_uploadMByteLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabytes:update.averageSpeed]]];
+            [_uploadMByteLabel sizeToFit];
+            [_uploadMByteDescriptionLabel setXOrigin:(_downloadMByteLabel.right + 6)];
         }
     }
     else if (update.status == STSpeedtestStatusFinished) {
         [_isWorkingTimer invalidate];
         
-        [self toggleStartButton];
-        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
+        //[_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
+        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", 0.0]];
         // Move this to download!!!!
         _downloadSpeed = update.averageSpeed;
-        if (NO) {
-            [self startUpload];
+        if (update.type == STSpeedtestTypeDownloading) {
+            [self animateAction:_uploadLabel];
+            [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startUpload) userInfo:nil repeats:NO];
         }
         else {
+            [self toggleStartButton];
+            
             _uploadSpeed = update.averageSpeed;
             
             NSError *error;
@@ -418,6 +468,8 @@
                 if ([_delegate respondsToSelector:@selector(speedtestViewDidStopMeasurment:withResults:)]) {
                     [_delegate speedtestViewDidStopMeasurment:self withResults:history];
                 }
+                STAPISendReportConnection *api = [[STAPISendReportConnection alloc] init];
+                [api sendHistoryReport:history];
             }
             [_locationManager setDelegate:nil];
             _locationManager = nil;

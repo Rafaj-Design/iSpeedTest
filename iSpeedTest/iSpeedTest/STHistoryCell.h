@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 
 @class STHistory;
 
 
-@interface STHistoryCell : UITableViewCell
+@interface STHistoryCell : UITableViewCell <MKMapViewDelegate>
 
 - (void)setHistory:(STHistory *)history;
+- (void)enableMap:(BOOL)enable;
 
 
 @end

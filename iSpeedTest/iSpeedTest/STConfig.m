@@ -8,7 +8,11 @@
 
 #import "STConfig.h"
 
+
 @implementation STConfig
+
+
+#pragma mark App configuration
 
 + (NSString *)appName {
     return @"iSpeedTest";

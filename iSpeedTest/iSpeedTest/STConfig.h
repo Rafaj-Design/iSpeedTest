@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Fuerte Innovations. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "STSystemConfig.h"
 #import <UIKit/UIKit.h>
 
 
-@interface STConfig : NSObject
+@interface STConfig : STSystemConfig
 
 + (NSString *)appName;
 

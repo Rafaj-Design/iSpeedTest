@@ -8,9 +8,9 @@
 
 #import "STMapView.h"
 #import "STAnnotationView.h"
+#import "STAnnotation.h"
 #import "STAppDelegate.h"
 #import "STHistory.h"
-#import "STAnnotation.h"
 
 
 @interface STMapView ()
@@ -30,6 +30,44 @@
 
 @implementation STMapView
 
+
+#pragma mark Controlling the map
+
+- (void)zoomToSeeAllAnnotations {
+    // Zooming to the new region
+	MKMapPoint annotationPoint = MKMapPointForCoordinate(_mapView.userLocation.coordinate);
+    MKMapRect zoomRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.8, 0.8);
+    for (id <MKAnnotation> annotation in _mapView.annotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.8, 0.8);
+        if (MKMapRectIsNull(zoomRect)) {
+            zoomRect = pointRect;
+        }
+        else {
+            zoomRect = MKMapRectUnion(zoomRect, pointRect);
+        }
+    }
+//    CGFloat xVal = (zoomRect.origin.x * 0.2);
+//    CGFloat yVal = (zoomRect.origin.y * 0.3);
+//    zoomRect.origin.x -= xVal;
+//    zoomRect.origin.y -= yVal;
+//    zoomRect.size.width += (xVal * 2);
+//    zoomRect.size.height += (yVal * 2);
+    [_mapView setVisibleMapRect:zoomRect animated:YES];
+}
+
+- (void)zoomToMyLocation {
+    [Flurry logEvent:@"Map: User location clicked"];
+    MKCoordinateRegion region;
+    region.center = _mapView.userLocation.coordinate;
+    
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.004;
+    span.longitudeDelta = 0.004;
+    region.span = span;
+    
+    [_mapView setRegion:region animated:YES];
+}
 
 #pragma mark Creating elements
 
@@ -55,6 +93,34 @@
     [self addSubview:_mapView];
 }
 
+- (void)createBottomButtons {
+    CGFloat x = (320 - 16 - 44);
+    CGFloat y = ([STConfig screenHeight] - 16 - 80);
+    
+//    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(180, (y - 10), 200, 200)];
+//    [v setBackgroundColor:[UIColor colorWithHexString:@"EFECD0"]];
+//    [v setAlpha:0.85];
+//    [v.layer setCornerRadius:5];
+//    [self addSubview:v];
+    
+    UIImage *img = [UIImage imageNamed:@"SP_locate_me"];
+    UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+    [b addTarget:self action:@selector(zoomToMyLocation) forControlEvents:UIControlEventTouchUpInside];
+    [b setImage:img forState:UIControlStateNormal];
+    [b setSize:CGSizeMake(34, 34)];
+    [b setOrigin:CGPointMake(x, y)];
+    [self addSubview:b];
+    
+//    x -= (54 + 10);
+//    img = [UIImage imageNamed:@"SP_locate_all"];
+//    b = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [b addTarget:self action:@selector(zoomToSeeAllAnnotations) forControlEvents:UIControlEventTouchUpInside];
+//    [b setImage:img forState:UIControlStateNormal];
+//    [b setSize:CGSizeMake(54, 34)];
+//    [b setOrigin:CGPointMake(x, y)];
+//    [self addSubview:b];
+}
+
 #pragma mark Settings
 
 - (void)updateData {
@@ -73,6 +139,7 @@
         [_mapView addAnnotation:a];
         [_annotations addObject:a];
     }
+    [self zoomToSeeAllAnnotations];
 }
 
 #pragma mark Initialization
@@ -83,6 +150,7 @@
     [self updateData];
     [self createOverlays];
     //[self createFilterButtons];
+    [self createBottomButtons];
 }
 
 #pragma mark Map view delegate methods
@@ -116,21 +184,6 @@
             }
         }];
     }
-    
-    // Zooming to the new region
-	MKMapPoint annotationPoint = MKMapPointForCoordinate(_mapView.userLocation.coordinate);
-    MKMapRect zoomRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
-    for (id <MKAnnotation> annotation in _mapView.annotations) {
-        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
-        if (MKMapRectIsNull(zoomRect)) {
-            zoomRect = pointRect;
-        }
-        else {
-            zoomRect = MKMapRectUnion(zoomRect, pointRect);
-        }
-    }
-    [_mapView setVisibleMapRect:zoomRect animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

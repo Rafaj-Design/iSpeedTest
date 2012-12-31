@@ -86,6 +86,20 @@
 		5485B96E16683F8600B627B1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96B16683F8600B627B1 /* Default-568h@2x.png */; };
 		5485B96F16683F8600B627B1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96C16683F8600B627B1 /* Default.png */; };
 		5485B97016683F8600B627B1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5485B96D16683F8600B627B1 /* Default@2x.png */; };
+		54A3FADD1690F7D800E15F98 /* SP_locate_all.png in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FAD91690F7D800E15F98 /* SP_locate_all.png */; };
+		54A3FADE1690F7D800E15F98 /* SP_locate_all@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FADA1690F7D800E15F98 /* SP_locate_all@2x.png */; };
+		54A3FADF1690F7D800E15F98 /* SP_locate_me.png in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FADB1690F7D800E15F98 /* SP_locate_me.png */; };
+		54A3FAE01690F7D800E15F98 /* SP_locate_me@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FADC1690F7D800E15F98 /* SP_locate_me@2x.png */; };
+		54A3FAE51690FAC600E15F98 /* STSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAE41690FAC600E15F98 /* STSystemConfig.m */; };
+		54A3FAE61690FAC600E15F98 /* STSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAE41690FAC600E15F98 /* STSystemConfig.m */; };
+		54A3FAEA1691184F00E15F98 /* STAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAE91691184F00E15F98 /* STAPIConnection.m */; };
+		54A3FAEB1691184F00E15F98 /* STAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAE91691184F00E15F98 /* STAPIConnection.m */; };
+		54A3FAEE16911E5900E15F98 /* STAPISendReportConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAED16911E5900E15F98 /* STAPISendReportConnection.m */; };
+		54A3FAEF16911E5900E15F98 /* STAPISendReportConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAED16911E5900E15F98 /* STAPISendReportConnection.m */; };
+		54A3FAF616912B5C00E15F98 /* NSString+StringTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAF516912B5C00E15F98 /* NSString+StringTools.m */; };
+		54A3FAF716912B5C00E15F98 /* NSString+StringTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A3FAF516912B5C00E15F98 /* NSString+StringTools.m */; };
+		54A3FAFA1691401B00E15F98 /* upload.file in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FAF91691401B00E15F98 /* upload.file */; };
+		54A3FAFB1691401B00E15F98 /* upload.file in Resources */ = {isa = PBXBuildFile; fileRef = 54A3FAF91691401B00E15F98 /* upload.file */; };
 		54D847DA166D369000E8E1F0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D847D9166D369000E8E1F0 /* CoreLocation.framework */; };
 		54D847DE166D420500E8E1F0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D847DD166D420500E8E1F0 /* CFNetwork.framework */; };
 		54D847EA166D474C00E8E1F0 /* STAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D847E9166D474C00E8E1F0 /* STAnnotationView.m */; };
@@ -209,6 +223,19 @@
 		5485B96B16683F8600B627B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5485B96C16683F8600B627B1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		5485B96D16683F8600B627B1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		54A3FAD91690F7D800E15F98 /* SP_locate_all.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_locate_all.png; sourceTree = "<group>"; };
+		54A3FADA1690F7D800E15F98 /* SP_locate_all@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_locate_all@2x.png"; sourceTree = "<group>"; };
+		54A3FADB1690F7D800E15F98 /* SP_locate_me.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_locate_me.png; sourceTree = "<group>"; };
+		54A3FADC1690F7D800E15F98 /* SP_locate_me@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_locate_me@2x.png"; sourceTree = "<group>"; };
+		54A3FAE31690FAC600E15F98 /* STSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSystemConfig.h; sourceTree = "<group>"; };
+		54A3FAE41690FAC600E15F98 /* STSystemConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSystemConfig.m; sourceTree = "<group>"; };
+		54A3FAE81691184F00E15F98 /* STAPIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAPIConnection.h; sourceTree = "<group>"; };
+		54A3FAE91691184F00E15F98 /* STAPIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAPIConnection.m; sourceTree = "<group>"; };
+		54A3FAEC16911E5900E15F98 /* STAPISendReportConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAPISendReportConnection.h; sourceTree = "<group>"; };
+		54A3FAED16911E5900E15F98 /* STAPISendReportConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAPISendReportConnection.m; sourceTree = "<group>"; };
+		54A3FAF416912B5C00E15F98 /* NSString+StringTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringTools.h"; sourceTree = "<group>"; };
+		54A3FAF516912B5C00E15F98 /* NSString+StringTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringTools.m"; sourceTree = "<group>"; };
+		54A3FAF91691401B00E15F98 /* upload.file */ = {isa = PBXFileReference; lastKnownFileType = file; path = upload.file; sourceTree = "<group>"; };
 		54D847D9166D369000E8E1F0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		54D847DD166D420500E8E1F0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		54D847E8166D474C00E8E1F0 /* STAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAnnotationView.h; sourceTree = "<group>"; };
@@ -373,6 +400,7 @@
 		3DC2B59F165FC1FF000BED73 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				54A3FAE71691183700E15F98 /* API */,
 				3DC2B5A8165FC280000BED73 /* Speedtest */,
 			);
 			name = Libs;
@@ -408,6 +436,8 @@
 		3DC2B5AC165FED27000BED73 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				54A3FAF416912B5C00E15F98 /* NSString+StringTools.h */,
+				54A3FAF516912B5C00E15F98 /* NSString+StringTools.m */,
 				5485B8AA1666B4BE00B627B1 /* UIView+Effects.h */,
 				5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */,
 				5485B8AC1666B4BE00B627B1 /* UIImage+Alpha.h */,
@@ -450,6 +480,8 @@
 			children = (
 				5485B8C11666B5E200B627B1 /* STConfig.h */,
 				5485B8C21666B5E200B627B1 /* STConfig.m */,
+				54A3FAE31690FAC600E15F98 /* STSystemConfig.h */,
+				54A3FAE41690FAC600E15F98 /* STSystemConfig.m */,
 			);
 			name = Config;
 			sourceTree = "<group>";
@@ -504,6 +536,7 @@
 		5485B8DD1666C22500B627B1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				54A3FAF81691401A00E15F98 /* Data */,
 				5485B96616683EA500B627B1 /* System */,
 				5485B90F1666C36300B627B1 /* Fonts */,
 				5485B8DE1666C22500B627B1 /* Images */,
@@ -515,6 +548,10 @@
 		5485B8DE1666C22500B627B1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				54A3FAD91690F7D800E15F98 /* SP_locate_all.png */,
+				54A3FADA1690F7D800E15F98 /* SP_locate_all@2x.png */,
+				54A3FADB1690F7D800E15F98 /* SP_locate_me.png */,
+				54A3FADC1690F7D800E15F98 /* SP_locate_me@2x.png */,
 				5485B96116683AA000B627B1 /* SP_bg_go_small.png */,
 				5485B96216683AA000B627B1 /* SP_bg_go_small@2x.png */,
 				3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */,
@@ -605,6 +642,25 @@
 				5485B96816683EA600B627B1 /* Icon@2x.png */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		54A3FAE71691183700E15F98 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				54A3FAEC16911E5900E15F98 /* STAPISendReportConnection.h */,
+				54A3FAED16911E5900E15F98 /* STAPISendReportConnection.m */,
+				54A3FAE81691184F00E15F98 /* STAPIConnection.h */,
+				54A3FAE91691184F00E15F98 /* STAPIConnection.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		54A3FAF81691401A00E15F98 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				54A3FAF91691401B00E15F98 /* upload.file */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		54D847E7166D472F00E8E1F0 /* Annotation view */ = {
@@ -735,6 +791,11 @@
 				5485B96E16683F8600B627B1 /* Default-568h@2x.png in Resources */,
 				5485B96F16683F8600B627B1 /* Default.png in Resources */,
 				5485B97016683F8600B627B1 /* Default@2x.png in Resources */,
+				54A3FADD1690F7D800E15F98 /* SP_locate_all.png in Resources */,
+				54A3FADE1690F7D800E15F98 /* SP_locate_all@2x.png in Resources */,
+				54A3FADF1690F7D800E15F98 /* SP_locate_me.png in Resources */,
+				54A3FAE01690F7D800E15F98 /* SP_locate_me@2x.png in Resources */,
+				54A3FAFA1691401B00E15F98 /* upload.file in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +804,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DC2B589165FB645000BED73 /* InfoPlist.strings in Resources */,
+				54A3FAFB1691401B00E15F98 /* upload.file in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,6 +859,10 @@
 				5485B95C16670A6F00B627B1 /* STHistoryHeaderView.m in Sources */,
 				54D847EA166D474C00E8E1F0 /* STAnnotationView.m in Sources */,
 				54D847EE166D515B00E8E1F0 /* STAnnotation.m in Sources */,
+				54A3FAE51690FAC600E15F98 /* STSystemConfig.m in Sources */,
+				54A3FAEA1691184F00E15F98 /* STAPIConnection.m in Sources */,
+				54A3FAEE16911E5900E15F98 /* STAPISendReportConnection.m in Sources */,
+				54A3FAF616912B5C00E15F98 /* NSString+StringTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +873,10 @@
 				3DC2B58C165FB645000BED73 /* iSpeedTestTests.m in Sources */,
 				5485B8D01666B87B00B627B1 /* STHistory.m in Sources */,
 				5485B9321666F82800B627B1 /* Reachability.m in Sources */,
+				54A3FAE61690FAC600E15F98 /* STSystemConfig.m in Sources */,
+				54A3FAEB1691184F00E15F98 /* STAPIConnection.m in Sources */,
+				54A3FAEF16911E5900E15F98 /* STAPISendReportConnection.m in Sources */,
+				54A3FAF716912B5C00E15F98 /* NSString+StringTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

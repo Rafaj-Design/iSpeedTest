@@ -8,24 +8,20 @@
 
 #import "STViewController.h"
 
+
 @interface STViewController ()
 
 @end
 
+
 @implementation STViewController
 
-
-#pragma mark Devices
-
-- (STDeviceType)deviceType {
-    return STDeviceTypeiPhone5;
-}
 
 #pragma mark Positioning
 
 - (CGRect)fullscreenFrame {
     CGRect r = CGRectZero;
-    STDeviceType d = [self deviceType];
+    STDeviceType d = [STConfig deviceType];
     if (d != STDeviceTypeiPad) {
         if (d == STDeviceTypeiPhone5) {
             r.size = CGSizeMake(320, 547);
@@ -92,7 +88,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     BOOL ok = NO;
-    STDeviceType d = [self deviceType];
+    STDeviceType d = [STConfig deviceType];
     if (d != STDeviceTypeiPad) {
         ok = (toInterfaceOrientation == UIInterfaceOrientationPortrait);
     }

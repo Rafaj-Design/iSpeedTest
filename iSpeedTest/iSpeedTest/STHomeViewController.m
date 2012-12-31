@@ -273,7 +273,10 @@
         [self animateIndicatorForTabButton:sender];
         NSInteger index = [[sender.superview subviews] indexOfObject:sender];
         [_scrollView setContentOffset:CGPointMake((index * 310), 0) animated:YES];
-        if (index == 0) [Flurry logEvent:@"Screen: Map"];
+        if (index == 0) {
+            [Flurry logEvent:@"Screen: Map"];
+            [NSTimer scheduledTimerWithTimeInterval:0.3 target:_mapView selector:@selector(zoomToSeeAllAnnotations) userInfo:nil repeats:NO];
+        }
         else if (index == 1) [Flurry logEvent:@"Screen: Speed"];
         else if (index == 2) [Flurry logEvent:@"Screen: History"];
     }

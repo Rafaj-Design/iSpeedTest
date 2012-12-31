@@ -20,6 +20,11 @@
 @property (nonatomic, retain) NSString * network;
 @property (nonatomic, retain) NSString * connection;
 @property (nonatomic, retain) NSNumber * ping;
+@property (nonatomic, retain) NSNumber * submitted;
 @property (nonatomic, retain) NSString * name;
+
+@property (nonatomic, readonly) NSNumber *formattedDate;
+
+- (NSString *)jsonValue;
 
 @end

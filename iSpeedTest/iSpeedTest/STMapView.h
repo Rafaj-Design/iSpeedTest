@@ -12,5 +12,7 @@
 
 @interface STMapView : STSubsectionView <MKMapViewDelegate>
 
+- (void)zoomToSeeAllAnnotations;
+
 
 @end

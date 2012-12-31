@@ -9,6 +9,8 @@
 #import "STHistoryCell.h"
 #import "STHistory.h"
 #import "STSpeedtest.h"
+#import "STAnnotationView.h"
+#import "STAnnotation.h"
 
 
 @interface STHistoryCell ()
@@ -19,6 +21,10 @@
 @property (nonatomic, strong) UILabel *downloadMegabitLabel;
 @property (nonatomic, strong) UILabel *uploadMegabyteLabel;
 @property (nonatomic, strong) UILabel *uploadMegabitLabel;
+
+@property (nonatomic, strong) STHistory *history;
+
+@property (nonatomic, strong) MKMapView *mapView;
 
 @end
 
@@ -58,6 +64,28 @@
     [self addSubview:_uploadMegabitLabel];
 }
 
+- (void)createMapView {
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 60, 290, 95)];
+    [_mapView setDelegate:self];
+    [_mapView setShowsUserLocation:NO];
+    [_mapView.layer setCornerRadius:5];
+    [self addSubview:_mapView];
+    
+    STAnnotation *a = [[STAnnotation alloc] initWithHistoryItem:_history];
+    [_mapView addAnnotation:a];
+    
+    CLLocationCoordinate2D c = CLLocationCoordinate2DMake([_history.lat floatValue], [_history.lon floatValue]);
+    MKCoordinateRegion region;
+    region.center = c;
+    
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.1;
+    span.longitudeDelta = 0.1;
+    region.span = span;
+    
+    [_mapView setRegion:region animated:YES];
+}
+
 #pragma mark Initialization
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -65,6 +93,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self createLabels];
+        [self setClipsToBounds:YES];
     }
     return self;
 }
@@ -72,14 +101,76 @@
 #pragma mark Settings
 
 - (void)setHistory:(STHistory *)history {
+    _history = history;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MM/dd/yy h:mma"];
     [_dateLabel setText:[dateFormat stringFromDate:history.date]];
-    [_connectionLabel setText:[NSString stringWithFormat:@"%@ (%@)", history.network, history.connection]];
-    [_downloadMegabyteLabel setText:[NSString stringWithFormat:@"%.1f MB/s", [STSpeedtest getMegabytes:[history.download floatValue]]]];
-    [_downloadMegabitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:[history.download floatValue]]]];
-    [_uploadMegabyteLabel setText:[NSString stringWithFormat:@"%.1f MB/s", [STSpeedtest getMegabytes:[history.upload floatValue]]]];
-    [_uploadMegabitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:[history.upload floatValue]]]];
+    [_connectionLabel setText:[NSString stringWithFormat:@"%@ (%@)", _history.network, _history.connection]];
+    [_downloadMegabyteLabel setText:[NSString stringWithFormat:@"%.1f MB/s", [STSpeedtest getMegabytes:[_history.download floatValue]]]];
+    [_downloadMegabitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:[_history.download floatValue]]]];
+    [_uploadMegabyteLabel setText:[NSString stringWithFormat:@"%.1f MB/s", [STSpeedtest getMegabytes:[_history.upload floatValue]]]];
+    [_uploadMegabitLabel setText:[NSString stringWithFormat:@"%.1f MBit/s", [STSpeedtest getMegabites:[_history.upload floatValue]]]];
+}
+
+- (void)enableMap:(BOOL)enable {
+    if (enable) [self createMapView];
+    else {
+        if (_mapView) [_mapView removeFromSuperview];
+        _mapView = nil;
+    }
+}
+
+#pragma mark Map view delegate methods
+
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {
+    // Animating drop
+    for (MKAnnotationView *aV in views) {
+        if ([aV.annotation isKindOfClass:[MKUserLocation class]]) {
+            continue;
+        }
+        MKMapPoint point =  MKMapPointForCoordinate(aV.annotation.coordinate);
+        if (!MKMapRectContainsPoint(self.mapView.visibleMapRect, point)) {
+            continue;
+        }
+        CGRect endFrame = aV.frame;
+        aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - self.frame.size.height, aV.frame.size.width, aV.frame.size.height);
+        [UIView animateWithDuration:0.5 delay:0.04*[views indexOfObject:aV] options:UIViewAnimationCurveLinear animations:^{
+            
+            aV.frame = endFrame;
+        } completion:^(BOOL finished){
+            if (finished) {
+                [UIView animateWithDuration:0.05 animations:^{
+                    aV.transform = CGAffineTransformMakeScale(1.0, 0.8);
+                } completion:^(BOOL finished){
+                    if (finished) {
+                        [UIView animateWithDuration:0.1 animations:^{
+                            aV.transform = CGAffineTransformIdentity;
+                        }];
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    MKAnnotationView *annotationView = [mapView viewForAnnotation:userLocation];
+    annotationView.canShowCallout = NO;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[STAnnotation class]]) {
+        static NSString *annotationId = @"annotationId";
+        STAnnotationView *annotationView = (STAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationId];
+        if (!annotationView) {
+            annotationView = [[STAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationId];
+        }
+        STHistory *h = [(STAnnotation *)annotation historyItem];
+        [h jsonValue];
+        [annotationView setHistoryItem:h];
+        return annotationView;
+    }
+    return nil;
 }
 
 

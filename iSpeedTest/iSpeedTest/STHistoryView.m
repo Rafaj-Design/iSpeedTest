@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *data;
 
+@property (nonatomic, strong) NSIndexPath *expandedCell;
+
 @end
 
 
@@ -56,11 +58,16 @@
     [_tableView reloadData];
 }
 
+- (void)resetExpandableCell {
+    _expandedCell = [NSIndexPath indexPathForRow:INT16_MAX inSection:0];
+}
+
 #pragma mark Initialization
 
 - (void)setupView {
     [super setupView];
     
+    [self resetExpandableCell];
     [self createTableView];
     [self updateData];
 }
@@ -84,7 +91,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return (_expandedCell.row == indexPath.row) ? 170 : 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,6 +104,7 @@
         }
         STHistory *h = [_data objectAtIndex:indexPath.row];
         [cell setHistory:h];
+        [cell enableMap:(_expandedCell.row == indexPath.row)];
         return cell;
     }
     else {
@@ -112,6 +120,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSIndexPath *oldPath = _expandedCell;
+    if ([_data count] > 0) {
+        if (_expandedCell.row == indexPath.row) {
+            [self resetExpandableCell];
+            [_tableView beginUpdates];
+            [_tableView endUpdates];
+        }
+        else {
+            _expandedCell = indexPath;
+            
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:_expandedCell];
+            if (oldPath.row < [_data count] && oldPath.row != _expandedCell.row) [arr addObject:oldPath];
+            
+            [_tableView beginUpdates];
+            [_tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+            [_tableView endUpdates];
+        }
+    }
 }
 
 

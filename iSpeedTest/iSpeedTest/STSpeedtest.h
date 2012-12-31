@@ -51,10 +51,10 @@ struct STSpeedtestUpdate
 @property (nonatomic, strong, readonly) NSError *error;
 
 + (id)startDownloadWithDelegate:(id<STSpeedtestDelegate>)delegate;
-+ (id)startUploadWithDelegate:(id<STSpeedtestDelegate>)delegate;
++ (id)startUploadWithDelegate:(id<STSpeedtestDelegate>)delegate andBundleFileName:(NSString *)fileName;
 
 - (void)startDownload;
-- (void)startUpload;
+- (void)startUploadWithBundleFileName:(NSString *)fileName;
 
 + (CGFloat)getKilobites:(CGFloat)bytes;
 + (CGFloat)getMegabites:(CGFloat)bytes;

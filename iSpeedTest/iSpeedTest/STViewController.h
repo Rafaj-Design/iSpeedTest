@@ -9,14 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-typedef enum {
-    STDeviceTypeiPhone,
-    STDeviceTypeiPhone5,
-    STDeviceTypeiPad
-}
-STDeviceType;
-
-
 @interface STViewController : UIViewController
 
 
