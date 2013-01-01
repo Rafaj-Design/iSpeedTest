@@ -156,6 +156,9 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     _error = error;
+    if (error) {
+        [Flurry logError:@"Speedtest error" message:@"connection" error:error];
+    }
     _statusUpdate.status = STSpeedtestStatusError;
     if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
         [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
@@ -203,8 +206,9 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    NSInteger processedDataLength = _statusUpdate.processedSize + data.length;
     if (_statusUpdate.type == STSpeedtestTypeDownloading) {
-        _statusUpdate.processedSize += data.length;
+        _statusUpdate.processedSize = processedDataLength;
         _statusUpdate.percentDone = ((100 * _statusUpdate.processedSize) / _statusUpdate.totalSize);
         NSTimeInterval t = _statusUpdate.elapsedTime;
         _statusUpdate.elapsedTime = ([[NSDate date] timeIntervalSinceNow] - [_timeStart timeIntervalSinceNow]);

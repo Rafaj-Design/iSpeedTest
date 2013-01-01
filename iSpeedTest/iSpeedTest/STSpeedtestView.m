@@ -73,13 +73,17 @@
 }
 
 - (void)createDownoadMeter {
-    _downloadSpeedtest = [[STSpeedtest alloc] init];
-    [_downloadSpeedtest setDelegate:self];
+    if (!_downloadSpeedtest) {
+        _downloadSpeedtest = [[STSpeedtest alloc] init];
+        [_downloadSpeedtest setDelegate:self];
+    }
 }
 
 - (void)createUploadMeter {
-    _uploadSpeedtest = [[STSpeedtest alloc] init];
-    [_uploadSpeedtest setDelegate:self];
+    if (!_uploadSpeedtest) {
+        _uploadSpeedtest = [[STSpeedtest alloc] init];
+        [_uploadSpeedtest setDelegate:self];
+    }
 }
 
 - (void)createButtons {
@@ -200,24 +204,27 @@
 
 #pragma mark Animations
 
-- (void)toggleStartButton {
-    CGFloat alpha = (_startButton.alpha > 0) ? 0 : 1;
-    if (alpha == 1) {
-        [_startButton setHidden:NO];
-        [_startButton setAlpha:0];
-    }
+- (void)showStartButton {
+    [_startButton setHidden:NO];
+    [_startButton setAlpha:0];
     [UIView animateWithDuration:0.3 animations:^{
-        [_startButton setAlpha:alpha];
+        [_startButton setAlpha:1];
     } completion:^(BOOL finished) {
-        if (_startButton.alpha == 0) {
-            [_startButton setHidden:YES];
-            if (_startButton.yOrigin > 40) {
-                [_startButton positionAtX:10 andY:20];
-                UIImage *img = [UIImage imageNamed:@"SP_bg_go_small"];
-                [_startButton setBackgroundImage:img forState:UIControlStateNormal];
-                [_startButton setSize:img.size];
-                [_startButton.titleLabel setFont:[STConfig fontWithSize:16]];
-            }
+        
+    }];
+}
+
+- (void)hideStartButton {
+    [UIView animateWithDuration:0.3 animations:^{
+        [_startButton setAlpha:0];
+    } completion:^(BOOL finished) {
+        [_startButton setHidden:YES];
+        if (_startButton.yOrigin > 40) {
+            [_startButton positionAtX:10 andY:20];
+            UIImage *img = [UIImage imageNamed:@"SP_bg_go_small"];
+            [_startButton setBackgroundImage:img forState:UIControlStateNormal];
+            [_startButton setSize:img.size];
+            [_startButton.titleLabel setFont:[STConfig fontWithSize:16]];
         }
     }];
 }
@@ -321,20 +328,17 @@
     if (_isWorkingTimer) {
         [_isWorkingTimer invalidate];
     }
-    _isWorkingTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(measurementFailed) userInfo:nil repeats:NO];
+    _isWorkingTimer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(measurementFailed) userInfo:nil repeats:NO];
 }
 
 - (void)measurementFailed {
-    [self resetValues];
+    [self resetValues:NO];
+    [self showStartButton];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection error" message:@"Plase try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
-    [self toggleStartButton];
 }
 
 - (void)startUpload {
-    [_currentSpeedLabel setText:@"-.-"];
-    [_percentageLabel setText:@"-"];
-    [_dataProgressLabel setText:@"- / -"];
     [_uploadMByteLabel setText:@"-"];
     [_uploadMBitLabel setText:@"-"];
     
@@ -342,12 +346,20 @@
     [_uploadSpeedtest startUploadWithBundleFileName:fileName];
 }
 
-- (void)resetValues {
+- (void)resetValues:(BOOL)resetNetworkLabels {
     _downloadSpeed = 0;
     _uploadSpeed = 0;
     
-    [_networkLabel setText:@"-"];
-    [_connectionLabel setText:@"-"];
+    [_downloadSpeedtest setDelegate:nil];
+    [_uploadSpeedtest setDelegate:nil];
+    _downloadSpeedtest = nil;
+    _uploadSpeedtest = nil;
+    
+    if (resetNetworkLabels) {
+        [_networkLabel setText:@"-"];
+        [_connectionLabel setText:@"-"];
+    }
+    
     [_currentSpeedLabel setText:@"-.-"];
     [_percentageLabel setText:@"-"];
     [_dataProgressLabel setText:@"- / -"];
@@ -378,7 +390,10 @@
 }
 
 - (void)startMeasurement:(UIButton *)sender {
-    [self resetValues];
+    [self resetValues:YES];
+    
+    [self createDownoadMeter];
+    [self createUploadMeter];
     
     [self animateAction:_downloadLabel];
     
@@ -393,9 +408,9 @@
     
     [self checkForNetworkInfo];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
-    [self toggleStartButton];
+    [self hideStartButton];
     
-    [_currentSpeedUnitLabel setText:@"kB/s"];
+    [_currentSpeedUnitLabel setText:@"kB/s (Download)"];
     
     [self doPing];
 }
@@ -425,6 +440,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [Flurry logError:@"Location error" message:@"CLLocationManager" error:error];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
@@ -434,7 +450,8 @@
 - (void)speedtest:(STSpeedtest *)test didReceiveUpdate:(struct STSpeedtestUpdate)update {
     if (update.status == STSpeedtestStatusWorking) {
         [self updateVerificationTimer:8];
-        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.speed]]];
+        //[_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.speed]]];
+        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
         
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
@@ -460,16 +477,33 @@
     else if (update.status == STSpeedtestStatusFinished) {
         [_isWorkingTimer invalidate];
         
-        //[_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
-        [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", 0.0]];
-        
         if (update.type == STSpeedtestTypeDownloading) {
             _downloadSpeed = update.averageSpeed;
             [self animateAction:_uploadLabel];
+            [UIView animateWithDuration:0.3 animations:^{
+                [_currentSpeedLabel setAlpha:0];
+                [_currentSpeedUnitLabel setAlpha:0];
+                [_percentageLabel setAlpha:0];
+                [_dataProgressLabel setAlpha:0];
+            } completion:^(BOOL finished) {
+                [_currentSpeedLabel setText:@"0.0"];
+                [_currentSpeedUnitLabel setText:@"kB/s (Upload)"];
+                [_percentageLabel setText:@"0 %"];
+                [_dataProgressLabel setText:@"0 / 0 kB"];
+                
+                [UIView animateWithDuration:0.3 animations:^{
+                    [_currentSpeedLabel setAlpha:1];
+                    [_currentSpeedUnitLabel setAlpha:1];
+                    [_percentageLabel setAlpha:1];
+                    [_dataProgressLabel setAlpha:1];
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }];
             [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startUpload) userInfo:nil repeats:NO];
         }
         else {
-            [self toggleStartButton];
+            [self showStartButton];
             
             _uploadSpeed = update.averageSpeed;
             
@@ -487,7 +521,10 @@
             [history setPing:nil];
             [history setName:@""];
             [kSTManagedObject save:&error];
-            if (error) NSLog(@"Error saving: %@", [error localizedDescription]);
+            if (error) {
+                [Flurry logError:@"CoreData error" message:@"save" error:error];
+                NSLog(@"Error saving: %@", [error localizedDescription]);
+            }
             else {
                 if ([_delegate respondsToSelector:@selector(speedtestViewDidStopMeasurment:withResults:)]) {
                     [_delegate speedtestViewDidStopMeasurment:self withResults:history];
@@ -502,10 +539,10 @@
                 [_dataProgressLabel setAlpha:0];
                 [_percentageLabel setAlpha:0];
             } completion:^(BOOL finished) {
-                [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:[history.download floatValue]]]];
+                [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.3f", [STSpeedtest getMegabites:[history.download floatValue]]]];
                 [_currentSpeedUnitLabel setText:@"Download in Mbit/s"];
-                [_dataProgressLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:[history.upload floatValue]]]];
-                [_percentageLabel setText:@"Upload in Mbit/s"];
+                [_percentageLabel setText:[NSString stringWithFormat:@"%.3f Mbit/s", [STSpeedtest getMegabites:[history.upload floatValue]]]];
+                [_dataProgressLabel setText:@"Upload"];
                 [UIView animateWithDuration:0.3 animations:^{
                     [_currentSpeedLabel setAlpha:1];
                     [_currentSpeedUnitLabel setAlpha:1];

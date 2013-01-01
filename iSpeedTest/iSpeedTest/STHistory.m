@@ -62,7 +62,6 @@
         return nil;
     }
     NSString *j = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if (kDebug) NSLog(@"Json value: %@", j);
     return j;
 }
 

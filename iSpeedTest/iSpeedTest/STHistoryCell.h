@@ -20,6 +20,7 @@
 
 - (void)setHistory:(STHistory *)history;
 - (void)enableMap:(BOOL)enable;
+- (void)showAdvancedInfo:(BOOL)show;
 
 
 @end

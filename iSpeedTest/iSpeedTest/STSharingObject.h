@@ -14,8 +14,10 @@
 
 @property (nonatomic, strong) STHistory *history;
 @property (nonatomic, strong) UIImage *mapImage;
+@property (nonatomic, strong) NSString *address;
 
 - (NSString *)getSharingText;
+- (NSString *)getSharingTextNoAddress;
 - (NSString *)getFullSharingText;
 
 

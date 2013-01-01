@@ -132,6 +132,9 @@
     [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     
     _data = [kSTManagedObject executeFetchRequest:request error:&error];
+    if (error) {
+        [Flurry logError:@"CoreData error" message:@"executeFetchRequest" error:error];
+    }
     [_mapView removeAnnotations:_annotations];
     [_annotations removeAllObjects];
     for (STHistory *h in _data) {

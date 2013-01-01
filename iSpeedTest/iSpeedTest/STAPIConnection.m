@@ -28,7 +28,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFinishWithError:(NSError *)error {
-    
+    [Flurry logError:@"API error" message:@"" error:error];
 }
 
 #pragma mark Connection delgate methods
@@ -44,6 +44,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [self connection:connection didFinishWithError:error];
     if (kDebug) NSLog(@"Connection error: %@ in URL: %@", [error localizedDescription], _url);
+    [Flurry logError:@"API error" message:@"" error:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -51,6 +52,7 @@
     _receivedString = dataString;
     NSError *err;
     _receivedJsonData = [NSJSONSerialization JSONObjectWithData:_receivedData options:NSJSONReadingMutableContainers error:&err];
+    [Flurry logError:@"API error" message:@"NSJSONSerialization" error:err];
     _receivedMessageOK = [[_receivedJsonData objectForKey:@"success"] boolValue];
     [self connection:connection didFinishWithError:nil];
 }

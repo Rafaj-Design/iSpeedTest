@@ -23,11 +23,11 @@
 }
 
 - (void)createLabels {
-    UILabel *download = [self labelWithColor:[UIColor colorWithHexString:@"F59C73"] andFrame:CGRectMake(130, 45, 88, 14)];
+    UILabel *download = [self labelWithColor:[UIColor colorWithHexString:@"F59C73"] andFrame:CGRectMake(130, 25, 88, 14)];
     [download setText:@"DOWN"];
     [self addSubview:download];
     
-    UILabel *upload = [self labelWithColor:[UIColor colorWithHexString:@"59B9C7"] andFrame:CGRectMake(218, 45, 88, 14)];
+    UILabel *upload = [self labelWithColor:[UIColor colorWithHexString:@"59B9C7"] andFrame:CGRectMake(218, 25, 88, 14)];
     [upload setText:@"UP"];
     [self addSubview:upload];
 }

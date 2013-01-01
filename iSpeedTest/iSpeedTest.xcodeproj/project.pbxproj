@@ -36,6 +36,7 @@
 		541B1421169330C5001EE246 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 541B1420169330C5001EE246 /* MessageUI.framework */; };
 		541B1425169331C2001EE246 /* STSharingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 541B1424169331C2001EE246 /* STSharingObject.m */; };
 		541B142D16933A23001EE246 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 541B142C16933A23001EE246 /* logo.png */; };
+		541B143116937D71001EE246 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 541B143016937D71001EE246 /* AddressBook.framework */; };
 		545D7EAF1668426700F36A54 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 545D7EAE1668426700F36A54 /* libFlurry.a */; };
 		5485B8A41666B45700B627B1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5485B8A31666B45700B627B1 /* CoreData.framework */; };
 		5485B8B81666B4BE00B627B1 /* UIView+Effects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5485B8AB1666B4BE00B627B1 /* UIView+Effects.m */; };
@@ -172,6 +173,7 @@
 		541B1423169331C2001EE246 /* STSharingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSharingObject.h; sourceTree = "<group>"; };
 		541B1424169331C2001EE246 /* STSharingObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSharingObject.m; sourceTree = "<group>"; };
 		541B142C16933A23001EE246 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		541B143016937D71001EE246 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		545D7EAD1668426700F36A54 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		545D7EAE1668426700F36A54 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		5485B8A31666B45700B627B1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -282,6 +284,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				541B143116937D71001EE246 /* AddressBook.framework in Frameworks */,
 				541B1421169330C5001EE246 /* MessageUI.framework in Frameworks */,
 				541B141F16932DFC001EE246 /* Social.framework in Frameworks */,
 				54F1081E1691E3E800C53D85 /* Security.framework in Frameworks */,
@@ -335,6 +338,7 @@
 		3DC2B559165FB644000BED73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				541B143016937D71001EE246 /* AddressBook.framework */,
 				541B1420169330C5001EE246 /* MessageUI.framework */,
 				541B141E16932DFC001EE246 /* Social.framework */,
 				54F1081D1691E3E700C53D85 /* Security.framework */,

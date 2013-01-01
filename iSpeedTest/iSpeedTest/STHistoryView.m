@@ -55,6 +55,9 @@
     //[request setPredicate:complexPredicate];
     
     _data = [kSTManagedObject executeFetchRequest:request error:&error];
+    if (error) {
+        [Flurry logError:@"CoreData error" message:@"executeFetchRequest" error:error];
+    }
     [_tableView reloadData];
 }
 
@@ -83,7 +86,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return ([_data count] > 0) ? 64 : 0;
+    return ([_data count] > 0) ? 44 : 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -91,7 +94,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (_expandedCell.row == indexPath.row) ? 185 : 60;
+    return (_expandedCell.row == indexPath.row) ? 205 : 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -105,6 +108,7 @@
         STHistory *h = [_data objectAtIndex:indexPath.row];
         [cell setHistory:h];
         [cell enableMap:(_expandedCell.row == indexPath.row)];
+        [cell showAdvancedInfo:(_expandedCell.row == indexPath.row)];
         [cell setDelegate:[super controllerDelegate]];
         return cell;
     }
@@ -123,22 +127,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSIndexPath *oldPath = _expandedCell;
     if ([_data count] > 0) {
+        BOOL canResetExpandableCell = NO;
         if (_expandedCell.row == indexPath.row) {
             [self resetExpandableCell];
-            [_tableView beginUpdates];
-            [_tableView endUpdates];
         }
         else {
             _expandedCell = indexPath;
-            
-            NSMutableArray *arr = [NSMutableArray array];
-            [arr addObject:_expandedCell];
-            if (oldPath.row < [_data count] && oldPath.row != _expandedCell.row) [arr addObject:oldPath];
-            
-            [_tableView beginUpdates];
-            [_tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
-            [_tableView endUpdates];
+            canResetExpandableCell = YES;
         }
+        NSMutableArray *arr = [NSMutableArray array];
+        if (canResetExpandableCell) [arr addObject:_expandedCell];
+        if (oldPath.row < [_data count] && oldPath.row != _expandedCell.row) [arr addObject:oldPath];
+        
+        [_tableView beginUpdates];
+        if ([arr count] > 0) {
+            [_tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        [_tableView endUpdates];
     }
 }
 

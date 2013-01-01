@@ -54,6 +54,7 @@
     [kSTManagedObject save:&error];
     if (error) {
         NSLog(@"Error updating data: %@", [error localizedDescription]);
+        [Flurry logError:@"CoreData error" message:@"" error:error];
     }
 }
 

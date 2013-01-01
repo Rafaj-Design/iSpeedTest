@@ -292,7 +292,7 @@
 - (void)shareHistory:(STSharingObject *)sharingObject on:(NSString *)service {
     SLComposeViewController *c = [SLComposeViewController composeViewControllerForServiceType:service];
     if ([service isEqualToString:SLServiceTypeFacebook]) [c setInitialText:[sharingObject getSharingText]];
-    else [c setInitialText:[sharingObject getFullSharingText]];
+    else [c setInitialText:[sharingObject getSharingTextNoAddress]];
     if (sharingObject.mapImage) {
         [c addImage:sharingObject.mapImage];
     }
@@ -302,14 +302,17 @@
 }
 
 - (void)shareOnFacebook:(STSharingObject *)sharingObject {
+    [Flurry logEvent:@"Sharing: Facebook"];
     [self shareHistory:sharingObject on:SLServiceTypeFacebook];
 }
 
 - (void)shareOnTwitter:(STSharingObject *)sharingObject {
+    [Flurry logEvent:@"Sharing: Twitter"];
     [self shareHistory:sharingObject on:SLServiceTypeTwitter];
 }
 
 - (void)shareViaEmail:(STSharingObject *)sharingObject {
+    [Flurry logEvent:@"Sharing: Email"];
     MFMailComposeViewController *c = [[MFMailComposeViewController alloc] init];
     [c setMailComposeDelegate:self];
     [c setSubject:@"Connection speed"];
@@ -343,14 +346,18 @@
 	switch(result) {
 		case MFMailComposeResultCancelled:
 	        NSLog(@"Mail send canceled.");
+            [Flurry logEvent:@"Sharing: Email canceled"];
 	        break;
 		case MFMailComposeResultSaved:
+            [Flurry logEvent:@"Sharing: Email saved"];
 	        break;
 		case MFMailComposeResultSent:
 	        NSLog(@"Mail sent.");
+            [Flurry logEvent:@"Sharing: Email sent"];
 	        break;
 		case MFMailComposeResultFailed:
 	        NSLog(@"Mail send error: %@.", [error localizedDescription]);
+            [Flurry logError:@"Email error" message:@"" error:error];
             [self showEmailErrorMessage:error];
 	        break;
 		default:
