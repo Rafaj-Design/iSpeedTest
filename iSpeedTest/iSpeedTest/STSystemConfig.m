@@ -7,6 +7,7 @@
 //
 
 #import "STSystemConfig.h"
+#import "FTKeychainWrapper.h"
 
 
 @implementation STSystemConfig
@@ -62,7 +63,35 @@
     return kDebugMode;
 }
 
+#pragma mark UUID
 
++ (NSString *)getNewUUID {
+    NSString *result = nil;
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    assert(uuid != NULL);
+    CFStringRef uuidStr = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    assert(uuidStr != NULL);
+    result = [(__bridge NSString *)uuidStr copy];
+    CFRelease(uuidStr);
+    NSLog(@"UUID: %@", result);
+    return result;
+}
+
++ (NSString *)getAppIdUUIDIdentifier {
+    return [@"iSpeedTestUUID" stringByAppendingString:[STConfig appIdentifier]];
+}
+
++ (NSString *)getAppUUID {
+    FTKeychainWrapper *w = [[FTKeychainWrapper alloc] initWithIdentifier:[self getAppIdUUIDIdentifier] accessGroup:nil];
+    NSString *uuid = [w objectForKey:(__bridge id)(kSecValueData)];
+    if (!uuid || [uuid length] < 5) {
+        uuid = [self getNewUUID];
+        [w setObject:uuid forKey:(__bridge id)(kSecValueData)];
+    }
+    NSLog(@"UUID: %@", uuid);
+    return uuid;
+}
 
 
 @end

@@ -22,6 +22,14 @@
     return [[[self appName] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
++ (NSString *)developerName {
+    return @"Fuerte International";
+}
+
++ (NSString *)developerUrl {
+    return @"http://www.fuerteint.com/";
+}
+
 + (NSString *)appSqlFileName {
     return [NSString stringWithFormat:@"%@.sqlite", [self appIdentifier]];
 }

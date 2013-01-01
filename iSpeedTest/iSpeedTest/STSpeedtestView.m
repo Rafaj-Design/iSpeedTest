@@ -13,6 +13,7 @@
 #import "Reachability.h"
 #import "STAppDelegate.h"
 #import "STAPISendReportConnection.h"
+#import "STSpeedGaugeView.h"
 
 
 @interface STSpeedtestView ()
@@ -25,7 +26,7 @@
 
 @property (nonatomic, strong) UIButton *startButton;
 
-@property (nonatomic, strong) UIImageView *measurementChartView;
+@property (nonatomic, strong) STSpeedGaugeView *measurementChartView;
 
 @property (nonatomic, strong) UILabel *networkLabel;
 @property (nonatomic, strong) UILabel *connectionLabel;
@@ -98,8 +99,9 @@
 }
 
 - (void)createGauge {
-    _measurementChartView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_circle_bg"]];
+    _measurementChartView = [[STSpeedGaugeView alloc] initWithFrame:CGRectMake(0, 0, 232, 228)];
     [_measurementChartView setYOrigin:50];
+    [_measurementChartView reset];
     [self addSubview:_measurementChartView];
     [_measurementChartView centerHorizontally];
 }
@@ -353,6 +355,9 @@
     [_downloadMBitLabel setText:@"-"];
     [_uploadMByteLabel setText:@"-"];
     [_uploadMBitLabel setText:@"-"];
+    [_currentSpeedUnitLabel setText:@"kB/s"];
+    
+    [_measurementChartView reset];
 }
 
 - (void)doPing {
@@ -390,7 +395,24 @@
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self toggleStartButton];
     
+    [_currentSpeedUnitLabel setText:@"kB/s"];
+    
     [self doPing];
+}
+
+#pragma mark API connection
+
+- (void)sendHistoryData:(STHistory *)history {
+    @autoreleasepool {
+        STAPISendReportConnection *api = [[STAPISendReportConnection alloc] init];
+        [api sendHistoryReport:history];
+    }
+}
+
+- (void)startSendingHistoryDataOnBackground:(STHistory *)history {
+    @autoreleasepool {
+        [self performSelectorInBackground:@selector(sendHistoryData:) withObject:history];
+    }
 }
 
 #pragma mark Location manager delegate methods
@@ -423,14 +445,16 @@
             [_downloadMByteLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabytes:update.averageSpeed]]];
             [_downloadMByteLabel sizeToFit];
             [_downloadMByteDescriptionLabel setXOrigin:(_downloadMByteLabel.right + 6)];
+            [_measurementChartView setDownloadSpeed:update.averageSpeed];
         }
         else if (update.type == STSpeedtestTypeUploading) {
             [_uploadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
             [_uploadMBitLabel sizeToFit];
-            [_uploadMBitDescriptionLabel setXOrigin:(_downloadMBitLabel.right + 6)];
+            [_uploadMBitDescriptionLabel setXOrigin:(_uploadMBitLabel.right + 6)];
             [_uploadMByteLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabytes:update.averageSpeed]]];
             [_uploadMByteLabel sizeToFit];
-            [_uploadMByteDescriptionLabel setXOrigin:(_downloadMByteLabel.right + 6)];
+            [_uploadMByteDescriptionLabel setXOrigin:(_uploadMByteLabel.right + 6)];
+            [_measurementChartView setUploadSpeed:update.averageSpeed];
         }
     }
     else if (update.status == STSpeedtestStatusFinished) {
@@ -438,9 +462,9 @@
         
         //[_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", 0.0]];
-        // Move this to download!!!!
-        _downloadSpeed = update.averageSpeed;
+        
         if (update.type == STSpeedtestTypeDownloading) {
+            _downloadSpeed = update.averageSpeed;
             [self animateAction:_uploadLabel];
             [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startUpload) userInfo:nil repeats:NO];
         }
@@ -468,9 +492,30 @@
                 if ([_delegate respondsToSelector:@selector(speedtestViewDidStopMeasurment:withResults:)]) {
                     [_delegate speedtestViewDidStopMeasurment:self withResults:history];
                 }
-                STAPISendReportConnection *api = [[STAPISendReportConnection alloc] init];
-                [api sendHistoryReport:history];
+                [NSThread detachNewThreadSelector:@selector(startSendingHistoryDataOnBackground:) toTarget:self withObject:history];
             }
+            
+            // Set the final screen info
+            [UIView animateWithDuration:0.3 animations:^{
+                [_currentSpeedLabel setAlpha:0];
+                [_currentSpeedUnitLabel setAlpha:0];
+                [_dataProgressLabel setAlpha:0];
+                [_percentageLabel setAlpha:0];
+            } completion:^(BOOL finished) {
+                [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:[history.download floatValue]]]];
+                [_currentSpeedUnitLabel setText:@"Download in Mbit/s"];
+                [_dataProgressLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:[history.upload floatValue]]]];
+                [_percentageLabel setText:@"Upload in Mbit/s"];
+                [UIView animateWithDuration:0.3 animations:^{
+                    [_currentSpeedLabel setAlpha:1];
+                    [_currentSpeedUnitLabel setAlpha:1];
+                    [_dataProgressLabel setAlpha:1];
+                    [_percentageLabel setAlpha:1];
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }];
+            
             [_locationManager setDelegate:nil];
             _locationManager = nil;
         }

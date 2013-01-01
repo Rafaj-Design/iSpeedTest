@@ -16,6 +16,10 @@
 
 + (NSString *)appIdentifier;
 
++ (NSString *)developerName;
+
++ (NSString *)developerUrl;
+
 + (NSString *)appSqlFileName;
 
 + (NSString *)documentsDirectory;

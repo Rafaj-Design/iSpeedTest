@@ -11,6 +11,8 @@
 #import "STSpeedtest.h"
 #import "STAnnotationView.h"
 #import "STAnnotation.h"
+#import "STHomeViewController.h"
+#import "STSharingObject.h"
 
 
 @interface STHistoryCell ()
@@ -65,10 +67,12 @@
 }
 
 - (void)createMapView {
-    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 60, 290, 95)];
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(15, 60, 250, 110)];
     [_mapView setDelegate:self];
     [_mapView setShowsUserLocation:NO];
     [_mapView.layer setCornerRadius:5];
+    [_mapView.layer setBorderWidth:1];
+    [_mapView.layer setBorderColor:[UIColor colorWithHexString:@"E6E5C9"].CGColor];
     [self addSubview:_mapView];
     
     STAnnotation *a = [[STAnnotation alloc] initWithHistoryItem:_history];
@@ -86,6 +90,63 @@
     [_mapView setRegion:region animated:YES];
 }
 
+- (void)createSharingButtons {
+    UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+    [b addTarget:self action:@selector(shareOnFacebook:) forControlEvents:UIControlEventTouchUpInside];
+    [b setFrame:CGRectMake(275, 60, 30, 30)];
+    [b setBackgroundColor:[UIColor clearColor]];
+    [b setImage:[UIImage imageNamed:@"SP_sharing_fb"] forState:UIControlStateNormal];
+    [self addSubview:b];
+    
+    b = [UIButton buttonWithType:UIButtonTypeCustom];
+    [b addTarget:self action:@selector(shareOnTwitter:) forControlEvents:UIControlEventTouchUpInside];
+    [b setFrame:CGRectMake(275, (60 + 40), 30, 30)];
+    [b setBackgroundColor:[UIColor clearColor]];
+    [b setImage:[UIImage imageNamed:@"SP_sharing_tw"] forState:UIControlStateNormal];
+    [self addSubview:b];
+    
+    b = [UIButton buttonWithType:UIButtonTypeCustom];
+    [b addTarget:self action:@selector(shareViaEmail:) forControlEvents:UIControlEventTouchUpInside];
+    [b setFrame:CGRectMake(275, (60 + 80), 30, 30)];
+    [b setBackgroundColor:[UIColor clearColor]];
+    [b setImage:[UIImage imageNamed:@"SP_sharing_em"] forState:UIControlStateNormal];
+    [self addSubview:b];
+}
+
+#pragma mark Actions
+
+- (STSharingObject *)getSharingObject {
+    STSharingObject *s = [[STSharingObject alloc] init];
+    [s setHistory:_history];
+    
+    // Taking screenshot of the map
+    UIGraphicsBeginImageContextWithOptions(_mapView.bounds.size, _mapView.opaque, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [_mapView.layer renderInContext:context];
+    [s setMapImage:UIGraphicsGetImageFromCurrentImageContext()];
+    UIGraphicsEndImageContext();
+    
+    return s;
+}
+
+- (void)shareOnFacebook:(UIButton *)sender {
+    if ([_delegate respondsToSelector:@selector(shareOnFacebook:)]) {
+        [_delegate shareOnFacebook:[self getSharingObject]];
+    }
+}
+
+- (void)shareOnTwitter:(UIButton *)sender {
+    if ([_delegate respondsToSelector:@selector(shareOnTwitter:)]) {
+        [_delegate shareOnTwitter:[self getSharingObject]];
+    }
+}
+
+- (void)shareViaEmail:(UIButton *)sender {
+    if ([_delegate respondsToSelector:@selector(shareViaEmail:)]) {
+        [_delegate shareViaEmail:[self getSharingObject]];
+    }
+}
+
 #pragma mark Initialization
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -93,6 +154,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self createLabels];
+        [self createSharingButtons];
         [self setClipsToBounds:YES];
     }
     return self;

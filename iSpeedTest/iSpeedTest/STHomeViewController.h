@@ -8,11 +8,20 @@
 
 #import "STViewController.h"
 #import "STSpeedtestView.h"
+#import <MessageUI/MessageUI.h>
 
 
-@interface STHomeViewController : STViewController <STSpeedtestViewDelegate>
+@class STSharingObject;
+
+
+@interface STHomeViewController : STViewController <STSpeedtestViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+
+- (void)shareOnFacebook:(STSharingObject *)history;
+- (void)shareOnTwitter:(STSharingObject *)history;
+- (void)shareViaEmail:(STSharingObject *)history;
 
 
 @end

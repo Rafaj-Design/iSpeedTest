@@ -33,5 +33,7 @@ STDeviceType;
 
 + (BOOL)isDebugModeEnabled;
 
++ (NSString *)getAppUUID;
+
 
 @end

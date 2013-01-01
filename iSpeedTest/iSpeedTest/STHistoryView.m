@@ -91,7 +91,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (_expandedCell.row == indexPath.row) ? 170 : 60;
+    return (_expandedCell.row == indexPath.row) ? 185 : 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -105,6 +105,7 @@
         STHistory *h = [_data objectAtIndex:indexPath.row];
         [cell setHistory:h];
         [cell enableMap:(_expandedCell.row == indexPath.row)];
+        [cell setDelegate:[super controllerDelegate]];
         return cell;
     }
     else {

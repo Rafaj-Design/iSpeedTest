@@ -9,7 +9,12 @@
 #import "STView.h"
 
 
+@class STHomeViewController;
+
+
 @interface STSubsectionView : STView
+
+@property (nonatomic, weak) STHomeViewController *controllerDelegate;
 
 - (void)updateData;
 

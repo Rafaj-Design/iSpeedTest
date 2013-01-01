@@ -11,6 +11,8 @@
 #import "STHistoryView.h"
 #import "STMapView.h"
 #import "STAutoLineView.h"
+#import "STSharingObject.h"
+#import <Social/Social.h>
 
 
 @interface STHomeViewController ()
@@ -119,17 +121,20 @@
     if (!_speedtestView) {
         _speedtestView = [[STSpeedtestView alloc] initWithFrame:[self insideRectAtIndex:1]];
         [_speedtestView setDelegate:self];
+        [_speedtestView setControllerDelegate:self];
     }
     [_scrollView addSubview:_speedtestView];
 }
 
 - (void)createMapView {
     _mapView = [[STMapView alloc] initWithFrame:[self insideRectAtIndex:0]];
+    [_mapView setControllerDelegate:self];
     [_scrollView addSubview:_mapView];
 }
 
 - (void)createHistoryView {
     _historyView = [[STHistoryView alloc] initWithFrame:[self insideRectAtIndex:2]];
+    [_historyView setControllerDelegate:self];
     [_scrollView addSubview:_historyView];
 }
 
@@ -280,6 +285,78 @@
         else if (index == 1) [Flurry logEvent:@"Screen: Speed"];
         else if (index == 2) [Flurry logEvent:@"Screen: History"];
     }
+}
+
+#pragma mark Sharing actions
+
+- (void)shareHistory:(STSharingObject *)sharingObject on:(NSString *)service {
+    SLComposeViewController *c = [SLComposeViewController composeViewControllerForServiceType:service];
+    if ([service isEqualToString:SLServiceTypeFacebook]) [c setInitialText:[sharingObject getSharingText]];
+    else [c setInitialText:[sharingObject getFullSharingText]];
+    if (sharingObject.mapImage) {
+        [c addImage:sharingObject.mapImage];
+    }
+    [self presentViewController:c animated:YES completion:^{
+        
+    }];
+}
+
+- (void)shareOnFacebook:(STSharingObject *)sharingObject {
+    [self shareHistory:sharingObject on:SLServiceTypeFacebook];
+}
+
+- (void)shareOnTwitter:(STSharingObject *)sharingObject {
+    [self shareHistory:sharingObject on:SLServiceTypeTwitter];
+}
+
+- (void)shareViaEmail:(STSharingObject *)sharingObject {
+    MFMailComposeViewController *c = [[MFMailComposeViewController alloc] init];
+    [c setMailComposeDelegate:self];
+    [c setSubject:@"Connection speed"];
+    
+    NSString *message = [NSString stringWithFormat:@"Hey Buddy,\n\n%@\n\nCheck your connection speed with %@ app!\n\n", [sharingObject getFullSharingText], [STConfig appName]];
+    [c setMessageBody:message isHTML:NO];
+    
+    NSData *imageData;
+    
+    if (sharingObject.mapImage) {
+        imageData = UIImageJPEGRepresentation(sharingObject.mapImage, 90);
+        [c addAttachmentData:imageData mimeType:@"image/png" fileName:@"map.png"];
+    }
+    
+    imageData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"logo" ofType:@"png"]];
+	[c addAttachmentData:imageData mimeType:@"image/png" fileName:[NSString stringWithFormat:@"%@.png", [[STConfig developerName] stringByReplacingOccurrencesOfString:@" " withString:@"-"]]];
+    
+    [self presentViewController:c animated:YES completion:^{
+        
+    }];
+}
+
+#pragma mark Mail sharing delegate methords
+
+- (void)showEmailErrorMessage:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+	switch(result) {
+		case MFMailComposeResultCancelled:
+	        NSLog(@"Mail send canceled.");
+	        break;
+		case MFMailComposeResultSaved:
+	        break;
+		case MFMailComposeResultSent:
+	        NSLog(@"Mail sent.");
+	        break;
+		case MFMailComposeResultFailed:
+	        NSLog(@"Mail send error: %@.", [error localizedDescription]);
+            [self showEmailErrorMessage:error];
+	        break;
+		default:
+	        break;
+	}
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark Speed test view delegate methods

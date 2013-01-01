@@ -7,6 +7,8 @@
 //
 
 #import "STHistory.h"
+#include <sys/types.h>
+#include <sys/sysctl.h>
 
 
 @implementation STHistory
@@ -26,6 +28,20 @@
     return [NSNumber numberWithInteger:[self.date timeIntervalSince1970]];
 }
 
+- (NSString *)uuid {
+    return [STConfig getAppUUID];
+}
+
+- (NSString *)device {
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = malloc(size);
+    sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithUTF8String:machine];
+    free(machine);
+    return platform;
+}
+
 - (NSString *)jsonValue {
     NSEntityDescription *myEntity = [self entity];
     NSDictionary *attributes = [myEntity attributesByName];
@@ -36,6 +52,8 @@
         }
         else [keys addObject:key];
     }
+    [keys addObject:@"uuid"];
+    [keys addObject:@"device"];
     NSDictionary *d = [self dictionaryWithValuesForKeys:keys];
     NSError *err;
     NSData *data = [NSJSONSerialization dataWithJSONObject:d options:0 error:&err];
@@ -47,8 +65,6 @@
     if (kDebug) NSLog(@"Json value: %@", j);
     return j;
 }
-
-
 
 
 @end

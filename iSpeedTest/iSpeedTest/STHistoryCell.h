@@ -10,10 +10,13 @@
 #import <MapKit/MapKit.h>
 
 
-@class STHistory;
+@class STHistory, STHomeViewController;
 
 
 @interface STHistoryCell : UITableViewCell <MKMapViewDelegate>
+
+@property (nonatomic, weak) STHomeViewController *delegate;
+
 
 - (void)setHistory:(STHistory *)history;
 - (void)enableMap:(BOOL)enable;

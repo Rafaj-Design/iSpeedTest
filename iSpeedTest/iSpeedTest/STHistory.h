@@ -24,7 +24,10 @@
 @property (nonatomic, retain) NSString * name;
 
 @property (nonatomic, readonly) NSNumber *formattedDate;
+@property (nonatomic, readonly) NSString *uuid;
+@property (nonatomic, readonly) NSString *device;
 
 - (NSString *)jsonValue;
+
 
 @end
