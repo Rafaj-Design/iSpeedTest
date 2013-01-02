@@ -53,6 +53,12 @@
 //    zoomRect.origin.y -= yVal;
 //    zoomRect.size.width += (xVal * 2);
 //    zoomRect.size.height += (yVal * 2);
+    
+    //  Outset the calculated region so it does not touch the borders
+    //  Calculate the size to outset as the % of shorted side
+    double inset = -MIN(zoomRect.size.width*0.03, zoomRect.size.height*0.03);
+    
+    zoomRect = MKMapRectInset(zoomRect, inset, inset);
     [_mapView setVisibleMapRect:zoomRect animated:YES];
 }
 
