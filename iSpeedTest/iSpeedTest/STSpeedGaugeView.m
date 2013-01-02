@@ -9,6 +9,18 @@
 #import "STSpeedGaugeView.h"
 #import "STSpeedtest.h"
 
+CG_INLINE CGRect
+CGRectMakeWithCenter(CGFloat centerX, CGFloat centerY, CGFloat width, CGFloat height)
+{
+	CGRect rect;
+	rect.origin.x = centerX - width / 2.0;
+	rect.origin.y = centerY - height / 2.0;
+	rect.size.width = width; rect.size.height = height;
+	return rect;
+}
+
+#define toRad(degree) (M_PI * (degree) / 180.0)
+#define toDeg(radiant) (180.0 * (radiant) / M_PI)
 
 @interface STSpeedGaugeView ()
 
@@ -19,8 +31,6 @@
 @property (nonatomic) CGFloat xOffset;
 @property (nonatomic) CGFloat yOffset;
 @property (nonatomic) CGPoint wheelCenter;
-
-@property (nonatomic) CGFloat lastAngle;
 
 @end
 
@@ -36,7 +46,7 @@
     [self addSubview:iv];
     
     _downloadPoint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 9)];
-    [_downloadPoint.layer setCornerRadius:5];
+    [_downloadPoint.layer setCornerRadius:4.5];
     [_downloadPoint setBackgroundColor:[UIColor whiteColor]];
     [self addSubview:_downloadPoint];
     
@@ -45,15 +55,16 @@
     [self addSubview:iv];
     [iv centerHorizontally];
     [iv setBottomMargin:0];
-    
-    _uploadPoint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 6, 6)];
-    [_uploadPoint.layer setCornerRadius:3];
-    [_uploadPoint setBackgroundColor:[UIColor darkGrayColor]];
+    iv.yOrigin += 2;
+	
+    _uploadPoint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
+    [_uploadPoint.layer setCornerRadius:2.5];
+    [_uploadPoint setBackgroundColor:[UIColor whiteColor]];
     [self addSubview:_uploadPoint];
 }
 
 - (void)setupView {
-    _wheelRadius = 111;
+    _wheelRadius = 110.5;
     _wheelCenter = CGPointMake(116, 116);
     _xOffset = _wheelCenter.x - _wheelRadius;
     _yOffset = _wheelCenter.y - _wheelRadius;
@@ -62,19 +73,6 @@
 }
 
 #pragma mark Animations
-
-- (CGFloat)angleForValue:(CGFloat)value {
-    CGFloat mbit = [STSpeedtest getMegabites:value];
-    if (mbit < 1000) {
-        value = ((mbit * 180.0) / 10);
-    }
-    if (value > 225) value = 225;
-    value -= 60;
-    CGFloat v = (value - _lastAngle);
-    _lastAngle = value;
-	NSLog(@"Angle diff: %.3f for angle: %.2f", v, value);
-    return v;
-}
 
 - (CGFloat)angleForPoint:(CGPoint)point {
     CGFloat y = (_yOffset +_wheelRadius - point.y) / _wheelRadius;
@@ -92,21 +90,25 @@
 	return CGPointMake(x + _xOffset, y + _yOffset);
 }
 
-- (CGPoint)pointerCenterForValue:(CGFloat)value
-{
-	return [self centerForAngle:[self angleForValue:value]];
-}
-
-- (CGRect)pointerFrameForValue:(CGFloat)value
-{
-	CGPoint point = [self pointerCenterForValue:value];
-	return [self pointerFrameForCenter:point];
-}
-
 - (CGRect)pointerFrameForCenter:(CGPoint)centerPoint
 {
 	CGRect currentbtnFrame = _downloadPoint.frame;
 	return CGRectMake( roundf(centerPoint.x - CGRectGetWidth(currentbtnFrame) / 2), roundf(centerPoint.y - CGRectGetHeight(currentbtnFrame) / 2), currentbtnFrame.size.width, currentbtnFrame.size.height);
+}
+
+- (float)percentageForValue:(float)mBytes
+{
+	float v = 0;
+	if (mBytes <= 20.0) {
+		v = 0.683 * mBytes / 20.0;
+	} else if (mBytes <= 35) {
+		v = 0.683 + (0.833 - 0.683) * (mBytes - 20) / 15;
+	} else {
+		v = 0.833 + (1 - 0.833) * (mBytes - 35) / 15;
+	}
+	if (v < 0) v = 0;
+	else if (v > 1) v = 1;
+	return v;
 }
 
 - (void)slideToSelectedAnimated:(BOOL)animated {
@@ -144,17 +146,35 @@
 
 #pragma mark Settings
 
-- (void)setDownloadSpeed:(CGFloat)speed {
-    _downloadPoint.frame = [self pointerFrameForValue:speed];
+- (void)setDownloadSpeed:(CGFloat)bytes
+{
+	CGFloat mbit = [STSpeedtest getMegabites:bytes];
+
+	float ratio = [self percentageForValue:mbit];
+	
+	float angle = -31 + 242.0 * (1 - ratio);
+	angle = toRad(angle);
+	
+	CGPoint pointCenter = [self centerForAngle:angle];
+    _downloadPoint.frame = CGRectMakeWithCenter(pointCenter.x, pointCenter.y, _downloadPoint.width, _downloadPoint.height);
 }
 
-- (void)setUploadSpeed:(CGFloat)speed {
-    
+- (void)setUploadSpeed:(CGFloat)bytes
+{
+	CGFloat mbit = [STSpeedtest getMegabites:bytes];
+	
+	float ratio = [self percentageForValue:mbit];
+	
+	float angle = -41 - 98 * (1 - ratio);
+	angle = toRad(angle);
+	
+	CGPoint pointCenter = [self centerForAngle:angle];	
+    _uploadPoint.frame = CGRectMakeWithCenter(pointCenter.x, pointCenter.y, _uploadPoint.width, _uploadPoint.height);
 }
 
 - (void)reset {
-    _lastAngle = -60;
     [self setDownloadSpeed:0];
+	[self setUploadSpeed:0];
 }
 
 
