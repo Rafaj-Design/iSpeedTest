@@ -47,16 +47,10 @@
             zoomRect = MKMapRectUnion(zoomRect, pointRect);
         }
     }
-//    CGFloat xVal = (zoomRect.origin.x * 0.2);
-//    CGFloat yVal = (zoomRect.origin.y * 0.3);
-//    zoomRect.origin.x -= xVal;
-//    zoomRect.origin.y -= yVal;
-//    zoomRect.size.width += (xVal * 2);
-//    zoomRect.size.height += (yVal * 2);
     
     //  Outset the calculated region so it does not touch the borders
     //  Calculate the size to outset as the % of shorted side
-    double inset = -MIN(zoomRect.size.width*0.03, zoomRect.size.height*0.03);
+    double inset = -MIN(zoomRect.size.width * 0.3, zoomRect.size.height * 0.3);
     
     zoomRect = MKMapRectInset(zoomRect, inset, inset);
     [_mapView setVisibleMapRect:zoomRect animated:YES];
@@ -92,8 +86,10 @@
 
 - (void)createMapView {
     _annotations = [NSMutableArray array];
-    
-    _mapView = [[MKMapView alloc] initWithFrame:self.bounds];
+    CGRect r = self.bounds;
+    r.origin.y += 10;
+    r.size.height -= 10;
+    _mapView = [[MKMapView alloc] initWithFrame:r];
     [_mapView setDelegate:self];
     [_mapView setShowsUserLocation:YES];
     [self addSubview:_mapView];
@@ -103,12 +99,6 @@
     CGFloat x = (320 - 16 - 44);
     CGFloat y = ([STConfig screenHeight] - 16 - 80);
     
-//    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(180, (y - 10), 200, 200)];
-//    [v setBackgroundColor:[UIColor colorWithHexString:@"EFECD0"]];
-//    [v setAlpha:0.85];
-//    [v.layer setCornerRadius:5];
-//    [self addSubview:v];
-    
     UIImage *img = [UIImage imageNamed:@"SP_locate_me"];
     UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
     [b addTarget:self action:@selector(zoomToMyLocation) forControlEvents:UIControlEventTouchUpInside];
@@ -116,15 +106,6 @@
     [b setSize:CGSizeMake(34, 34)];
     [b setOrigin:CGPointMake(x, y)];
     [self addSubview:b];
-    
-//    x -= (54 + 10);
-//    img = [UIImage imageNamed:@"SP_locate_all"];
-//    b = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [b addTarget:self action:@selector(zoomToSeeAllAnnotations) forControlEvents:UIControlEventTouchUpInside];
-//    [b setImage:img forState:UIControlStateNormal];
-//    [b setSize:CGSizeMake(54, 34)];
-//    [b setOrigin:CGPointMake(x, y)];
-//    [self addSubview:b];
 }
 
 #pragma mark Settings
