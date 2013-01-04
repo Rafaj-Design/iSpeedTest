@@ -18,7 +18,8 @@ typedef enum {
 
 typedef enum {
     STSpeedtestTypeDownloading,
-    STSpeedtestTypeUploading
+    STSpeedtestTypeUploading,
+    STSpeedtestTypePinging
 } STSpeedtestType;
 
 
@@ -52,7 +53,9 @@ struct STSpeedtestUpdate
 
 + (id)startDownloadWithDelegate:(id<STSpeedtestDelegate>)delegate;
 + (id)startUploadWithDelegate:(id<STSpeedtestDelegate>)delegate andBundleFileName:(NSString *)fileName;
++ (id)startPingWithDelegate:(id<STSpeedtestDelegate>)delegate andHostName:(NSString *)hostName;
 
+- (void)startPingWithHostAddress:(NSString*)hostName;
 - (void)startDownload;
 - (void)startUploadWithBundleFileName:(NSString *)fileName;
 

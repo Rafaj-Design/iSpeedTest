@@ -7,18 +7,23 @@
 //
 
 #import "STSpeedtest.h"
-
+#import "SimplePing.h"
 
 #define kSTSpeedtestMaxNumberOfItemsForLocalAverage             7
+#define PING_RUNS_COUNT 4
 
-
-@interface STSpeedtest ()
-
+@interface STSpeedtest ()<SimplePingDelegate>
+{
+    NSTimeInterval startPingTime;
+    NSInteger pingCount;
+}
 @property (nonatomic, strong) NSDate *timeStart;
 @property (nonatomic) struct STSpeedtestUpdate statusUpdate;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic) NSTimeInterval lastTimeMeasured;
 @property (nonatomic, strong) NSMutableArray *localAverage;
+@property (nonatomic, strong) SimplePing* pinger;
+@property (nonatomic, strong) NSTimer* sendTimer;
 
 @end
 
@@ -98,6 +103,17 @@
     return c;
 }
 
++ (id)startPingWithDelegate:(id<STSpeedtestDelegate>)delegate andHostName:(NSString *)hostName {
+    STSpeedtest *c = nil;
+    if (delegate) {
+        c = [[STSpeedtest alloc] init];
+        [c setDelegate:delegate];
+        [c startPingWithHostAddress:hostName];
+    }
+    return c;
+}
+
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -151,6 +167,94 @@
         [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
     }
 }
+
+- (void)startPingWithHostAddress:(NSString*)hostName
+{
+    self.pinger = [SimplePing simplePingWithHostName:hostName];
+    self.pinger.delegate=self;
+    self.sendTimer=nil;
+    pingCount=PING_RUNS_COUNT;
+    [self.pinger start];
+}
+
+#pragma mark - SimplePing Delegate Methods
+
+
+- (void)sendPing
+{
+    [self.pinger sendPingWithData:nil];
+}
+
+- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address
+{
+    _statusUpdate.type = STSpeedtestTypePinging;
+    _statusUpdate.status = STSpeedtestStatusWorking;
+    [self sendPing];
+    self.sendTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
+{
+    if (error) {
+        [Flurry logError:@"Speedtest error" message:@"connection" error:error];
+    }
+    _statusUpdate.status = STSpeedtestStatusError;
+    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
+        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
+    }
+    [self reset];
+    [self.sendTimer invalidate];
+    self.sendTimer = nil;
+    self.pinger = nil;
+}
+
+- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet
+{
+    startPingTime = [[NSDate date] timeIntervalSince1970];
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error
+{
+    if (error) {
+        [Flurry logError:@"Speedtest error" message:@"connection" error:error];
+    }
+    _statusUpdate.status = STSpeedtestStatusError;
+    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
+        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
+    }
+    [self reset];
+    [self.sendTimer invalidate];
+    self.sendTimer = nil;
+    self.pinger = nil;
+}
+
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
+{
+
+    pingCount--;
+    CGFloat mSec = (([[NSDate date] timeIntervalSince1970]-startPingTime)*1000.0f);
+    _statusUpdate.speed = mSec;
+    if (pingCount<1)
+    {
+        _statusUpdate.status = STSpeedtestStatusFinished;
+        [self.sendTimer invalidate];
+        self.sendTimer = nil;
+        self.pinger = nil;
+    }
+    else
+    {
+        _statusUpdate.status = STSpeedtestStatusWorking;
+    }
+    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
+        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
+    }
+}
+
+- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
+{
+}
+
+
 
 #pragma mark Data transfer delegate methods
 

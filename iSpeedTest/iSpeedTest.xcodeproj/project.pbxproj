@@ -26,6 +26,7 @@
 		3DC2B5E1165FEDB1000BED73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */; };
 		3DC2B62C1667B7E3000BED73 /* SP_bg_go.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */; };
 		3DC2B62D1667B7E3000BED73 /* SP_bg_go@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */; };
+		4B4AF5F4169732C100522D8D /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AF5F3169732C100522D8D /* SimplePing.m */; };
 		541B1415169325C3001EE246 /* SP_sharing_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = 541B1411169325C3001EE246 /* SP_sharing_fb.png */; };
 		541B1416169325C3001EE246 /* SP_sharing_fb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 541B1412169325C3001EE246 /* SP_sharing_fb@2x.png */; };
 		541B1417169325C3001EE246 /* SP_sharing_tw.png in Resources */ = {isa = PBXBuildFile; fileRef = 541B1413169325C3001EE246 /* SP_sharing_tw.png */; };
@@ -162,6 +163,8 @@
 		3DC2B5E0165FEDB1000BED73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DC2B62A1667B7E2000BED73 /* SP_bg_go.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_bg_go.png; sourceTree = "<group>"; };
 		3DC2B62B1667B7E2000BED73 /* SP_bg_go@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_bg_go@2x.png"; sourceTree = "<group>"; };
+		4B4AF5F2169732C100522D8D /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimplePing.h; path = iSpeedTest/SimplePing.h; sourceTree = SOURCE_ROOT; };
+		4B4AF5F3169732C100522D8D /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimplePing.m; path = iSpeedTest/SimplePing.m; sourceTree = SOURCE_ROOT; };
 		541B1411169325C3001EE246 /* SP_sharing_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_sharing_fb.png; sourceTree = "<group>"; };
 		541B1412169325C3001EE246 /* SP_sharing_fb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SP_sharing_fb@2x.png"; sourceTree = "<group>"; };
 		541B1413169325C3001EE246 /* SP_sharing_tw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SP_sharing_tw.png; sourceTree = "<group>"; };
@@ -505,11 +508,21 @@
 		3DC2B5AD165FED3B000BED73 /* Thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				4B4AF5F0169732A900522D8D /* SimplePing */,
 				545D7EAC1668426700F36A54 /* Flurry */,
 				5485B92E1666F82800B627B1 /* Reachability */,
 			);
 			name = Thirdparty;
 			path = ../../Thirdparty;
+			sourceTree = "<group>";
+		};
+		4B4AF5F0169732A900522D8D /* SimplePing */ = {
+			isa = PBXGroup;
+			children = (
+				4B4AF5F2169732C100522D8D /* SimplePing.h */,
+				4B4AF5F3169732C100522D8D /* SimplePing.m */,
+			);
+			name = SimplePing;
 			sourceTree = "<group>";
 		};
 		541B1422169331A8001EE246 /* Sharing object */ = {
@@ -965,6 +978,7 @@
 				54F108181691DC4F00C53D85 /* STSpeedGaugeView.m in Sources */,
 				54F1081C1691E39A00C53D85 /* FTKeychainWrapper.m in Sources */,
 				541B1425169331C2001EE246 /* STSharingObject.m in Sources */,
+				4B4AF5F4169732C100522D8D /* SimplePing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

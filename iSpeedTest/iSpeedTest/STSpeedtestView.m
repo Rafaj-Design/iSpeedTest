@@ -15,7 +15,6 @@
 #import "STAPISendReportConnection.h"
 #import "STSpeedGaugeView.h"
 
-
 @interface STSpeedtestView ()
 
 @property (nonatomic) CGFloat downloadSpeed;
@@ -34,6 +33,9 @@
 @property (nonatomic, strong) UILabel *currentSpeedUnitLabel;
 @property (nonatomic, strong) UILabel *percentageLabel;
 @property (nonatomic, strong) UILabel *dataProgressLabel;
+@property (nonatomic, strong) UILabel *pingLabel;
+@property (nonatomic, strong) UILabel *pingMsecLabel;
+@property (nonatomic, strong) UILabel *pingMsecDescriptionLabel;
 @property (nonatomic, strong) UILabel *downloadLabel;
 @property (nonatomic, strong) UILabel *downloadMByteLabel;
 @property (nonatomic, strong) UILabel *downloadMBitLabel;
@@ -147,6 +149,24 @@
     [self addSubview:_dataProgressLabel];
     [_dataProgressLabel centerHorizontally];
     
+    //Ping section
+    _pingLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, _measurementChartView.bottom-20, 130, 14)];
+    [_pingLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
+    [_pingLabel setText:@"PING"];
+    _pingLabel.alpha=0.0f;
+    [self addSubview:_pingLabel];
+    
+    _pingMsecLabel = [self labelWithFontSize:10 andFrame:CGRectMake(30, (_pingLabel.bottom + 5), 130, 10)];
+    [_pingMsecLabel setText:@"-"];
+    [self addSubview:_pingMsecLabel];
+    _pingMsecLabel.alpha=0.0f;
+    [_pingMsecLabel sizeToFit];
+    
+    _pingMsecDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_pingMsecLabel.right + 6), _pingMsecLabel.bottom-10, 130, 10)];
+    [_pingMsecDescriptionLabel setText:@"Msec"];
+    _pingMsecDescriptionLabel.alpha=0.0f;
+    [self addSubview:_pingMsecDescriptionLabel];
+    
     // Download section
     _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
     [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
@@ -258,6 +278,24 @@
     }];
 }
 
+- (void) fadeInPingLabels
+{
+    [UIView animateWithDuration:0.6f animations:^{
+        _pingLabel.alpha = 1.0f;
+        _pingMsecDescriptionLabel.alpha = 1.0f;
+        _pingMsecLabel.alpha = 1.0f;
+    }];
+}
+
+- (void) fadeOutPingLabels
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        _pingLabel.alpha = 0.0f;
+        _pingMsecDescriptionLabel.alpha = 0.0f;
+        _pingMsecLabel.alpha = 0.0f;
+    }];
+}
+
 #pragma mark Network info initialization
 
 - (void)checkForNetworkInfo {
@@ -338,6 +376,13 @@
     [alert show];
 }
 
+- (void)startDownload
+{
+    [_downloadMBitLabel setText:@"-"];
+    [_downloadMByteLabel setText:@"-"];
+    [_uploadSpeedtest startDownload];
+}
+
 - (void)startUpload {
     [_uploadMByteLabel setText:@"-"];
     [_uploadMBitLabel setText:@"-"];
@@ -345,6 +390,7 @@
     NSString *fileName = @"upload.file";
     [_uploadSpeedtest startUploadWithBundleFileName:fileName];
 }
+
 
 - (void)resetValues:(BOOL)resetNetworkLabels {
     _downloadSpeed = 0;
@@ -368,20 +414,22 @@
     [_uploadMByteLabel setText:@"-"];
     [_uploadMBitLabel setText:@"-"];
     [_currentSpeedUnitLabel setText:@"kB/s"];
-    
+    [_pingMsecLabel setText:@"-"];
+    [self fadeOutPingLabels];
     [_measurementChartView reset];
 }
 
 - (void)doPing {
     bool success = false;
-    const char *host_name = [@"s3-eu-west-1.amazonaws.com" cStringUsingEncoding:NSASCIIStringEncoding];
+    NSString* hostName = @"s3-eu-west-1.amazonaws.com";
+    const char *host_name = [hostName cStringUsingEncoding:NSASCIIStringEncoding];
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, host_name);
     SCNetworkReachabilityFlags flags;
     success = SCNetworkReachabilityGetFlags(reachability, &flags);
     bool isAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
-    if (isAvailable) {
-        NSLog(@"Host is reachable: %d", flags);
-        [_downloadSpeedtest startDownload];
+    if (isAvailable)
+    {
+        [_downloadSpeedtest startPingWithHostAddress:hostName];
         [self updateVerificationTimer:8];
     }
     else{
@@ -394,8 +442,6 @@
     
     [self createDownoadMeter];
     [self createUploadMeter];
-    
-    [self animateAction:_downloadLabel];
     
     if ([_delegate respondsToSelector:@selector(speedtestViewDidStartMeasurment:)]) {
         [_delegate speedtestViewDidStartMeasurment:self];
@@ -455,7 +501,15 @@
         
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
-        if (update.type == STSpeedtestTypeDownloading) {
+        if (update.type == STSpeedtestTypePinging)
+        {
+            /*
+            [_pingMsecLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
+            [_pingMsecLabel sizeToFit];
+            [_pingMsecDescriptionLabel setXOrigin:(_pingMsecLabel.right + 6)];
+             */
+        }
+        else if (update.type == STSpeedtestTypeDownloading) {
             [_downloadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
             [_downloadMBitLabel sizeToFit];
             [_downloadMBitDescriptionLabel setXOrigin:(_downloadMBitLabel.right + 6)];
@@ -476,8 +530,16 @@
     }
     else if (update.status == STSpeedtestStatusFinished) {
         [_isWorkingTimer invalidate];
-        
-        if (update.type == STSpeedtestTypeDownloading) {
+        if (update.type == STSpeedtestTypePinging)
+        {
+            [_pingMsecLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
+            [_pingMsecLabel sizeToFit];
+            [_pingMsecDescriptionLabel setXOrigin:(_pingMsecLabel.right + 6)];
+            [self fadeInPingLabels];
+            [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startDownload) userInfo:nil repeats:NO];
+            [self animateAction:_downloadLabel];
+        }
+        else if (update.type == STSpeedtestTypeDownloading) {
             _downloadSpeed = update.averageSpeed;
             [self animateAction:_uploadLabel];
             [UIView animateWithDuration:0.3 animations:^{
@@ -502,7 +564,8 @@
             }];
             [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startUpload) userInfo:nil repeats:NO];
         }
-        else {
+        else if (update.type == STSpeedtestTypeUploading)
+        {
             [self showStartButton];
             
             _uploadSpeed = update.averageSpeed;
