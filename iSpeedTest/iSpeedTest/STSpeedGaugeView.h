@@ -12,8 +12,11 @@
 
 - (void)setDownloadSpeed:(CGFloat)speed;
 - (void)setUploadSpeed:(CGFloat)speed;
+- (void)setDownloadPercentage:(CGFloat)ratio;
+- (void)setUploadPercentage:(CGFloat)ratio;
 
 - (void)reset;
-
+- (void)animateFadeIn;
+- (void)animateFadeOut;
 
 @end

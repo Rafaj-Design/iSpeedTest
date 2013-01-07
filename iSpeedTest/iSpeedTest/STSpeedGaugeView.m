@@ -26,6 +26,10 @@ CGRectMakeWithCenter(CGFloat centerX, CGFloat centerY, CGFloat width, CGFloat he
 
 @property (nonatomic, strong) UIView *downloadPoint;
 @property (nonatomic, strong) UIView *uploadPoint;
+@property (nonatomic, strong) UIImageView* downloadGaugeColor;
+@property (nonatomic, strong) UIImageView* downloadGaugeGray;
+@property (nonatomic, strong) UIImageView* uploadGaugeColor;
+@property (nonatomic, strong) UIImageView* uploadGaugeGray;
 
 @property (nonatomic) CGFloat wheelRadius;
 @property (nonatomic) CGFloat xOffset;
@@ -38,12 +42,38 @@ CGRectMakeWithCenter(CGFloat centerX, CGFloat centerY, CGFloat width, CGFloat he
 @implementation STSpeedGaugeView
 
 
+#pragma mark - Fade animation
+
+- (void)animateFadeIn
+{
+    [UIView animateWithDuration:0.6f animations:^{
+        _uploadGaugeColor.alpha = 1.0f;
+        _uploadGaugeGray.alpha = 0.0f;
+        _downloadGaugeColor.alpha = 1.0f;
+        _downloadGaugeGray.alpha = 0.0f;
+    }];
+}
+
+- (void)animateFadeOut
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        _uploadGaugeColor.alpha = 0.0f;
+        _uploadGaugeGray.alpha = 1.0f;
+        _downloadGaugeColor.alpha = 0.0f;
+        _downloadGaugeGray.alpha = 1.0f;
+    }];
+}
+
+
 #pragma mark Initialization & creating elements
 
 - (void)createBackgroundGauges {
     // Download
-    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_download"]];
-    [self addSubview:iv];
+    _downloadGaugeColor = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_download"]];
+    [self addSubview:_downloadGaugeColor];
+    _downloadGaugeColor.alpha=0.0f;
+    _downloadGaugeGray = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_download_gray"]];
+    [self addSubview:_downloadGaugeGray];
     
     _downloadPoint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 9)];
     [_downloadPoint.layer setCornerRadius:4.5];
@@ -51,11 +81,19 @@ CGRectMakeWithCenter(CGFloat centerX, CGFloat centerY, CGFloat width, CGFloat he
     [self addSubview:_downloadPoint];
     
     // Upload
-    iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_upload"]];
-    [self addSubview:iv];
-    [iv centerHorizontally];
-    [iv setBottomMargin:0];
-    iv.yOrigin += 2;
+    _uploadGaugeColor = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_upload"]];
+    [self addSubview:_uploadGaugeColor];
+    [_uploadGaugeColor centerHorizontally];
+    [_uploadGaugeColor setBottomMargin:0];
+    _uploadGaugeColor.yOrigin += 2;
+    _uploadGaugeColor.alpha =0.0f;
+    
+    _uploadGaugeGray = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_speed_upload_gray"]];
+    [self addSubview:_uploadGaugeGray];
+    [_uploadGaugeGray centerHorizontally];
+    [_uploadGaugeGray setBottomMargin:0];
+    _uploadGaugeGray.yOrigin += 2;
+    
 	
     _uploadPoint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
     [_uploadPoint.layer setCornerRadius:2.5];
@@ -145,6 +183,25 @@ CGRectMakeWithCenter(CGFloat centerX, CGFloat centerY, CGFloat width, CGFloat he
 }
 
 #pragma mark Settings
+
+- (void)setDownloadPercentage:(CGFloat)ratio
+{
+	float angle = -31 + 242.0 * (1 - ratio);
+	angle = toRad(angle);
+	
+	CGPoint pointCenter = [self centerForAngle:angle];
+    _downloadPoint.frame = CGRectMakeWithCenter(pointCenter.x, pointCenter.y, _downloadPoint.width, _downloadPoint.height);
+}
+
+- (void)setUploadPercentage:(CGFloat)ratio
+{
+	float angle = -41 - 98 * (1 - ratio);
+	angle = toRad(angle);
+	
+	CGPoint pointCenter = [self centerForAngle:angle];
+    _uploadPoint.frame = CGRectMakeWithCenter(pointCenter.x, pointCenter.y, _uploadPoint.width, _uploadPoint.height);
+}
+
 
 - (void)setDownloadSpeed:(CGFloat)bytes
 {

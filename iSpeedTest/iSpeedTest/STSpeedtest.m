@@ -230,10 +230,10 @@
 
 - (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
 {
-
     pingCount--;
     CGFloat mSec = (([[NSDate date] timeIntervalSince1970]-startPingTime)*1000.0f);
     _statusUpdate.speed = mSec;
+    _statusUpdate.averageSpeed = 1.0f - ((CGFloat)(pingCount)/(CGFloat)PING_RUNS_COUNT);
     if (pingCount<1)
     {
         _statusUpdate.status = STSpeedtestStatusFinished;

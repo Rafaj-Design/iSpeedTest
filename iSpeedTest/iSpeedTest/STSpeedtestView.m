@@ -19,6 +19,7 @@
 
 @property (nonatomic) CGFloat downloadSpeed;
 @property (nonatomic) CGFloat uploadSpeed;
+@property (nonatomic) CGFloat pingMsec;
 
 @property (nonatomic, strong) STSpeedtest *downloadSpeedtest;
 @property (nonatomic, strong) STSpeedtest *uploadSpeedtest;
@@ -161,12 +162,12 @@
     [self addSubview:_pingMsecLabel];
     _pingMsecLabel.alpha=0.0f;
     [_pingMsecLabel sizeToFit];
-    
-    _pingMsecDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_pingMsecLabel.right + 6), _pingMsecLabel.bottom-10, 130, 10)];
-    [_pingMsecDescriptionLabel setText:@"Msec"];
+
+    _pingMsecDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_pingMsecLabel.right + 6),     (_pingLabel.bottom + 5), 50, 10)];
+    [_pingMsecDescriptionLabel setText:@"ms"];
     _pingMsecDescriptionLabel.alpha=0.0f;
     [self addSubview:_pingMsecDescriptionLabel];
-    
+    [_pingMsecDescriptionLabel sizeToFit];
     // Download section
     _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
     [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
@@ -178,7 +179,7 @@
     [self addSubview:_downloadMByteLabel];
     [_downloadMByteLabel sizeToFit];
     
-    _downloadMByteDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMByteLabel.right + 6), (_downloadMByteLabel.bottom - 15), 130, 10)];
+    _downloadMByteDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMByteLabel.right + 3), (_downloadMByteLabel.bottom - 15), 130, 10)];
     [_downloadMByteDescriptionLabel setText:@"MB/s"];
     [self addSubview:_downloadMByteDescriptionLabel];
 
@@ -416,6 +417,11 @@
     [_currentSpeedUnitLabel setText:@"kB/s"];
     [_pingMsecLabel setText:@"-"];
     [self fadeOutPingLabels];
+    [_measurementChartView animateFadeOut];
+    [_measurementChartView setDownloadPercentage:0.0f];
+    [_measurementChartView setUploadPercentage:0.0f];
+    [_percentageLabel setAlpha:0.0f];
+    [_dataProgressLabel setAlpha:0.0f];
     [_measurementChartView reset];
 }
 
@@ -456,8 +462,7 @@
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self hideStartButton];
     
-    [_currentSpeedUnitLabel setText:@"kB/s (Download)"];
-    
+    [_currentSpeedUnitLabel setText:@"ms (Ping)"];
     [self doPing];
 }
 
@@ -496,18 +501,14 @@
 - (void)speedtest:(STSpeedtest *)test didReceiveUpdate:(struct STSpeedtestUpdate)update {
     if (update.status == STSpeedtestStatusWorking) {
         [self updateVerificationTimer:8];
-        //[_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.speed]]];
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
-        
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
         if (update.type == STSpeedtestTypePinging)
         {
-            /*
-            [_pingMsecLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
-            [_pingMsecLabel sizeToFit];
-            [_pingMsecDescriptionLabel setXOrigin:(_pingMsecLabel.right + 6)];
-             */
+            [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
+            [_measurementChartView setDownloadPercentage:update.averageSpeed];
+            [_measurementChartView setUploadPercentage:update.averageSpeed];
         }
         else if (update.type == STSpeedtestTypeDownloading) {
             [_downloadMBitLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getMegabites:update.averageSpeed]]];
@@ -532,12 +533,38 @@
         [_isWorkingTimer invalidate];
         if (update.type == STSpeedtestTypePinging)
         {
+            _pingMsec=update.speed;
+            [_measurementChartView setDownloadPercentage:update.averageSpeed];
+            [_measurementChartView setUploadPercentage:update.averageSpeed];
             [_pingMsecLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
             [_pingMsecLabel sizeToFit];
             [_pingMsecDescriptionLabel setXOrigin:(_pingMsecLabel.right + 6)];
             [self fadeInPingLabels];
-            [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startDownload) userInfo:nil repeats:NO];
             [self animateAction:_downloadLabel];
+            [_measurementChartView animateFadeIn];
+            [UIView animateWithDuration:0.3 animations:^{
+                [_currentSpeedLabel setAlpha:0];
+                [_currentSpeedUnitLabel setAlpha:0];
+                [_percentageLabel setAlpha:0];
+                [_dataProgressLabel setAlpha:0];
+            } completion:^(BOOL finished) {
+                [_currentSpeedLabel setText:@"0.0"];
+                [_currentSpeedUnitLabel setText:@"kB/s (Download)"];
+                [_percentageLabel setText:@"0 %"];
+                [_dataProgressLabel setText:@"0 / 0 kB"];
+                [_measurementChartView setDownloadPercentage:0.0f];
+                [_measurementChartView setUploadPercentage:0.0f];
+                [UIView animateWithDuration:0.3 animations:^{
+                    [_currentSpeedLabel setAlpha:1];
+                    [_currentSpeedUnitLabel setAlpha:1];
+                    [_percentageLabel setAlpha:1];
+                    [_dataProgressLabel setAlpha:1];
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }];
+            [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startDownload) userInfo:nil repeats:NO];
+            
         }
         else if (update.type == STSpeedtestTypeDownloading) {
             _downloadSpeed = update.averageSpeed;
@@ -575,13 +602,13 @@
             [history setDate:[NSDate date]];
             [history setDownload:[NSNumber numberWithFloat:_downloadSpeed]];
             [history setUpload:[NSNumber numberWithFloat:_uploadSpeed]];
+            [history setPing:[NSNumber numberWithFloat:_pingMsec]];
             if (_currentLocation) {
                 [history setLat:[NSNumber numberWithDouble:_currentLocation.coordinate.latitude]];
                 [history setLon:[NSNumber numberWithDouble:_currentLocation.coordinate.longitude]];
             }
             [history setNetwork:_networkLabel.text];
             [history setConnection:_connectionLabel.text];
-            [history setPing:nil];
             [history setName:@""];
             [kSTManagedObject save:&error];
             if (error) {
