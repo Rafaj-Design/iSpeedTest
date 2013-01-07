@@ -150,24 +150,7 @@
     [self addSubview:_dataProgressLabel];
     [_dataProgressLabel centerHorizontally];
     
-    //Ping section
-    _pingLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, _measurementChartView.bottom-20, 130, 14)];
-    [_pingLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
-    [_pingLabel setText:@"PING"];
-    _pingLabel.alpha=0.0f;
-    [self addSubview:_pingLabel];
     
-    _pingMsecLabel = [self labelWithFontSize:10 andFrame:CGRectMake(30, (_pingLabel.bottom + 5), 130, 10)];
-    [_pingMsecLabel setText:@"-"];
-    [self addSubview:_pingMsecLabel];
-    _pingMsecLabel.alpha=0.0f;
-    [_pingMsecLabel sizeToFit];
-
-    _pingMsecDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_pingMsecLabel.right + 6),     (_pingLabel.bottom + 5), 50, 10)];
-    [_pingMsecDescriptionLabel setText:@"ms"];
-    _pingMsecDescriptionLabel.alpha=0.0f;
-    [self addSubview:_pingMsecDescriptionLabel];
-    [_pingMsecDescriptionLabel sizeToFit];
     // Download section
     _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
     [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
@@ -191,6 +174,28 @@
     _downloadMBitDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMBitLabel.right + 6), (_downloadMBitLabel.bottom - 15), 130, 10)];
     [_downloadMBitDescriptionLabel setText:@"MBit/s"];
     [self addSubview:_downloadMBitDescriptionLabel];
+    
+    
+    //Ping section
+    _pingLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, _downloadLabel.origin.y-40, 130, 14)];
+    [_pingLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
+    [_pingLabel setText:@"PING"];
+    _pingLabel.alpha=0.0f;
+    [self addSubview:_pingLabel];
+    
+    _pingMsecLabel = [self labelWithFontSize:10 andFrame:CGRectMake(30, (_pingLabel.bottom + 5), 130, 10)];
+    [_pingMsecLabel setText:@"-"];
+    [self addSubview:_pingMsecLabel];
+    _pingMsecLabel.alpha=0.0f;
+    [_pingMsecLabel sizeToFit];
+    
+    _pingMsecDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_pingMsecLabel.right + 6),     (_pingLabel.bottom + 5), 50, 10)];
+    [_pingMsecDescriptionLabel setText:@"ms"];
+    _pingMsecDescriptionLabel.alpha=0.0f;
+    [self addSubview:_pingMsecDescriptionLabel];
+    [_pingMsecDescriptionLabel sizeToFit];
+
+    
     
     // Upload section
     _uploadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
