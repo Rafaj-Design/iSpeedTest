@@ -11,7 +11,7 @@
 
 
 #define kSTSpeedtestMaxNumberOfItemsForLocalAverage             7
-#define PING_RUNS_COUNT 4
+#define kSTSpeedtestPingRunsCount                               4
 
 
 @interface STSpeedtest () <SimplePingDelegate>
@@ -173,13 +173,13 @@
 
 - (void)startPingWithHostAddress:(NSString*)hostName {
     _pinger = [SimplePing simplePingWithHostName:hostName];
-    _pinger.delegate=self;
-    self.sendTimer=nil;
-    pingCount=PING_RUNS_COUNT;
+    _pinger.delegate = self;
+    self.sendTimer = nil;
+    pingCount = kSTSpeedtestPingRunsCount;
     [_pinger start];
 }
 
-#pragma mark - SimplePing Delegate Methods
+#pragma mark SimplePing Delegate Methods
 
 - (void)sendPing {
     [self.pinger sendPingWithData:nil];
@@ -232,10 +232,10 @@
 
 - (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet{
     pingCount--;
-    CGFloat mSec = (([[NSDate date] timeIntervalSince1970]-startPingTime)*1000.0f);
+    CGFloat mSec = (([[NSDate date] timeIntervalSince1970] - startPingTime) * 1000.0f);
     _statusUpdate.speed = mSec;
-    _statusUpdate.averageSpeed = 1.0f - ((CGFloat)(pingCount)/(CGFloat)PING_RUNS_COUNT);
-    if (pingCount<1)
+    _statusUpdate.averageSpeed = 1.0f - ((CGFloat)(pingCount) / (CGFloat)kSTSpeedtestPingRunsCount);
+    if (pingCount < 1)
     {
         _statusUpdate.status = STSpeedtestStatusFinished;
         [self.sendTimer invalidate];

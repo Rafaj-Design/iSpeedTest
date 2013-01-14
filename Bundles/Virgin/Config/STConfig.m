@@ -27,7 +27,7 @@
 }
 
 + (NSString *)developerUrl {
-    return @"http://www.fuerteint.com/";
+    return @"http://www.fuerteint.com/?source=VirginSpeedTest";
 }
 
 + (NSString *)appSqlFileName {
@@ -52,6 +52,14 @@
 
 + (UIColor *)backgroundMenuColor {
     return [UIColor colorWithHexString:@"E7E5CB"];
+}
+
++ (UIColor *)historyHeaderBackgroundColor {
+    return [UIColor colorWithHexString:@"EFEDD2"];
+}
+
++ (BOOL)showInfoButton {
+    return NO;
 }
 
 

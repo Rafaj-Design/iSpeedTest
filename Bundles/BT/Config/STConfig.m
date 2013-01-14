@@ -27,7 +27,7 @@
 }
 
 + (NSString *)developerUrl {
-    return @"http://www.fuerteint.com/";
+    return @"http://www.fuerteint.com/?source=BTSpeed";
 }
 
 + (NSString *)appSqlFileName {
@@ -52,6 +52,14 @@
 
 + (UIColor *)backgroundMenuColor {
     return [UIColor colorWithHexString:@"D6D6D6"];
+}
+
++ (UIColor *)historyHeaderBackgroundColor {
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"SP_header_bg_lines"]];
+}
+
++ (BOOL)showInfoButton {
+    return YES;
 }
 
 

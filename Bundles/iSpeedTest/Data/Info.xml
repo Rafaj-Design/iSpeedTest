@@ -1,0 +1,24 @@
+<_default>
+    <h1>Lorem ipsum dolor sit amet</h1>
+    <p></p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet, mauris et auctor porta, neque nunc congue diam, et pharetra sapien purus quis tortor. Praesent orci sapien, euismod ac congue nec, convallis a massa. Pellentesque non dolor eget eros pellentesque rutrum. Maecenas non ante lorem. Maecenas faucibus dignissim tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sit amet placerat enim. Donec augue odio, viverra id cursus ut, bibendum ut est. Donec ut leo magna, at posuere magna. Etiam vehicula, nisl a elementum pharetra, quam est hendrerit magna, ac pulvinar nulla velit non nulla.</p>
+    
+    <p>Nulla tempus eleifend lobortis. <_link>http://www.fuerteint.com|Fuerte International</_link>. Sed fermentum ornare ipsum et pellentesque. Phasellus placerat ligula condimentum risus varius et dapibus justo accumsan. Vivamus faucibus sollicitudin lorem, eget luctus risus pulvinar quis. Fusce cursus libero vitae massa lacinia viverra sed non nulla. Praesent quis tortor lorem, id tristique magna. Praesent vulputate erat eu erat malesuada rutrum. Suspendisse potenti. Donec lacus nisi, egestas non faucibus nec, condimentum in risus. Vivamus sollicitudin sapien ac sem porttitor adipiscing. Aenean pharetra odio sed arcu auctor vulputate.</p>
+    <p>
+        <_bullet>Bullet 1</_bullet>
+        <_bullet>Bullet 2</_bullet>
+        <_bullet>Bullet 3</_bullet>
+        <_bullet>Bullet 4</_bullet>
+        <_bullet>Bullet 5</_bullet>
+        <_bullet>Bullet 6</_bullet>
+    </p>
+    
+    <p>Maecenas scelerisque pretium elementum. Mauris ut felis tellus, vitae sollicitudin diam. Nulla lacinia bibendum dolor a laoreet. Pellentesque in tincidunt urna. Phasellus feugiat vestibulum tristique. Aliquam nunc enim, dignissim quis mattis dignissim, tempor eu tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus eget felis leo, vitae pharetra turpis. Maecenas aliquam lobortis egestas. Mauris semper fermentum euismod. Maecenas ut aliquam ante. Aliquam venenatis nisl vitae dui rutrum ultricies. Proin scelerisque, velit ac consectetur suscipit, justo erat ornare tellus, vitae hendrerit velit ligula nec est. Aenean feugiat, nulla quis volutpat tincidunt, nisi sem congue nibh, at eleifend sem metus et tellus.</p>
+    
+    <p>Vestibulum ac lorem et odio convallis semper. Praesent ac nisl id orci luctus tincidunt in vel diam. Pellentesque feugiat interdum mollis. Sed vestibulum faucibus odio, a porttitor risus iaculis non. Integer sit amet velit ac massa facilisis feugiat in faucibus nisi. Sed ac luctus purus. In hac habitasse platea dictumst.</p>
+    
+    <p><_image>SP_main_logo.png</_image></p>
+    
+    <p>Nam sodales luctus dolor, non dictum justo auctor ut. Sed orci mi, posuere quis sodales vitae, dapibus in felis. Nullam enim nibh, cursus tristique tempor sagittis, cursus nec magna. Sed rhoncus tempus nulla. Integer accumsan lectus nec leo commodo et lobortis mauris lacinia. Ut ligula odio, elementum vitae laoreet vel, euismod eget lacus. Mauris aliquam, neque vitae faucibus rhoncus, leo enim molestie urna, ac gravida lectus urna quis lorem. Nulla fringilla lobortis tempus. Pellentesque varius iaculis vulputate. Integer ultricies orci a turpis elementum suscipit. Etiam porttitor metus vel ligula fringilla ut tristique nisl congue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque elementum eros eu purus facilisis vitae cursus magna porttitor.</p>
+    
+</_default>

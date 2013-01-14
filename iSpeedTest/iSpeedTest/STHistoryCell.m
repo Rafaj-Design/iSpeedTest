@@ -173,20 +173,20 @@
 }
 
 - (void)shareOnFacebook:(UIButton *)sender {
-    if ([_delegate respondsToSelector:@selector(shareOnFacebook:)]) {
-        [_delegate shareOnFacebook:[self getSharingObject]];
+    if ([_delegate respondsToSelector:@selector(historyCell:didRequestSharingOn:withSharingObject:)]) {
+        [_delegate historyCell:self didRequestSharingOn:STHistoryCellSharingFacebook withSharingObject:[self getSharingObject]];
     }
 }
 
 - (void)shareOnTwitter:(UIButton *)sender {
-    if ([_delegate respondsToSelector:@selector(shareOnTwitter:)]) {
-        [_delegate shareOnTwitter:[self getSharingObject]];
+    if ([_delegate respondsToSelector:@selector(historyCell:didRequestSharingOn:withSharingObject:)]) {
+        [_delegate historyCell:self didRequestSharingOn:STHistoryCellSharingTwitter withSharingObject:[self getSharingObject]];
     }
 }
 
 - (void)shareViaEmail:(UIButton *)sender {
-    if ([_delegate respondsToSelector:@selector(shareViaEmail:)]) {
-        [_delegate shareViaEmail:[self getSharingObject]];
+    if ([_delegate respondsToSelector:@selector(historyCell:didRequestSharingOn:withSharingObject:)]) {
+        [_delegate historyCell:self didRequestSharingOn:STHistoryCellSharingMail withSharingObject:[self getSharingObject]];
     }
 }
 

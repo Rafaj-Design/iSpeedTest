@@ -218,15 +218,23 @@
     [self addSubview:logo];
 }
 
+- (void)createInfoButton {
+    if ([STConfig showInfoButton]) {
+        UIButton *b = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        [b addTarget:self action:@selector(didClickInfoButton:) forControlEvents:UIControlEventTouchUpInside];
+        [b setOrigin:CGPointMake(270, ([_measurementChartView bottom] - b.height))];
+        [self addSubview:b];
+    }
+}
+
 #pragma mark Animations
 
 - (void)showStartButton {
-    [_startButton setHidden:NO];
     [_startButton setAlpha:0];
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.3 delay:1.6 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction animations:^{
         [_startButton setAlpha:1];
     } completion:^(BOOL finished) {
-        
+        NSLog(@"Alpha: %.1f; Hidden: %d; Frame: %@", _startButton.alpha, _startButton.isHidden, NSStringFromCGRect(_startButton.frame));
     }];
 }
 
@@ -234,7 +242,6 @@
     [UIView animateWithDuration:0.3 animations:^{
         [_startButton setAlpha:0];
     } completion:^(BOOL finished) {
-        [_startButton setHidden:YES];
         if (_startButton.yOrigin > 40) {
             [_startButton positionAtX:10 andY:20];
             UIImage *img = [UIImage imageNamed:@"SP_bg_go_small"];
@@ -297,12 +304,6 @@
     CTTelephonyNetworkInfo *phoneInfo = [[CTTelephonyNetworkInfo alloc] init];
     CTCarrier *phoneCarrier = [phoneInfo subscriberCellularProvider];
     [_networkLabel setText:([phoneCarrier carrierName] ? [phoneCarrier carrierName] : @"Unknown carrier")];
-    
-    // Detect connection type
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
-    Reachability *reachability = [Reachability reachabilityForLocalWiFi];
-    [reachability startNotifier];
-    [self updateInterfaceWithReachability:reachability];
 }
 
 - (void)updateInterfaceWithReachability:(Reachability *)reachability {
@@ -350,9 +351,16 @@
     [self createLabels];
     [self createAmazonLogo];
     [self createButtons];
+    [self createInfoButton];
 }
 
 #pragma mark Actions
+
+- (void)didClickInfoButton:(UIButton *)button {
+    if ([[super controllerDelegate] respondsToSelector:@selector(subsectionViewDidRequestInfoScreen:)]) {
+        [[super controllerDelegate] subsectionViewDidRequestInfoScreen:self];
+    }
+}
 
 - (void)updateVerificationTimer:(NSInteger)seconds {
     if (_isWorkingTimer) {
@@ -363,9 +371,10 @@
 
 - (void)measurementFailed {
     [self resetValues:NO];
-    [self showStartButton];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection error" message:@"Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [alert show];
+    [self performSelectorOnMainThread:@selector(showStartButton) withObject:nil waitUntilDone:NO];
+    if ([[super controllerDelegate] respondsToSelector:@selector(subsectionView:requestNotificationMessage:withColor:)]) {
+        [[super controllerDelegate] subsectionView:self requestNotificationMessage:@"Connection Error: Please try again later!" withColor:STSubsectionViewDelegateColorRed];
+    }
 }
 
 - (void)startDownload {
@@ -413,7 +422,7 @@
 
 - (void)doPing {
     bool success = false;
-    NSString* hostName = @"s3-eu-west-1.amazonaws.com";
+    NSString *hostName = @"s3-eu-west-1.amazonaws.com";
     const char *host_name = [hostName cStringUsingEncoding:NSASCIIStringEncoding];
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, host_name);
     SCNetworkReachabilityFlags flags;
@@ -443,11 +452,18 @@
     [_locationManager setDelegate:self];
     [_locationManager startUpdatingLocation];
     
+    // Detect connection type
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability *reachability = [Reachability reachabilityForLocalWiFi];
+    [reachability startNotifier];
+    [self updateInterfaceWithReachability:reachability];
+    
     [self checkForNetworkInfo];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self hideStartButton];
+    
     //Reset _pingMsec value to -1.0f that is an unreachable value for real connections and so can be safely used to indicate no value
-    _pingMsec=-1.0f;
+    _pingMsec = -1.0f;
     [_currentSpeedUnitLabel setText:@"ms (Ping)"];
     [self doPing];
 }
@@ -478,8 +494,6 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     [Flurry logError:@"Location error" message:@"CLLocationManager" error:error];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GPS error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [alert show];
 }
 
 #pragma mark Speedtest delegate methods
@@ -491,8 +505,8 @@
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
         if (update.type == STSpeedtestTypePinging) {
-            if (update.speed>0.0f) {
-                if (_pingMsec<0.0f) {
+            if (update.speed > 0.0f) {
+                if (_pingMsec < 0.0f) {
                     _pingMsec=update.speed;
                     [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
                 }

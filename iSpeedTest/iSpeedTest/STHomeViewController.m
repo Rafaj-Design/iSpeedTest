@@ -12,12 +12,17 @@
 #import "STMapView.h"
 #import "STAutoLineView.h"
 #import "STSharingObject.h"
+#import "STInfoViewController.h"
+#import "UILabel+DynamicHeight.h"
 #import <Social/Social.h>
 
 
 @interface STHomeViewController ()
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+
+@property (nonatomic, strong) UIView *notificationLabelView;
+@property (nonatomic, strong) UILabel *notificationLabel;
 
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -115,6 +120,18 @@
 
 - (void)configureView {
     [self.view setBackgroundColor:[UIColor blackColor]];
+}
+
+- (void)createNotificationBar {
+    _notificationLabelView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 310, 20)];
+    [_notificationLabelView setBackgroundColor:[UIColor redColor]];
+    [_mainView addSubview:_notificationLabelView];
+    
+    _notificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 290, 0)];
+    [_notificationLabel setBackgroundColor:[UIColor clearColor]];
+    [_notificationLabel setFont:[UIFont boldSystemFontOfSize:12]];
+    [_notificationLabel setTextColor:[UIColor whiteColor]];
+    [_notificationLabelView addSubview:_notificationLabel];
 }
 
 - (void)createSpeedtestView {
@@ -241,6 +258,7 @@
     [self createMainView];
     [self createScrollView];
     [self createTabBarView];
+    [self createNotificationBar];
 }
 
 #pragma mark View lifecycle
@@ -265,6 +283,21 @@
 
 #pragma mark Actions
 
+- (void)showNotification:(NSString *)text withColor:(UIColor *)color {
+    [_notificationLabelView setBackgroundColor:color];
+    [_notificationLabel setText:text withWidth:290];
+    [_notificationLabelView setHeight:(_notificationLabel.height + 8)];
+    [UIView animateWithDuration:0.3 animations:^{
+        [_notificationLabelView setYOrigin:0];
+    } completion:^(BOOL finished) {
+       [UIView animateWithDuration:0.3 delay:3.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+           [_notificationLabelView setYOrigin:-_notificationLabelView.height];
+       } completion:^(BOOL finished) {
+           
+       }];
+    }];
+}
+
 - (void)resetTabBarButtons {
     [_mapTabButton setSelected:NO];
     [_speedTabButton setSelected:NO];
@@ -285,6 +318,24 @@
         else if (index == 1) [Flurry logEvent:@"Screen: Speed"];
         else if (index == 2) [Flurry logEvent:@"Screen: History"];
     }
+}
+
+#pragma mark Subsection delegate methods
+
+- (void)subsectionView:(STSubsectionView *)view requestNotificationMessage:(NSString *)text withColor:(STSubsectionViewDelegateColor)color {
+    UIColor *c;
+    if (color == STSubsectionViewDelegateColorRed) c = [UIColor colorWithHexString:@"D70805"];
+    else if (color == STSubsectionViewDelegateColorGreen) c = [UIColor colorWithHexString:@"008C23"];
+    else if (color == STSubsectionViewDelegateColorOrange) c = [UIColor colorWithHexString:@"FBA900"];
+    [self showNotification:text withColor:c];
+}
+
+- (void)subsectionViewDidRequestInfoScreen:(STSubsectionView *)view {
+    STInfoViewController *c = [[STInfoViewController alloc] init];
+    [c setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self presentViewController:c animated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark Sharing actions
@@ -335,12 +386,15 @@
     }];
 }
 
-#pragma mark Mail sharing delegate methords
+#pragma mark History cell delegate methods
 
-- (void)showEmailErrorMessage:(NSError *)error {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [alert show];
+- (void)historyCell:(STHistoryCell *)cell didRequestSharingOn:(STHistoryCellSharing)sharing withSharingObject:(STSharingObject *)sharingObject {
+    if (sharing == STHistoryCellSharingFacebook) [self shareOnFacebook:sharingObject];
+    else if (sharing == STHistoryCellSharingTwitter) [self shareOnTwitter:sharingObject];
+    else if (sharing == STHistoryCellSharingMail) [self shareViaEmail:sharingObject];
 }
+
+#pragma mark Mail sharing delegate methords
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
 	switch(result) {
@@ -350,15 +404,15 @@
 	        break;
 		case MFMailComposeResultSaved:
             [Flurry logEvent:@"Sharing: Email saved"];
+            [self subsectionView:nil requestNotificationMessage:@"Email has been saved!" withColor:STSubsectionViewDelegateColorGreen];
 	        break;
 		case MFMailComposeResultSent:
-	        NSLog(@"Mail sent.");
+	        [self subsectionView:nil requestNotificationMessage:@"Email has been sent successfully!" withColor:STSubsectionViewDelegateColorGreen];
             [Flurry logEvent:@"Sharing: Email sent"];
 	        break;
 		case MFMailComposeResultFailed:
-	        NSLog(@"Mail send error: %@.", [error localizedDescription]);
-            [Flurry logError:@"Email error" message:@"" error:error];
-            [self showEmailErrorMessage:error];
+	        [Flurry logError:@"Email error" message:@"" error:error];
+            [self subsectionView:nil requestNotificationMessage:[NSString stringWithFormat:@"Email error: %@", [error localizedDescription]] withColor:STSubsectionViewDelegateColorRed];
 	        break;
 		default:
 	        break;

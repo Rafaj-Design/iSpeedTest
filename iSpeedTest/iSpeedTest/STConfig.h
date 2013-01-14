@@ -32,5 +32,9 @@
 
 + (UIColor *)backgroundMenuColor;
 
++ (UIColor *)historyHeaderBackgroundColor;
+
++ (BOOL)showInfoButton;
+
 
 @end

@@ -10,12 +10,26 @@
 #import <MapKit/MapKit.h>
 
 
-@class STHistory, STHomeViewController;
+typedef enum {
+    STHistoryCellSharingFacebook,
+    STHistoryCellSharingTwitter,
+    STHistoryCellSharingMail
+} STHistoryCellSharing;
+
+
+@class STHistory, STHistoryCell, STSharingObject;
+
+
+@protocol STHistoryCellDelegate <NSObject>
+
+- (void)historyCell:(STHistoryCell *)cell didRequestSharingOn:(STHistoryCellSharing)sharing withSharingObject:(STSharingObject *)sharingObject;
+
+@end
 
 
 @interface STHistoryCell : UITableViewCell <MKMapViewDelegate>
 
-@property (nonatomic, weak) STHomeViewController *delegate;
+@property (nonatomic, weak) id <STHistoryCellDelegate> delegate;
 
 
 - (void)setHistory:(STHistory *)history;

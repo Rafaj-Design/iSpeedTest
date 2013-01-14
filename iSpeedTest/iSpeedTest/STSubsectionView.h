@@ -9,12 +9,26 @@
 #import "STView.h"
 
 
-@class STHomeViewController;
+typedef enum {
+    STSubsectionViewDelegateColorRed,
+    STSubsectionViewDelegateColorGreen,
+    STSubsectionViewDelegateColorOrange
+} STSubsectionViewDelegateColor;
+
+
+@class STSubsectionView;
+
+@protocol STSubsectionViewDelegate <NSObject>
+
+- (void)subsectionView:(STSubsectionView *)view requestNotificationMessage:(NSString *)text withColor:(STSubsectionViewDelegateColor)color;
+- (void)subsectionViewDidRequestInfoScreen:(STSubsectionView *)view;
+
+@end
 
 
 @interface STSubsectionView : STView
 
-@property (nonatomic, weak) STHomeViewController *controllerDelegate;
+@property (nonatomic, weak) id <STSubsectionViewDelegate> controllerDelegate;
 
 - (void)updateData;
 

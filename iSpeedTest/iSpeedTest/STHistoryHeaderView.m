@@ -37,7 +37,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setBackgroundColor:[UIColor colorWithHexString:@"EFEDD2"]];
+        [self setBackgroundColor:[STConfig historyHeaderBackgroundColor]];
         [self createLabels];
     }
     return self;
