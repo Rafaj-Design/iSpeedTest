@@ -19,6 +19,7 @@
     NSTimeInterval startPingTime;
     NSInteger pingCount;
 }
+
 @property (nonatomic, strong) NSDate *timeStart;
 @property (nonatomic) struct STSpeedtestUpdate statusUpdate;
 @property (nonatomic, strong) NSURLConnection *connection;
@@ -170,68 +171,66 @@
     }
 }
 
-- (void)startPingWithHostAddress:(NSString*)hostName
-{
-    self.pinger = [SimplePing simplePingWithHostName:hostName];
-    self.pinger.delegate=self;
+- (void)startPingWithHostAddress:(NSString*)hostName {
+    _pinger = [SimplePing simplePingWithHostName:hostName];
+    _pinger.delegate=self;
     self.sendTimer=nil;
     pingCount=PING_RUNS_COUNT;
-    [self.pinger start];
+    [_pinger start];
 }
 
 #pragma mark - SimplePing Delegate Methods
 
-
-- (void)sendPing
-{
+- (void)sendPing {
     [self.pinger sendPingWithData:nil];
 }
 
-- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address
-{
+- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
     _statusUpdate.type = STSpeedtestTypePinging;
     _statusUpdate.status = STSpeedtestStatusWorking;
     [self sendPing];
     self.sendTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(sendPing) userInfo:nil repeats:YES];
 }
 
-- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
-{
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
     if (error) {
-        [Flurry logError:@"Speedtest error" message:@"connection" error:error];
+        [Flurry logError:@"Speedtest error" message:@"ping failed" error:error];
     }
-    _statusUpdate.status = STSpeedtestStatusError;
-    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
-        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
-    }
-    [self reset];
+    _statusUpdate.speed = -1.0f;
+    _statusUpdate.averageSpeed = 1.0f;
+    _statusUpdate.status = STSpeedtestStatusFinished;
+    _statusUpdate.type = STSpeedtestTypePinging;
     [self.sendTimer invalidate];
     self.sendTimer = nil;
     self.pinger = nil;
+    
+    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
+        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
+    }
 }
 
-- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet
-{
+- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet {
     startPingTime = [[NSDate date] timeIntervalSince1970];
 }
 
-- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error
-{
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
     if (error) {
-        [Flurry logError:@"Speedtest error" message:@"connection" error:error];
+        [Flurry logError:@"Speedtest error" message:@"ping failed" error:error];
     }
-    _statusUpdate.status = STSpeedtestStatusError;
-    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
-        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
-    }
-    [self reset];
+    _statusUpdate.speed = -1.0f;
+    _statusUpdate.averageSpeed = 1.0f;
+    _statusUpdate.status = STSpeedtestStatusFinished;
+    _statusUpdate.type = STSpeedtestTypePinging;
     [self.sendTimer invalidate];
     self.sendTimer = nil;
     self.pinger = nil;
+    
+    if ([_delegate respondsToSelector:@selector(speedtest:didReceiveUpdate:)]) {
+        [_delegate speedtest:self didReceiveUpdate:_statusUpdate];
+    }
 }
 
-- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
-{
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet{
     pingCount--;
     CGFloat mSec = (([[NSDate date] timeIntervalSince1970]-startPingTime)*1000.0f);
     _statusUpdate.speed = mSec;
@@ -252,9 +251,7 @@
     }
 }
 
-- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
-{
-}
+- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {}
 
 
 

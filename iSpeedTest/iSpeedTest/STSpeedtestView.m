@@ -20,14 +20,10 @@
 @property (nonatomic) CGFloat downloadSpeed;
 @property (nonatomic) CGFloat uploadSpeed;
 @property (nonatomic) CGFloat pingMsec;
-
 @property (nonatomic, strong) STSpeedtest *downloadSpeedtest;
 @property (nonatomic, strong) STSpeedtest *uploadSpeedtest;
-
 @property (nonatomic, strong) UIButton *startButton;
-
 @property (nonatomic, strong) STSpeedGaugeView *measurementChartView;
-
 @property (nonatomic, strong) UILabel *networkLabel;
 @property (nonatomic, strong) UILabel *connectionLabel;
 @property (nonatomic, strong) UILabel *currentSpeedLabel;
@@ -47,10 +43,8 @@
 @property (nonatomic, strong) UILabel *downloadMBitDescriptionLabel;
 @property (nonatomic, strong) UILabel *uploadMByteDescriptionLabel;
 @property (nonatomic, strong) UILabel *uploadMBitDescriptionLabel;
-
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *currentLocation;
-
 @property (nonatomic, strong) NSTimer *isWorkingTimer;
 
 @end
@@ -150,7 +144,6 @@
     [self addSubview:_dataProgressLabel];
     [_dataProgressLabel centerHorizontally];
     
-    
     // Download section
     _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
     [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
@@ -165,7 +158,7 @@
     _downloadMByteDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMByteLabel.right + 3), (_downloadMByteLabel.bottom - 15), 130, 10)];
     [_downloadMByteDescriptionLabel setText:@"MB/s"];
     [self addSubview:_downloadMByteDescriptionLabel];
-
+    
     _downloadMBitLabel = [self labelWithFontSize:25 andFrame:CGRectMake(30, (_downloadMByteLabel.bottom + 0), 130, 25)];
     [_downloadMBitLabel setText:@"-"];
     [self addSubview:_downloadMBitLabel];
@@ -174,7 +167,6 @@
     _downloadMBitDescriptionLabel = [self labelWithFontSize:10 andFrame:CGRectMake((_downloadMBitLabel.right + 6), (_downloadMBitLabel.bottom - 15), 130, 10)];
     [_downloadMBitDescriptionLabel setText:@"MBit/s"];
     [self addSubview:_downloadMBitDescriptionLabel];
-    
     
     //Ping section
     _pingLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, _downloadLabel.origin.y-40, 130, 14)];
@@ -194,8 +186,6 @@
     _pingMsecDescriptionLabel.alpha=0.0f;
     [self addSubview:_pingMsecDescriptionLabel];
     [_pingMsecDescriptionLabel sizeToFit];
-
-    
     
     // Upload section
     _uploadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
@@ -284,8 +274,7 @@
     }];
 }
 
-- (void) fadeInPingLabels
-{
+- (void) fadeInPingLabels {
     [UIView animateWithDuration:0.6f animations:^{
         _pingLabel.alpha = 1.0f;
         _pingMsecDescriptionLabel.alpha = 1.0f;
@@ -293,8 +282,7 @@
     }];
 }
 
-- (void) fadeOutPingLabels
-{
+- (void) fadeOutPingLabels {
     [UIView animateWithDuration:0.2f animations:^{
         _pingLabel.alpha = 0.0f;
         _pingMsecDescriptionLabel.alpha = 0.0f;
@@ -311,7 +299,7 @@
     [_networkLabel setText:([phoneCarrier carrierName] ? [phoneCarrier carrierName] : @"Unknown carrier")];
     
     // Detect connection type
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
     Reachability *reachability = [Reachability reachabilityForLocalWiFi];
     [reachability startNotifier];
     [self updateInterfaceWithReachability:reachability];
@@ -319,12 +307,12 @@
 
 - (void)updateInterfaceWithReachability:(Reachability *)reachability {
     NetworkStatus status = [reachability currentReachabilityStatus];
-//    if (status == NotReachable) {
-//        [_connectionLabel setText:@"No connection"];
-//    }
-//    else if (status == ReachableViaWWAN) {
-//        [_connectionLabel setText:@"WWAN"];
-//    }
+    //    if (status == NotReachable) {
+    //        [_connectionLabel setText:@"No connection"];
+    //    }
+    //    else if (status == ReachableViaWWAN) {
+    //        [_connectionLabel setText:@"WWAN"];
+    //    }
     if (status == ReachableViaWiFi) {
         [_connectionLabel setText:@"WiFi"];
     }
@@ -356,10 +344,8 @@
 
 - (void)setupView {
     [super setupView];
-    
     [self createDownoadMeter];
     [self createUploadMeter];
-    
     [self createGauge];
     [self createLabels];
     [self createAmazonLogo];
@@ -378,12 +364,11 @@
 - (void)measurementFailed {
     [self resetValues:NO];
     [self showStartButton];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection error" message:@"Plase try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection error" message:@"Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
 
-- (void)startDownload
-{
+- (void)startDownload {
     [_downloadMBitLabel setText:@"-"];
     [_downloadMByteLabel setText:@"-"];
     [_uploadSpeedtest startDownload];
@@ -392,7 +377,6 @@
 - (void)startUpload {
     [_uploadMByteLabel setText:@"-"];
     [_uploadMBitLabel setText:@"-"];
-    
     NSString *fileName = @"upload.file";
     [_uploadSpeedtest startUploadWithBundleFileName:fileName];
 }
@@ -401,17 +385,14 @@
 - (void)resetValues:(BOOL)resetNetworkLabels {
     _downloadSpeed = 0;
     _uploadSpeed = 0;
-    
     [_downloadSpeedtest setDelegate:nil];
     [_uploadSpeedtest setDelegate:nil];
     _downloadSpeedtest = nil;
     _uploadSpeedtest = nil;
-    
     if (resetNetworkLabels) {
         [_networkLabel setText:@"-"];
         [_connectionLabel setText:@"-"];
     }
-    
     [_currentSpeedLabel setText:@"-.-"];
     [_percentageLabel setText:@"-"];
     [_dataProgressLabel setText:@"- / -"];
@@ -438,12 +419,11 @@
     SCNetworkReachabilityFlags flags;
     success = SCNetworkReachabilityGetFlags(reachability, &flags);
     bool isAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
-    if (isAvailable)
-    {
+    if (isAvailable) {
         [_downloadSpeedtest startPingWithHostAddress:@"www.google.com"];
         [self updateVerificationTimer:8];
     }
-    else{
+    else {
         [self measurementFailed];
     }
 }
@@ -466,7 +446,8 @@
     [self checkForNetworkInfo];
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkForNetworkInfo) userInfo:nil repeats:YES];
     [self hideStartButton];
-    
+    //Reset _pingMsec value to -1.0f that is an unreachable value for real connections and so can be safely used to indicate no value
+    _pingMsec=-1.0f;
     [_currentSpeedUnitLabel setText:@"ms (Ping)"];
     [self doPing];
 }
@@ -509,9 +490,32 @@
         [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", [STSpeedtest getKilobytes:update.averageSpeed]]];
         [_percentageLabel setText:[NSString stringWithFormat:@"%.1f %%", update.percentDone]];
         [_dataProgressLabel setText:[NSString stringWithFormat:@"%.0f / %.0f kB", [STSpeedtest getKilobytes:update.processedSize], [STSpeedtest getKilobytes:update.totalSize]]];
-        if (update.type == STSpeedtestTypePinging)
-        {
-            [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
+        if (update.type == STSpeedtestTypePinging) {
+            if (update.speed>0.0f) {
+                if (_pingMsec<0.0f) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else if (_pingMsec>update.speed) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else {
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+            }
+            else {
+                if (_pingMsec<0.0f) {
+                    [_currentSpeedLabel setText:@"-"];
+                }
+                else if (_pingMsec>update.speed) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else {
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+            }
             [_measurementChartView setDownloadPercentage:update.averageSpeed];
             [_measurementChartView setUploadPercentage:update.averageSpeed];
         }
@@ -536,12 +540,35 @@
     }
     else if (update.status == STSpeedtestStatusFinished) {
         [_isWorkingTimer invalidate];
-        if (update.type == STSpeedtestTypePinging)
-        {
-            _pingMsec=update.speed;
+        if (update.type == STSpeedtestTypePinging) {
+            if (update.speed>0.0f) {
+                if (_pingMsec<0.0f) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else if (_pingMsec>update.speed) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else {
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+            }
+            else {
+                if (_pingMsec<0.0f) {
+                    [_currentSpeedLabel setText:@"-"];
+                }
+                else if (_pingMsec>update.speed) {
+                    _pingMsec=update.speed;
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+                else {
+                    [_currentSpeedLabel setText:[NSString stringWithFormat:@"%.1f", _pingMsec]];
+                }
+            }
+            [_pingMsecLabel setText:_currentSpeedLabel.text];
             [_measurementChartView setDownloadPercentage:update.averageSpeed];
             [_measurementChartView setUploadPercentage:update.averageSpeed];
-            [_pingMsecLabel setText:[NSString stringWithFormat:@"%.1f", update.speed]];
             [_pingMsecLabel sizeToFit];
             [_pingMsecDescriptionLabel setXOrigin:(_pingMsecLabel.right + 6)];
             [self fadeInPingLabels];
@@ -596,18 +623,21 @@
             }];
             [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(startUpload) userInfo:nil repeats:NO];
         }
-        else if (update.type == STSpeedtestTypeUploading)
-        {
+        else if (update.type == STSpeedtestTypeUploading) {
             [self showStartButton];
-            
             _uploadSpeed = update.averageSpeed;
-            
             NSError *error;
             STHistory *history = [NSEntityDescription insertNewObjectForEntityForName:@"STHistory" inManagedObjectContext:kSTManagedObject];
             [history setDate:[NSDate date]];
             [history setDownload:[NSNumber numberWithFloat:_downloadSpeed]];
             [history setUpload:[NSNumber numberWithFloat:_uploadSpeed]];
-            [history setPing:[NSNumber numberWithFloat:_pingMsec]];
+            //set ping if ping != -1.0f set it if not set nil
+            if (_pingMsec>-0.5f) {
+                [history setPing:[NSNumber numberWithFloat:_pingMsec]];
+            }
+            else {
+                [history setPing:nil];
+            }
             if (_currentLocation) {
                 [history setLat:[NSNumber numberWithDouble:_currentLocation.coordinate.latitude]];
                 [history setLon:[NSNumber numberWithDouble:_currentLocation.coordinate.longitude]];
