@@ -28,5 +28,9 @@
 
 + (UIFont *)fontWithSize:(CGFloat)size;
 
++ (UIColor *)backgroundColor;
+
++ (UIColor *)backgroundMenuColor;
+
 
 @end

@@ -223,7 +223,7 @@
 }
 
 - (void)createAmazonLogo {
-    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_amazons3_logo"]];
+    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SP_main_logo"]];
     [logo positionAtX:(310 - 20 - logo.width) andY:20];
     [self addSubview:logo];
 }

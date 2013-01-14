@@ -143,7 +143,24 @@
     [self createBottomButtons];
 }
 
+#pragma mark API delegate methods
+
+- (void)apiGetReportsConnection:(STAPIGetReportsConnection *)conection gotResults:(NSArray *)results {
+    for (STHistory *h in results) {
+        STAnnotation *a = [[STAnnotation alloc] initWithHistoryItem:h];
+        [_mapView addAnnotation:a];
+        [_annotations addObject:a];
+    }
+    [self zoomToSeeAllAnnotations];
+}
+
 #pragma mark Map view delegate methods
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    STAPIGetReportsConnection *api = [[STAPIGetReportsConnection alloc] init];
+    [api setGetDelegate:self];
+    [api getReportsForRegion:mapView.region];
+}
 
 - (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {
     // Animating drop

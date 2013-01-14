@@ -7,10 +7,11 @@
 //
 
 #import "STSubsectionView.h"
+#import "STAPIGetReportsConnection.h"
 #import <MapKit/MapKit.h>
 
 
-@interface STMapView : STSubsectionView <MKMapViewDelegate>
+@interface STMapView : STSubsectionView <MKMapViewDelegate, STAPIGetReportsConnectionDelegate>
 
 - (void)zoomToSeeAllAnnotations;
 

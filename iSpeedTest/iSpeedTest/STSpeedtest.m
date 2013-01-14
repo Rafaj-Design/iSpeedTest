@@ -9,10 +9,12 @@
 #import "STSpeedtest.h"
 #import "SimplePing.h"
 
+
 #define kSTSpeedtestMaxNumberOfItemsForLocalAverage             7
 #define PING_RUNS_COUNT 4
 
-@interface STSpeedtest ()<SimplePingDelegate>
+
+@interface STSpeedtest () <SimplePingDelegate>
 {
     NSTimeInterval startPingTime;
     NSInteger pingCount;

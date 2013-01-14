@@ -9,6 +9,7 @@
 #import "STAPIConnection.h"
 #import "STHistory.h"
 
+
 @interface STAPISendReportConnection : STAPIConnection
 
 - (void)sendHistoryReport:(STHistory *)history;

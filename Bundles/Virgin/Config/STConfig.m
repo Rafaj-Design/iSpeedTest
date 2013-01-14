@@ -46,5 +46,13 @@
     return [UIFont fontWithName:@"FamiliarPro-Bold" size:size];
 }
 
++ (UIColor *)backgroundColor {
+    return [UIColor colorWithHexString:@"EFEDD2"];
+}
+
++ (UIColor *)backgroundMenuColor {
+    return [UIColor colorWithHexString:@"E7E5CB"];
+}
+
 
 @end

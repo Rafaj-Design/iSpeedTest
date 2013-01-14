@@ -143,7 +143,7 @@
     _mainView = [[UIView alloc] initWithFrame:[self mainViewRect]];
     [_mainView setAlpha:0];
     [_mainView setClipsToBounds:YES];
-    [_mainView setBackgroundColor:[UIColor colorWithHexString:@"EFEDD2"]];
+    [_mainView setBackgroundColor:[STConfig backgroundColor]];
     [_mainView.layer setCornerRadius:5];
     [self.view addSubview:_mainView];
 }
@@ -167,7 +167,7 @@
     
     // Creating top tab bar
     _tabBarView = [[UIView alloc] initWithFrame:[self tabBarRect]];
-    [_tabBarView setBackgroundColor:[UIColor colorWithHexString:@"E7E5CB"]];
+    [_tabBarView setBackgroundColor:[STConfig backgroundMenuColor]];
     [_mainView addSubview:_tabBarView];
     UIImage *img = [[UIImage imageNamed:@"SP_menu_line"] stretchableImageWithLeftCapWidth:1 topCapHeight:0];
     UIImageView *bcg = [[UIImageView alloc] initWithImage:img];
