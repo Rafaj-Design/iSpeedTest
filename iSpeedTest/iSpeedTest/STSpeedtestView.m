@@ -440,7 +440,7 @@
     bool isAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
     if (isAvailable)
     {
-        [_downloadSpeedtest startPingWithHostAddress:hostName];
+        [_downloadSpeedtest startPingWithHostAddress:@"www.google.com"];
         [self updateVerificationTimer:8];
     }
     else{
