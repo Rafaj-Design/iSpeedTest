@@ -7,6 +7,7 @@
 //
 
 #import "STView.h"
+#import "STHistoryCell.h"
 
 
 typedef enum {
@@ -23,12 +24,12 @@ typedef enum {
 - (void)subsectionView:(STSubsectionView *)view requestNotificationMessage:(NSString *)text withColor:(STSubsectionViewDelegateColor)color;
 - (void)subsectionViewDidRequestInfoScreen:(STSubsectionView *)view;
 
-@end
+@end    
 
 
 @interface STSubsectionView : STView
 
-@property (nonatomic, weak) id <STSubsectionViewDelegate> controllerDelegate;
+@property (nonatomic, weak) id <STSubsectionViewDelegate, STHistoryCellDelegate> controllerDelegate;
 
 - (void)updateData;
 
