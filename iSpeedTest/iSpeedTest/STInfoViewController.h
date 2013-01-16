@@ -7,7 +7,9 @@
 //
 
 #import "STViewController.h"
+#import "FTCoreTextView.h"
 
-@interface STInfoViewController : STViewController
+
+@interface STInfoViewController : STViewController <FTCoreTextViewDelegate>
 
 @end

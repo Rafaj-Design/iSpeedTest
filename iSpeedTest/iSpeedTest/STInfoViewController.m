@@ -7,7 +7,6 @@
 //
 
 #import "STInfoViewController.h"
-#import "FTCoreTextView.h"
 
 
 @interface STInfoViewController ()
@@ -58,14 +57,21 @@
     
     NSMutableArray *arr = [NSMutableArray array];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(close)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(close)];
     [self applyTextEffectsOnBarButtonItem:item];
     [arr addObject:item];
     
     item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [arr addObject:item];
     
-    item = [[UIBarButtonItem alloc] initWithTitle:@"Web" style:UIBarButtonItemStyleBordered target:self action:@selector(openWebsite)];
+    item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", @"") style:UIBarButtonItemStylePlain target:nil action:nil];
+    [item setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor, [NSValue valueWithUIOffset:UIOffsetMake(1, 1)], UITextAttributeTextShadowOffset, nil] forState:UIControlStateNormal];
+    [arr addObject:item];
+    
+    item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [arr addObject:item];
+    
+    item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Web", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(openWebsite)];
     [self applyTextEffectsOnBarButtonItem:item];
     [arr addObject:item];
     
@@ -84,6 +90,7 @@
     r.origin.x += 10;
     r.size.width -= 20;
     _coreTextView = [[FTCoreTextView alloc] initWithFrame:r];
+    [_coreTextView setDelegate:self];
     [_coreTextView setBackgroundColor:[UIColor clearColor]];
     [_scrollView addSubview:_coreTextView];
     
@@ -118,6 +125,14 @@
     [self createMainView];
     [self createTopBar];
     [self createCoreTextView];
+}
+
+#pragma mark Core text delegate method
+
+- (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data {
+    if ([data objectForKey:@"url"]) {
+        [[UIApplication sharedApplication] openURL:[data objectForKey:@"url"]];
+    }
 }
 
 #pragma mark Actions

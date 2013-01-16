@@ -27,7 +27,7 @@
 }
 
 + (NSString *)developerUrl {
-    return @"http://www.fuerteint.com/?source=BTSpeed";
+    return @"http://www.bt.com/?source=BTSpeed-iPhone-App";
 }
 
 + (NSString *)appSqlFileName {
