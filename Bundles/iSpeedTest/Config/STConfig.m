@@ -59,7 +59,7 @@
 }
 
 + (BOOL)showInfoButton {
-    return YES;
+    return NO;
 }
 
 

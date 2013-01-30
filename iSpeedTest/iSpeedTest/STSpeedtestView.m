@@ -487,8 +487,9 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *l = (CLLocation *)[locations lastObject];
-    if (_currentLocation != l) {
+    if (_currentLocation != l && l) {
         _currentLocation = l;
+        [Flurry setLatitude:l.coordinate.latitude longitude:l.coordinate.longitude horizontalAccuracy:l.horizontalAccuracy verticalAccuracy:l.verticalAccuracy];
     }
 }
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-#define kDebugMode                                      YES
+#define kDebugMode                                      NO
 
 #define kSystemAPIConnectionUrl                         @"http://speedtest.fuerteint.com/api.php"
 

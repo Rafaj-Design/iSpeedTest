@@ -26,7 +26,7 @@
 #pragma mark Positioning
 
 - (CGFloat)screenHeight {
-    if([[UIScreen mainScreen] bounds].size.height == 568) {
+    if ([[UIScreen mainScreen] bounds].size.height == 568) {
         return 548;
     }
     else return 460;

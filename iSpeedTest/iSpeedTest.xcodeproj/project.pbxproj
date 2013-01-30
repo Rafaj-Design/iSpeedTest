@@ -2150,6 +2150,8 @@
 		5485B92C1666F63900B627B1 /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fuerte Int Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuerte Int Ltd";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSpeedTest/iSpeedTest-Prefix.pch";
 				INFOPLIST_FILE = "../Bundles/iSpeedTest/iSpeedTest-info.plist";
@@ -2159,6 +2161,8 @@
 					"\"$(SRCROOT)/../Thirdparty/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "48886484-A991-4533-A5C2-2EC493AC89F7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "48886484-A991-4533-A5C2-2EC493AC89F7";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
