@@ -16,18 +16,17 @@
 - (UILabel *)labelWithColor:(UIColor *)color andFrame:(CGRect)frame {
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     [label setBackgroundColor:[UIColor clearColor]];
-    [label setTextColor:[UIColor colorWithHexString:@"3a3c3c"]];
     [label setTextColor:color];
     [label setFont:[STConfig fontWithSize:14]];
     return label;
 }
 
 - (void)createLabels {
-    UILabel *download = [self labelWithColor:[UIColor colorWithHexString:@"F59C73"] andFrame:CGRectMake(130, 25, 88, 14)];
+    UILabel *download = [self labelWithColor:[STConfig colorForDownloadLabel] andFrame:CGRectMake(130, 25, 88, 14)];
     [download setText:@"DOWN"];
     [self addSubview:download];
     
-    UILabel *upload = [self labelWithColor:[UIColor colorWithHexString:@"59B9C7"] andFrame:CGRectMake(218, 25, 88, 14)];
+    UILabel *upload = [self labelWithColor:[STConfig colorForUploadLabel] andFrame:CGRectMake(218, 25, 88, 14)];
     [upload setText:@"UP"];
     [self addSubview:upload];
 }

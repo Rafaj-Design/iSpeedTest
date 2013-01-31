@@ -146,7 +146,7 @@
     
     // Download section
     _downloadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, [self startPositionForBottomElements], 130, 14)];
-    [_downloadLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
+    [_downloadLabel setTextColor:[STConfig colorForDownloadLabel]];
     [_downloadLabel setText:@"DOWNLOAD"];
     [self addSubview:_downloadLabel];
     
@@ -170,7 +170,7 @@
     
     //Ping section
     _pingLabel = [self labelWithFontSize:14 andFrame:CGRectMake(30, _downloadLabel.origin.y-40, 130, 14)];
-    [_pingLabel setTextColor:[UIColor colorWithHexString:@"F59C73"]];
+    [_pingLabel setTextColor:[STConfig colorForDownloadLabel]];
     [_pingLabel setText:@"PING"];
     _pingLabel.alpha=0.0f;
     [self addSubview:_pingLabel];
@@ -189,7 +189,7 @@
     
     // Upload section
     _uploadLabel = [self labelWithFontSize:14 andFrame:CGRectMake(198, [self startPositionForBottomElements], 130, 14)];
-    [_uploadLabel setTextColor:[UIColor colorWithHexString:@"59B9C7"]];
+    [_uploadLabel setTextColor:[STConfig colorForUploadLabel]];
     [_uploadLabel setText:@"UPLOAD"];
     [self addSubview:_uploadLabel];
     

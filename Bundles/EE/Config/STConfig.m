@@ -15,7 +15,7 @@
 #pragma mark App configuration
 
 + (NSString *)appName {
-    return @"iSpeedTest";
+    return @"BT Speed";
 }
 
 + (NSString *)appIdentifier {
@@ -23,11 +23,11 @@
 }
 
 + (NSString *)developerName {
-    return @"Fuerte International";
+    return @"BT";
 }
 
 + (NSString *)developerUrl {
-    return @"http://www.fuerteint.com/?source=iSpeedTest";
+    return @"http://www.bt.com/?source=BTSpeed-iPhone-App";
 }
 
 + (NSString *)appSqlFileName {
@@ -40,34 +40,34 @@
 
 + (NSURL *)documentsDirectoryUrl {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
+}	
 
 + (UIFont *)fontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"FamiliarPro-Bold" size:size];
 }
 
 + (UIColor *)backgroundColor {
-    return [UIColor colorWithHexString:@"EFEDD2"];
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"SP_bg_lines"]];
 }
 
 + (UIColor *)backgroundMenuColor {
-    return [UIColor colorWithHexString:@"E7E5CB"];
+    return [UIColor colorWithHexString:@"D6D6D6"];
 }
 
 + (UIColor *)colorForDownloadLabel {
-    return [UIColor colorWithHexString:@"F59C73"];
+    return [UIColor colorWithHexString:@"009C9C"];
 }
 
 + (UIColor *)colorForUploadLabel {
-    return [UIColor colorWithHexString:@"59B9C7"];
+    return [UIColor darkTextColor];
 }
 
 + (UIColor *)historyHeaderBackgroundColor {
-    return [UIColor colorWithHexString:@"EFEDD2"];
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"SP_header_bg_lines"]];
 }
 
 + (BOOL)showInfoButton {
-    return NO;
+    return YES;
 }
 
 

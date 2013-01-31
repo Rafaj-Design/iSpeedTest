@@ -54,6 +54,14 @@
     return [UIColor colorWithHexString:@"E7E5CB"];
 }
 
++ (UIColor *)colorForDownloadLabel {
+    return [UIColor colorWithHexString:@"F59C73"];
+}
+
++ (UIColor *)colorForUploadLabel {
+    return [UIColor colorWithHexString:@"59B9C7"];
+}
+
 + (UIColor *)historyHeaderBackgroundColor {
     return [UIColor colorWithHexString:@"EFEDD2"];
 }

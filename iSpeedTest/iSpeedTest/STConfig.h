@@ -34,6 +34,9 @@
 
 + (UIColor *)historyHeaderBackgroundColor;
 
++ (UIColor *)colorForDownloadLabel;
++ (UIColor *)colorForUploadLabel;
+
 + (BOOL)showInfoButton;
 
 
