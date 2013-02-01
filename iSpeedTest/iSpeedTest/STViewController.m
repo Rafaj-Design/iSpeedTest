@@ -93,7 +93,7 @@
         ok = (toInterfaceOrientation == UIInterfaceOrientationPortrait);
     }
     else {
-        ok = YES;
+        ok = (toInterfaceOrientation == UIInterfaceOrientationPortrait);
     }
     if (ok) {
         _isLandscape = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);

@@ -15,7 +15,7 @@
 #pragma mark App configuration
 
 + (NSString *)appName {
-    return @"BT Speed";
+    return @"EE Speed";
 }
 
 + (NSString *)appIdentifier {
@@ -23,11 +23,11 @@
 }
 
 + (NSString *)developerName {
-    return @"BT";
+    return @"EE";
 }
 
 + (NSString *)developerUrl {
-    return @"http://www.bt.com/?source=BTSpeed-iPhone-App";
+    return @"http://www.ee.co.uk/";
 }
 
 + (NSString *)appSqlFileName {
